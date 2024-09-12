@@ -49,7 +49,18 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
-
+.user-search{
+  display: flex;
+}
+.user-search button {
+  min-width: 42px;
+}
+.add-user {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 @-webkit-keyframes flash {
   0% {
     opacity: 1; }
@@ -1980,7 +1991,10 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse; }
-
+table strong {
+  display: inline-block;
+  min-width: 88px;
+}
 caption {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
