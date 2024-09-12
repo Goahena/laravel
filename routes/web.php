@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\UserController;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
@@ -26,3 +27,6 @@ Route::get('admin', [AuthController::class, 'index'])->name('auth.admin');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(AuthenticateMiddleware::class);
+/*USER*/
+Route::get('user/index', [UserController::class, 'index'])->name('user.index')->middleware('admin');
+

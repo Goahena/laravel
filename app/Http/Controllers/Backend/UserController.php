@@ -10,4 +10,10 @@ class UserController extends Controller
     public function __construct() {
         
     }
+    public function index() {
+        $template = 'backend.dashboard.user.index';
+        return view('backend.dashboard.layout', compact(
+            'template'
+        ));
+    }
 }
