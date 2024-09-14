@@ -55,11 +55,31 @@
 .user-search button {
   min-width: 42px;
 }
+.info-item strong{
+  margin-right: 5px;
+}
+.email {
+  width: 250px; 
+  white-space: normal; 
+  word-wrap: break-word; 
+  word-break: break-all;
+}
+.address-item {
+  width: 215px; 
+  white-space: normal; 
+  word-wrap: break-word; 
+  word-break: break-all;
+}
 .add-user {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+.user-pagination {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 }
 @-webkit-keyframes flash {
   0% {
@@ -1991,10 +2011,10 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse; }
-table strong {
+/* table strong {
   display: inline-block;
   min-width: 88px;
-}
+} */
 caption {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
