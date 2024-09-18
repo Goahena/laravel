@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AuthenticateMiddleware;
+use App\Http\Controllers\Ajax\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,10 @@ Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(AuthenticateMiddleware::class);
 /*USER*/
-Route::get('user/index', [UserController::class, 'index'])->name('user.index')->middleware('admin');
+Route::group(['prefix' => 'user'], function() {
+    Route::get('index', [UserController::class, 'index'])->name('user.index')->middleware('admin');
+    Route::get('create', [UserController::class, 'create'])->name('user.create')->middleware('admin');
+});
+/*AJAX*/
+Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index')->middleware('admin');
 

@@ -10,6 +10,9 @@ class AppServiceProvider extends ServiceProvider
     public $serviceBindings = [
         'App\Services\Interfaces\UserServiceInterface' => 'App\Services\UserService',
         'App\Reponsitories\Interfaces\UserReponsitoryInterface' => 'App\Reponsitories\UserReponsitory',
+        'App\Reponsitories\Interfaces\ProvinceReponsitoryInterface' => 'App\Reponsitories\ProvinceReponsitory',
+        'App\Reponsitories\Interfaces\WardReponsitoryInterface' => 'App\Reponsitories\WardReponsitory',
+        'App\Reponsitories\Interfaces\DistrictReponsitoryInterface' => 'App\Reponsitories\DistrictReponsitory',
     ];
     /**
      * Register any application services.

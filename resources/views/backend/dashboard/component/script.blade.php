@@ -13,4 +13,5 @@
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/todolist.js"></script>
+    <script src="assets/js/location.js"></script>
     <!-- End custom js for this page -->

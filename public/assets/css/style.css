@@ -4153,6 +4153,10 @@ textarea.form-control-lg {
   .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
     color: #198754; }
 
+.vertical-middle {
+  vertical-align: middle;
+}
+
 .form-check-inline .form-check-input ~ .valid-feedback {
   margin-left: .5em; }
 
