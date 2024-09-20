@@ -13,5 +13,16 @@ class District extends Model
         'name',
     ];
 
-    protected $table = 'Districts';
+    protected $table = 'districts';
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+
+    public function districts()
+    {
+        return $this->hasMany(Province::class, 'province_code', 'code');
+    }
+    public function wards()
+    {
+        return $this->hasMany(Ward::class, 'district_code', 'code');
+    }
 }

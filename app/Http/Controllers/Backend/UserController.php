@@ -9,6 +9,7 @@ use App\Services\Interfaces\UserServiceInterface as UserService;
 use App\Reponsitories\Interfaces\ProvinceReponsitoryInterface as ProvinceService;
 use App\Reponsitories\Interfaces\WardReponsitoryInterface as WardService;
 use App\Reponsitories\Interfaces\DistrictReponsitoryInterface as DistrictService;
+use App\Http\Requests\StoreUserRequest;
 
 class UserController extends Controller
 {
@@ -39,16 +40,18 @@ class UserController extends Controller
     }
     public function create() {
         $provinces = $this->provinceReponsitory->all();
-        $wards = $this->wardReponsitory->all();
-        $districts = $this->districtReponsitory->all();
         $config['seo'] = config('apps.user');
         $template = 'backend.user.create';
         return view('backend.dashboard.layout', compact(
             'template',
             'provinces',
             'config',
-            'wards',
-            'districts'
         ));
+    }
+    public function store(StoreUserRequest $request) {
+        if($this->userService->create($request)) {
+            return redirect()->route('user.index')->with('success', 'THêm mới người dùng thành công');
+        }
+        return redirect()->route('user.index')->with('error', 'Thêm mới không thành công, hãy thử lại');
     }
 }

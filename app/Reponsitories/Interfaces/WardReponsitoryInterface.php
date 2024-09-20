@@ -8,5 +8,4 @@ namespace App\Reponsitories\Interfaces;
  */
 interface WardReponsitoryInterface
 {
-    public function all();
 }

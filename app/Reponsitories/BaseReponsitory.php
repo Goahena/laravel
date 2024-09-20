@@ -16,8 +16,26 @@ class BaseReponsitory implements BaseReponsitoryInterface
     {
         $this->model = $model;
     }
+    public function create(array $payload = []) {
+        $model =  $this->model->create($payload);
+        return $model->fresh();    
+    }
     public function all() {
         return $this->model->all();
     }
-
+    public function findById(
+        int $modelId,
+        array $column = ['*'],
+        array $relation = []
+        ){
+        return $this->model->select($column)->with($relation)->findOrFail($modelId);
+    }
+    public function findByField(
+        string $field = '',
+        $value,
+        array $column = ['*'],
+        array $relation = []
+    ){
+        return $this->model->select($column)->where($field, '=', $value)->get();
+    }
 }
