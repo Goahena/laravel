@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,14 +14,17 @@ class StoreUserRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|unique:users|max:191',
+            'email' => 'required|string|email|unique:users,email,'.$this->id.'|max:191',
             'name' => 'required|string',
             'user_catalogue_id' => 'gt:0',
-            'password' => 'required|string|min:6',
-            're_password' => 'string|same:password',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'phone' => 'required|regex:/^[0-9]{3}[-\s]?[0-9]{3}[-\s]?[0-9]{4}$/',
         ];
@@ -37,11 +40,6 @@ class StoreUserRequest extends FormRequest
             'name.required' => 'Bạn chưa nhập Họ và Tên',
             'name.string' => 'Họ và Tên phải là dạng ký tự',
             'user_catalogue_id.gt' => 'Hãy chọn nhóm thành viên',
-            'password.required' => 'Bạn chưa nhập mật khẩu',
-            'password.string' => 'Bạn chưa nhập mật khẩu',
-            'password.min' => 'Mật khẩu phải nhiều hơn 6 ký tự',
-            're_password.same' => 'Bạn chưa nhập mật khẩu',
-            're_password.string' => 'Xác nhận lại mật khẩu chưa chính xác',
             'image.image' => 'Ảnh đại diện không phải định dạng ảnh',
             'image.mimes' => 'Hãy tải ảnh có định dạng jpeg, png, jpg, gif, svg',
             'image.max' => 'Tên hình ảnh không vượt quá 2048 ký tự',

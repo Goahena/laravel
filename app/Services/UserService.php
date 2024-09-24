@@ -19,29 +19,70 @@ class UserService implements UserServiceInterface
     protected $userReponsitory;
     public function __construct(
         UserReponsitory $userReponsitory
-    )
-    {
+    ) {
         $this->userReponsitory = $userReponsitory;
     }
-    public function paginate() {
+    public function paginate()
+    {
         $users = $this->userReponsitory->getAllPaginate();
         return $users;
     }
-    public function create($request) {
+    public function create($request)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $payload = $request->except('_token', 're_password');
-            $cacbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
-            $payload['birthday'] = $cacbonDate->format('Y-m-d H:i:s');
+            $phoneNumber = preg_replace('/[^0-9]/', '', $request->input('phone'));
+            $payload['phone'] = $phoneNumber;
+            if (isset($payload['birthday']) && !empty($payload['birthday'])) {
+                $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
+                $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
+            }
             $payload['password'] = Hash::make($payload['password']);
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->extension();
+
+                $image->move(public_path('assets/images/avatar'), $imageName);
+                $payload['image'] = 'assets/images/avatar/' . $imageName;
+            }
 
             $user = $this->userReponsitory->create($payload);
 
             DB::commit();
             return true;
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-            echo $e->getMessage();die();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
+    public function update($id, $updateRequest) 
+    {
+        DB::beginTransaction();
+        try {
+            $payload = $updateRequest->except('_token');
+            $phoneNumber = preg_replace('/[^0-9]/', '', $updateRequest->input('phone'));
+            $payload['phone'] = $phoneNumber;
+            if (isset($payload['birthday']) && !empty($payload['birthday'])) {
+                $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
+                $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
+            }
+            if ($updateRequest->hasFile('image')) {
+                $image = $updateRequest->file('image');
+                $imageName = time() . '.' . $image->extension();
+
+                $image->move(public_path('assets/images/avatar'), $imageName);
+                $payload['image'] = 'assets/images/avatar/' . $imageName;
+            }
+            $user = $this->userReponsitory->update($id, $payload);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
             return false;
         }
     }

@@ -17,7 +17,7 @@
                 <input type="checkbox">
             </td>
             <td class="py-1 text-center">
-                <img src="assets/images/faces-clipart/pic-1.png" alt="image" />
+                <img src="{{$user->image}}" alt="image" />
             </td>
             <td>
                 <div class="info-item name"><strong>Họ tên: </strong>{{$user->name}}</div>
@@ -34,12 +34,16 @@
                 </div>
             </td>
             <td>
-                <button type="button" class="btn btn-inverse-info btn-icon">
-                    <i class="mdi mdi-table-edit"></i>
-                </button>
-                <button type="button" class="btn btn-inverse-danger btn-icon">
-                    <i class="mdi mdi-delete"></i>
-                </button>
+                <a href="{{ route('user.edit', $user->id) }}">
+                    <button type="button" class="btn btn-inverse-info btn-icon">
+                        <i class="mdi mdi-table-edit"></i>
+                    </button>
+                </a>
+                {{-- <a href="{{ route('user.delete') }}"> --}}
+                    <button type="button" class="btn btn-inverse-danger btn-icon">
+                        <i class="mdi mdi-delete"></i>
+                    </button>
+                {{-- </a> --}}
             </td>
         </tr>
         @endforeach

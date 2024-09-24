@@ -16,10 +16,6 @@ class BaseReponsitory implements BaseReponsitoryInterface
     {
         $this->model = $model;
     }
-    public function create(array $payload = []) {
-        $model =  $this->model->create($payload);
-        return $model->fresh();    
-    }
     public function all() {
         return $this->model->all();
     }
@@ -37,5 +33,13 @@ class BaseReponsitory implements BaseReponsitoryInterface
         array $relation = []
     ){
         return $this->model->select($column)->where($field, '=', $value)->get();
+    }
+    public function create(array $payload = []) {
+        $model =  $this->model->create($payload);
+        return $model->fresh();    
+    }
+    public function update(int $id = 0, array $payload = []) {
+        $model = $this->findById($id);
+        return $model->update($payload);
     }
 }
