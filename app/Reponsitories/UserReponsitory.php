@@ -17,7 +17,4 @@ class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterfac
     {
         $this->model = $model;
     }
-    public function getAllPaginate() {
-        return User::paginate(5);
-    }
 }

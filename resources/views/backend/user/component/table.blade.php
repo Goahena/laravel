@@ -17,7 +17,7 @@
                         <input type="checkbox">
                     </td>
                     <td class="py-1 text-center">
-                        <img src="{{ $user->image }}" alt="image" />
+                        <img src="{{ (isset($user->image) ? $user->image : 'assets/images/faces-clipart/pic-1.png') }}" alt="image" />
                     </td>
                     <td>
                         <div class="info-item name"><strong>Họ tên: </strong>{{ $user->name }}</div>
@@ -30,12 +30,13 @@
                             $userCatalogueValues = [null, 1, 2];
                             $key = $user->user_catalogue_id;
                         @endphp
-                        <div class="address-item"><strong>Địa chỉ: </strong>{{ $userCatalogue[$key] }}</div>
+                        <div class="address-item"><strong>Nhóm thành viên: </strong>{{ $userCatalogue[$key] }}</div>
                     </td>
                     <td>
                         <div class="form-check form-check-success">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> </label>
+                                <input type="checkbox" class="form-check-input" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}}> 
+                            </label>
                         </div>
                     </td>
                     <td>

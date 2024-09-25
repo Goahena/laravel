@@ -13,4 +13,12 @@ interface BaseReponsitoryInterface
     public function findById(int $modelId);
     public function update(int $id = 0, array $payload = []);
     public function destroy(int $id = 0);
+    public function pagination(
+        array $column = ['*'],
+        array $condition = [],
+        array $join = [],
+        array $extend = [],
+        int $perpage = 1
+
+    );
 }

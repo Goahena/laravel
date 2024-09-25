@@ -33,9 +33,9 @@ class UserController extends Controller
         $this->districtReponsitory = $districtReponsitory;
         $this->userReponsitory = $userReponsitory;
     }
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userService->paginate();
+        $users = $this->userService->paginate($request);
         $template = 'backend.user.index';
         $config['seo'] = config('apps.user');
         return view('backend.dashboard.layout', compact(

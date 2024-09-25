@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
+use function Laravel\Prompts\select;
+
 /**
  * Class UserService
  * @package App\Services
@@ -22,9 +24,11 @@ class UserService implements UserServiceInterface
     ) {
         $this->userReponsitory = $userReponsitory;
     }
-    public function paginate()
+    public function paginate($request)
     {
-        $users = $this->userReponsitory->getAllPaginate();
+        $condition['keyword'] = addslashes($request->input('keyword'));
+        $perPage = $request->integer('perpage');
+        $users = $this->userReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/index'], $perPage);
         return $users;
     }
     public function create($request)
@@ -98,5 +102,17 @@ class UserService implements UserServiceInterface
             die();
             return false;
         }
+    }
+    private function selectPaginate() 
+    {
+        return [
+            'id',
+            'name',
+            'email',
+            'phone',
+            'user_catalogue_id',
+            'publish',
+            'image'
+        ];
     }
 }
