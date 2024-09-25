@@ -44,6 +44,13 @@ class UserController extends Controller
             'config',
         ));
     }
+    public function store(StoreUserRequest $request)
+    {
+        if ($this->userService->create($request)) {
+            return redirect()->route('user.index')->with('success', 'Thêm mới thành thành công');
+        }
+        return redirect()->route('user.index')->with('error', 'Thêm mới không thành công, hãy thử lại');
+    }
     public function create()
     {
         $provinces = $this->provinceReponsitory->all();
@@ -58,16 +65,9 @@ class UserController extends Controller
     }
     public function update($id, UpdateUserRequest $updateRequest) {
         if ($this->userService->update($id, $updateRequest)) {
-            return redirect()->route('user.index')->with('success', 'Cập nhật người dùng thành công');
+            return redirect()->route('user.index')->with('success', 'Cập nhật thành thành công');
         }
         return redirect()->route('user.index')->with('error', 'Cập nhật không thành công, hãy thử lại');
-    }
-    public function store(StoreUserRequest $request)
-    {
-        if ($this->userService->create($request)) {
-            return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');
-        }
-        return redirect()->route('user.index')->with('error', 'Thêm mới không thành công, hãy thử lại');
     }
     public function edit($id)
     {
@@ -82,5 +82,22 @@ class UserController extends Controller
             'config',
             'user',
         ));
+    }
+    public function delete($id)
+    {
+        $config['seo'] = config('apps.user');
+        $user = $this->userReponsitory->findById($id);
+        $template = 'backend.user.delete';
+        return view('backend.dashboard.layout', compact(
+            'template',
+            'user',
+            'config'
+        ));
+    }
+    public function destroy($id) {
+        if ($this->userService->destroy($id)) {
+            return redirect()->route('user.index')->with('success', 'Xóa thành thành công');
+        }
+        return redirect()->route('user.index')->with('error', 'Xóa không thành công, hãy thử lại');
     }
 }

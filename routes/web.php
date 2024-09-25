@@ -35,8 +35,8 @@ Route::group(['prefix' => 'user'], function() {
     Route::post('store', [UserController::class, 'store'])->name('user.store')->middleware('admin');
     Route::post('{id}/update', [UserController::class, 'update'])->where(['id' => '[0-9]+'])->name('user.update')->middleware('admin');
     Route::get('{id}/edit', [UserController::class, 'edit'])->where(['id' => '[0-9]+'])->name('user.edit')->middleware('admin');
-    // Route::post('{id}/delete', [UserController::class, 'delete'])->name('user.delete')->middleware('admin');
-
+    Route::get('{id}/delete', [UserController::class, 'delete'])->where(['id' => '[0-9]+'])->name('user.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [UserController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('user.destroy')->middleware('admin');
 });
 /*AJAX*/
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index')->middleware('admin');

@@ -12,4 +12,5 @@ interface BaseReponsitoryInterface
     public function create(array $payload = []);
     public function findById(int $modelId);
     public function update(int $id = 0, array $payload = []);
+    public function destroy(int $id = 0);
 }

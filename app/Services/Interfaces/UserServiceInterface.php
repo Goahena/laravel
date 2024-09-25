@@ -11,4 +11,5 @@ interface UserServiceInterface
     public function paginate();
     public function create($request);
     public function update($id, $updateRequest);
+    public function destroy($id);
 }

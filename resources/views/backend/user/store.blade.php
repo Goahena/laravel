@@ -1,5 +1,6 @@
 <div class="main-panel">
-    <div class="content-wrapper">@include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
+    <div class="content-wrapper">
+        @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">

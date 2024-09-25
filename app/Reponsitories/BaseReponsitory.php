@@ -42,4 +42,10 @@ class BaseReponsitory implements BaseReponsitoryInterface
         $model = $this->findById($id);
         return $model->update($payload);
     }
+    public function destroy(int $id = 0) {
+        return $this->findById($id)->delete();
+    }
+    public function forceDelete(int $id = 0) {
+        return $this->findById($id)->forceDelete();
+    }
 }

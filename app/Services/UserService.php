@@ -86,4 +86,17 @@ class UserService implements UserServiceInterface
             return false;
         }
     }
+    public function destroy($id){
+        DB::beginTransaction();
+        try {
+            $user = $this->userReponsitory->destroy($id);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 }
