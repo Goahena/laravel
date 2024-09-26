@@ -103,6 +103,23 @@ class UserService implements UserServiceInterface
             return false;
         }
     }
+
+    public function updateStatus($post) {
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $user = $this->userReponsitory->update($post['modelid'], $payload);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+        dd($payload);
+    }
+
     private function selectPaginate() 
     {
         return [

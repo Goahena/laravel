@@ -14,4 +14,5 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/todolist.js"></script>
     <script src="assets/library/location.js"></script>
+    <script src="assets/library/library.js"></script>
     <script src="assets/js/file-upload.js"></script>

@@ -35,7 +35,7 @@
                     <td>
                         <div class="form-check form-check-success">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}}> 
+                                <input type="checkbox" class="form-check-input status" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}}> 
                             </label>
                         </div>
                     </td>
