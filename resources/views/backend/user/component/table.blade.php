@@ -1,7 +1,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input id="checkAll" type="checkbox"></th>
             <th class="text-center"><strong> Ảnh đại diện </strong></th>
             <th><strong> Thông tin nhân viên </strong></th>
             <th><strong> Nhóm thành viên </strong></th>
@@ -14,7 +14,7 @@
             @foreach ($users as $user)
                 <tr>
                     <td class="text-center">
-                        <input type="checkbox">
+                        <input class="checkbox-item" type="checkbox">
                     </td>
                     <td class="py-1 text-center">
                         <img src="{{ (isset($user->image) ? $user->image : 'assets/images/faces-clipart/pic-1.png') }}" alt="image" />

@@ -14487,4 +14487,8 @@ dl {
 .btn-delete {
   min-width: calc(50% - 2px);
 }
+
+.active-bg {
+  background-color: var(--bs-gray-lighter);
+}
 /*# sourceMappingURL=style.css.map */
