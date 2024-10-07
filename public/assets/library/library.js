@@ -21,17 +21,52 @@
                     dataType: 'json',
                     success: function (res) {
                         console.log(res);
-
-
-
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
-
                     }
                 })
 
                 e.preventDefault
+            })
+        }
+    }
+
+    HT.changeStatusAll = () => {
+        if($('.changeStatusAll').length) {
+            $(document).on('click', '.changeStatusAll', function(e) {
+                let _this = $(this)
+                let id = []
+                $('.checkbox-item').each(function () {
+                    let checkBox = $(this)
+                    if (checkBox.prop('checked')) {
+                        id.push(checkBox.val())
+                    }
+                })
+                
+                let option = {
+                    'value': _this.attr('data-value'),
+                    'model': _this.attr('data-model'),
+                    'field': _this.attr('data-field'),
+                    'id': id,
+                    '_token': _token
+                }
+                $.ajax({
+                    url: 'ajax/dashboard/changeStatusAll',
+                    type: 'POST',
+                    data: option,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.flag == true){
+                                location.reload();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
+                    }
+                })
+                
+                e.preventDefault();
             })
         }
     }
@@ -60,7 +95,8 @@
         if ($('.checkbox-item').length) {
             $(document).on('click', '.checkbox-item', function () {
                 let _this = $(this)
-                HT.changeBackground(_this);
+                HT.changeBackground(_this)
+                HT.allChecked()
             })
         }
     }
@@ -74,9 +110,15 @@
         }
     }
 
+    HT.allChecked = () => {
+        let allChecked = $('.checkbox-item:checked').length === $('.checkbox-item').length;
+        $('#checkAll').prop('checked', allChecked);
+    }
+
     $(document).ready(function () {
         HT.changeStatus();
         HT.checkAll();
         HT.checkboxItem();
+        HT.changeStatusAll();
     })
 })(jQuery);

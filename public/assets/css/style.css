@@ -55,6 +55,12 @@
 .user-search button {
   min-width: 42px;
 }
+.info-item {
+  overflow: hidden;
+  max-width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .info-item strong{
   margin-right: 5px;
 }
@@ -5196,6 +5202,13 @@ textarea.form-control-lg {
 .tab-content > .active {
   display: block; }
 
+.toolbox {
+  max-width: 42px;
+  max-height: 42px;
+}
+.userCatalogue-item {
+  max-width: 150px;
+}
 .navbar {
   position: relative;
   display: -webkit-box;
@@ -11295,7 +11308,8 @@ address p {
 body,
 html {
   overflow-x: hidden;
-  padding-right: 0 !important; }
+  padding-right: 0 !important; 
+  }
 
 *:-moz-full-screen,
 *:-webkit-full-screen,
@@ -12973,7 +12987,7 @@ code {
   border: 0;
   background: #fff; }
   .card .card-body {
-    padding: 2.5rem 2.5rem; }
+  padding: 2.5rem 2.5rem; }
     .card .card-body + .card-body {
       padding-top: 1rem; }
   .card .card-title {

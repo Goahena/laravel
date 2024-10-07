@@ -25,9 +25,11 @@ class BaseReponsitory implements BaseReponsitoryInterface
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 1
+        int $perpage = 5
     ) {
-        $query = $this->model->select($column)->where(function($query) use ($condition){
+        $query = $this->model
+            ->select($column)
+            ->where(function($query) use ($condition){
             if(isset($condition['keyword']) && !empty($condition['keyword'])){
                 $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
             }
@@ -62,6 +64,9 @@ class BaseReponsitory implements BaseReponsitoryInterface
     {
         $model = $this->findById($id);
         return $model->update($payload);
+    }
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload){
+        return $this->model->whereIn($whereInField, $whereIn)->update($payload);
     }
     public function destroy(int $id = 0)
     {

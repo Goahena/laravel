@@ -8,4 +8,5 @@ namespace App\Reponsitories\Interfaces;
  */
 interface UserReponsitoryInterface extends BaseReponsitoryInterface
 {
+    public function getAllPaginate();
 }

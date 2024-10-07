@@ -17,4 +17,30 @@ class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterfac
     {
         $this->model = $model;
     }
+    public function getAllPaginate(){
+        return User::paginate(5);
+    }
+    public function pagination(
+        array $column = ['*'],
+        array $condition = [],
+        array $join = [],
+        array $extend = [],
+        int $perpage = 5
+    ) {
+        $query = $this->model
+            ->select($column)
+            ->where(function($query) use ($condition){
+            if(isset($condition['keyword']) && !empty($condition['keyword'])){
+                $query->where('name', 'LIKE', '%'.$condition['keyword'].'%')
+                      ->orWhere('email', 'LIKE', '%'.$condition['keyword'].'%')
+                      ->orWhere('phone', 'LIKE', '%'.$condition['keyword'].'%')
+                      ->orWhere('address', 'LIKE', '%'.$condition['keyword'].'%');
+            }
+        });
+        if (!empty($join)) {
+            $query->join(...$join);
+        }
+        return $query->paginate($perpage)
+                    ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+    }
 }

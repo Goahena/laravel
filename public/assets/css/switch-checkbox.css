@@ -1,0 +1,24 @@
+.form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+}
+
+.form-check-input:checked {
+  background-color: #28a745; /* Màu xanh lá */
+  border-color: #28a745;
+}
+
+/* Tăng kích thước của hình tròn */
+.form-check-input::before {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.form-switch .form-check-input {
+  width: 3em !important;
+  margin-left: 0.5em !important;}
+/* Căn giữa nội dung theo chiều ngang */
+.form-check {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

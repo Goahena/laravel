@@ -3,7 +3,7 @@
         <tr>
             <th><input id="checkAll" type="checkbox"></th>
             <th class="text-center"><strong> Ảnh đại diện </strong></th>
-            <th><strong> Thông tin nhân viên </strong></th>
+            <th><strong> Thông tin thành viên </strong></th>
             <th><strong> Nhóm thành viên </strong></th>
             <th><strong> Trạng thái </strong></th>
             <th class="text-center"><strong> Thao tác </strong></th>
@@ -14,15 +14,16 @@
             @foreach ($users as $user)
                 <tr>
                     <td class="text-center">
-                        <input class="checkbox-item" type="checkbox">
+                        <input class="checkbox-item" type="checkbox" value="{{ $user->id }}">
                     </td>
                     <td class="py-1 text-center">
-                        <img src="{{ (isset($user->image) ? $user->image : 'assets/images/faces-clipart/pic-1.png') }}" alt="image" />
+                        <img src="{{ isset($user->image) ? $user->image : 'assets/images/faces-clipart/pic-1.png' }}"
+                            alt="image" />
                     </td>
                     <td>
-                        <div class="info-item name"><strong>Họ tên: </strong>{{ $user->name }}</div>
-                        <div class="info-item email"><strong>Email: </strong>{{ $user->email }}</div>
-                        <div class="info-item phone"><strong>Số điện thoại: </strong>{{ $user->phone }}</div>
+                        <div class="info-item"><strong>Họ tên: </strong>{{ $user->name }}</div>
+                        <div class="info-item"><strong>Email: </strong>{{ $user->email }}</div>
+                        <div class="info-item"><strong>Số điện thoại: </strong>{{ $user->phone }}</div>
                     </td>
                     <td>
                         @php
@@ -30,13 +31,18 @@
                             $userCatalogueValues = [null, 1, 2];
                             $key = $user->user_catalogue_id;
                         @endphp
-                        <div class="address-item"><strong>Nhóm thành viên: </strong>{{ $userCatalogue[$key] }}</div>
+                        <strong>Nhóm thành viên: </strong>
+                        <div class="userCatalogue-item">{{ $userCatalogue[$key] }}</div>
                     </td>
-                    <td>
-                        <div class="form-check form-check-success">
+                    <td class="switch-{{ $user->id }}">
+                        {{-- <div class="form-check form-check-success">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input status" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}}> 
                             </label>
+                        </div> --}}
+                        <div class="form-check form-switch">
+                            <input class="form-check-input status js-switch-{{$user->id}}" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                         </div>
                     </td>
                     <td>

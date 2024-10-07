@@ -30,8 +30,7 @@
               <div class="brand-logo">
                 <img src="assets/images/logo.svg">
               </div>
-              <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
+              <h4>Đăng nhập để tiếp tục</h4>
               <form class="pt-3" method="post" action="{{route('auth.login')}}">
                 @csrf
                 <div class="form-group">
@@ -39,7 +38,6 @@
                     type="text"
                     name="email"
                     class="form-control form-control-lg"
-                    id="exampleInputEmail1"
                     placeholder="Username"
                     value="{{ old('email') }}"
                   >
@@ -60,20 +58,21 @@
                   @endif
                 </div>
                 <div class="mt-3">
-                  <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">SIGN IN</button>
+                  <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">ĐĂNG NHẬP</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input"> Keep me signed in </label>
+                      <input type="checkbox" class="form-check-input"> Nhớ mật khẩu </label>
                   </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
+                  <a href="#" class="auth-link text-black">Quên mật khẩu?</a>
                 </div>
                 <div class="mb-2">
-                  <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                    <i class="mdi mdi-facebook me-2"></i>Connect using facebook </button>
+                  <button type="button" class="btn btn-social-icon btn-google"><i class="mdi mdi-google-plus"></i></button>
+                  <button type="button" class="btn btn-social-icon btn-facebook"><i class="mdi mdi-facebook"></i></button>
+                  <button type="button" class="btn btn-social-icon btn-twitter"><i class="mdi mdi-twitter"></i></button>
                 </div>
-                <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                <div class="text-center mt-4 font-weight-light"> Chưa có tài khoản? <a href="register.html" class="text-primary">Đăng ký</a>
                 </div>
               </form>
             </div>

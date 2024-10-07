@@ -27,7 +27,7 @@ class UserService implements UserServiceInterface
     public function paginate($request)
     {
         $condition['keyword'] = addslashes($request->input('keyword'));
-        $perPage = $request->integer('perpage');
+        $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
         $users = $this->userReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/index'], $perPage);
         return $users;
     }
@@ -117,7 +117,21 @@ class UserService implements UserServiceInterface
             die();
             return false;
         }
-        dd($payload);
+    }
+
+    public function updateStatusAll($post) {
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] = $post['value'];
+            $flag = $this->userReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
     }
 
     private function selectPaginate() 

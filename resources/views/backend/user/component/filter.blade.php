@@ -12,7 +12,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
         <div class="col-md-3">
             <div class="user-search">
                 <select name="user_catalogue_id" class="form-control form-control-sm">
@@ -29,6 +29,10 @@
                     <i class="mdi mdi-account-search"></i>
                 </button>
             </div>
+        </div>
+        <div class="col-md-1">
+            @include('backend.user.component.toolbox')
+
         </div>
     </div>
 </form>
