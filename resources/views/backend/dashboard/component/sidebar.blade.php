@@ -23,8 +23,8 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{route('user.index')}}">QL thành viên</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">QL nhóm</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('user.index') }}">Quản lý thành viên</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('user.catalogue.index') }}">Quản lý nhóm</a>
                     </li>
                 </ul>
             </div>

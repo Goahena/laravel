@@ -36,7 +36,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->userService->paginate($request);
-        $template = 'backend.user.index';
+        $template = 'backend.user.user.index';
         $config['seo'] = config('apps.user');
         return view('backend.dashboard.layout', compact(
             'template',
@@ -56,7 +56,7 @@ class UserController extends Controller
         $provinces = $this->provinceReponsitory->all();
         $config['seo'] = config('apps.user');
         $config['method'] = 'create';
-        $template = 'backend.user.store';
+        $template = 'backend.user.user.store';
         return view('backend.dashboard.layout', compact(
             'template',
             'provinces',
@@ -75,7 +75,7 @@ class UserController extends Controller
         $provinces = $this->provinceReponsitory->all();
         $config['seo'] = config('apps.user');
         $config['method'] = 'edit';
-        $template = 'backend.user.store';
+        $template = 'backend.user.user.store';
         return view('backend.dashboard.layout', compact(
             'template',
             'provinces',
@@ -87,7 +87,7 @@ class UserController extends Controller
     {
         $config['seo'] = config('apps.user');
         $user = $this->userReponsitory->findById($id);
-        $template = 'backend.user.delete';
+        $template = 'backend.user.user.delete';
         return view('backend.dashboard.layout', compact(
             'template',
             'user',

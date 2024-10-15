@@ -1,12 +1,12 @@
-<table class="table table-striped">
+<table class="table table-hover">
     <thead>
         <tr>
-            <th><input id="checkAll" type="checkbox"></th>
-            <th class="text-center"><strong> Ảnh đại diện </strong></th>
-            <th><strong> Thông tin thành viên </strong></th>
-            <th><strong> Nhóm thành viên </strong></th>
-            <th><strong> Trạng thái </strong></th>
-            <th class="text-center"><strong> Thao tác </strong></th>
+            <th scope="col"><input id="checkAll" type="checkbox"></th>
+            <th scope="col" class="text-center"><strong> Ảnh đại diện </strong></th>
+            <th scope="col"><strong> Thông tin thành viên </strong></th>
+            <th scope="col"><strong> Nhóm thành viên </strong></th>
+            <th scope="col"><strong> Trạng thái </strong></th>
+            <th scope="col" class="text-center"><strong> Thao tác </strong></th>
         </tr>
     </thead>
     <tbody>
@@ -35,11 +35,6 @@
                         <div class="userCatalogue-item">{{ $userCatalogue[$key] }}</div>
                     </td>
                     <td class="switch-{{ $user->id }}">
-                        {{-- <div class="form-check form-check-success">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input status" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}}> 
-                            </label>
-                        </div> --}}
                         <div class="form-check form-switch">
                             <input class="form-check-input status js-switch-{{$user->id}}" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault"></label>

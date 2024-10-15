@@ -10,6 +10,11 @@ class AppServiceProvider extends ServiceProvider
     public $serviceBindings = [
         'App\Services\Interfaces\UserServiceInterface' => 'App\Services\UserService',
         'App\Reponsitories\Interfaces\UserReponsitoryInterface' => 'App\Reponsitories\UserReponsitory',
+
+        'App\Services\Interfaces\UserCatalogueServiceInterface' => 'App\Services\UserCatalogueService',
+        'App\Reponsitories\Interfaces\UserCatalogueReponsitoryInterface' => 'App\Reponsitories\UserCatalogueReponsitory',
+
+        
         'App\Reponsitories\Interfaces\ProvinceReponsitoryInterface' => 'App\Reponsitories\ProvinceReponsitory',
         'App\Reponsitories\Interfaces\WardReponsitoryInterface' => 'App\Reponsitories\WardReponsitory',
         'App\Reponsitories\Interfaces\DistrictReponsitoryInterface' => 'App\Reponsitories\DistrictReponsitory',
@@ -19,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        foreach($this->serviceBindings as $key => $value) {
+        foreach ($this->serviceBindings as $key => $value) {
             $this->app->bind($key, $value);
         }
     }
