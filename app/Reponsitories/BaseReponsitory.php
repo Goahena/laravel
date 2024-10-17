@@ -25,7 +25,8 @@ class BaseReponsitory implements BaseReponsitoryInterface
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5
+        int $perpage = 5,
+        array $relations = []
     ) {
         $query = $this->model
             ->select($column)
@@ -34,6 +35,8 @@ class BaseReponsitory implements BaseReponsitoryInterface
                 $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
             }
         });
+
+
         if (!empty($join)) {
             $query->join(...$join);
         }

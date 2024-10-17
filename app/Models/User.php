@@ -54,4 +54,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function user_catalogues()
+    {
+        return $this->belongsTo(UserCatalogue::class, 'user_catalogue_id', 'id');
+    }
 }

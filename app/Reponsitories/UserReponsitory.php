@@ -25,7 +25,8 @@ class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterfac
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5
+        int $perpage = 5,
+        array $relations = []
     ) {
         $query = $this->model
             ->select($column)
@@ -36,7 +37,7 @@ class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterfac
                       ->orWhere('phone', 'LIKE', '%'.$condition['keyword'].'%')
                       ->orWhere('address', 'LIKE', '%'.$condition['keyword'].'%');
             }
-        });
+        })->with('user_catalogues');
         if (!empty($join)) {
             $query->join(...$join);
         }

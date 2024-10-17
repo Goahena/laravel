@@ -20,7 +20,10 @@
                     data: option,
                     dataType: 'json',
                     success: function (res) {
-                        console.log(res);
+                        let inputValue = ((option.value == 1) ? 2 : 1);
+                        if (res.flag == true) {
+                            _this.val(inputValue)
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
@@ -33,8 +36,8 @@
     }
 
     HT.changeStatusAll = () => {
-        if($('.changeStatusAll').length) {
-            $(document).on('click', '.changeStatusAll', function(e) {
+        if ($('.changeStatusAll').length) {
+            $(document).on('click', '.changeStatusAll', function (e) {
                 let _this = $(this)
                 let id = []
                 $('.checkbox-item').each(function () {
@@ -43,7 +46,7 @@
                         id.push(checkBox.val())
                     }
                 })
-                
+
                 let option = {
                     'value': _this.attr('data-value'),
                     'model': _this.attr('data-model'),
@@ -57,15 +60,15 @@
                     data: option,
                     dataType: 'json',
                     success: function (res) {
-                        if(res.flag == true){
-                                location.reload();
+                        if (res.flag == true) {
+                            location.reload();
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
                     }
                 })
-                
+
                 e.preventDefault();
             })
         }

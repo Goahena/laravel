@@ -18,8 +18,8 @@ interface BaseReponsitoryInterface
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5
-
+        int $perpage = 5,
+        array $relations = []
     );
     public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload);
 }

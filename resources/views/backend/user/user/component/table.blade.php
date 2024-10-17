@@ -32,7 +32,7 @@
                             $key = $user->user_catalogue_id;
                         @endphp
                         <strong>Nhóm thành viên: </strong>
-                        <div class="userCatalogue-item">{{ $userCatalogue[$key] }}</div>
+                        <div class="userCatalogue-item">{{ $user->user_catalogues->name }}</div>
                     </td>
                     <td class="switch-{{ $user->id }}">
                         <div class="form-check form-switch">

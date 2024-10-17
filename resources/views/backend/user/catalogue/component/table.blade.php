@@ -3,6 +3,7 @@
         <tr>
             <th><input id="checkAll" type="checkbox"></th>
             <th><strong> Tên Nhóm </strong></th>
+            <th class="text-center"><strong> Số lượng </strong></th>
             <th><strong> Mô Tả </strong></th>
             <th><strong> Trạng thái </strong></th>
             <th class="text-center"><strong> Thao tác </strong></th>
@@ -17,6 +18,9 @@
                     </td>
                     <td>
                         <div class="info-item"><strong>Họ tên: </strong>{{ $userCatalogue->name }}</div>
+                    </td>
+                    <td>
+                        <div class="info-item text-center">{{$userCatalogue->users_count}} thành viên</div>
                     </td>
                     <td>
                         <div class="info-item">{{ $userCatalogue->description }}</div>

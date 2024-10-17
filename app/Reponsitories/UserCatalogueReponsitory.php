@@ -22,7 +22,8 @@ class UserCatalogueReponsitory extends BaseReponsitory implements UserCatalogueR
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5
+        int $perpage = 5,
+        array $relations = []
     ) {
         $query = $this->model
             ->select($column)
@@ -32,6 +33,12 @@ class UserCatalogueReponsitory extends BaseReponsitory implements UserCatalogueR
                       ->orWhere('description', 'LIKE', '%'.$condition['keyword'].'%');
             }
         });
+        
+        if (isset($relations) && !empty($relations)){
+            foreach($relations as $relation){
+                $query->withCount($relation);
+            }
+        }
         if (!empty($join)) {
             $query->join(...$join);
         }

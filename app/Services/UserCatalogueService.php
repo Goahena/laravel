@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Interfaces\UserCatalogueServiceInterface;
 use App\Reponsitories\Interfaces\UserCatalogueReponsitoryInterface as UserCatalogueReponsitory;
+use App\Reponsitories\Interfaces\UserReponsitoryInterface as UserReponsitory;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -15,17 +16,20 @@ use Illuminate\Support\Carbon;
 class UserCatalogueService implements UserCatalogueServiceInterface
 {
     protected $userCatalogueReponsitory;
+    protected $userReponsitory;
     public function __construct(
-        UserCatalogueReponsitory $userCatalogueReponsitory
+        UserCatalogueReponsitory $userCatalogueReponsitory,
+        UserReponsitory $userReponsitory
     ) {
         $this->userCatalogueReponsitory = $userCatalogueReponsitory;
+        $this->userReponsitory = $userReponsitory;
     }
     public function paginate($request)
     {
         $condition['keyword'] = addslashes($request->input('keyword'));
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
-        $users = $this->userCatalogueReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/catalogue/index'], $perPage);
-        return $users;
+        $userCatalogues = $this->userCatalogueReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/catalogue/index'], $perPage, ['users']);
+        return $userCatalogues;
     }
     public function create($request)
     {
@@ -44,7 +48,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             return false;
         }
     }
-    public function update($id, $updateRequest) 
+    public function update($id, $updateRequest)
     {
         DB::beginTransaction();
         try {
@@ -60,7 +64,8 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             return false;
         }
     }
-    public function destroy($id){
+    public function destroy($id)
+    {
         DB::beginTransaction();
         try {
             $user = $this->userCatalogueReponsitory->destroy($id);
@@ -74,11 +79,35 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         }
     }
 
-    public function updateStatus($post) {
+    private function changeUserStatus($post, $value)
+    {
+        DB::beginTransaction();
+        try {
+            $array = [];
+            if (isset($post['modelid'])) {
+                $array[] = $post['modelid'];
+            } else {
+                $array = $post['id'];
+            }
+            $payload[$post['field']] = $value;
+            $this->userReponsitory->updateByWhereIn('user_catalogue_id', $array, $payload);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
+
+    public function updateStatus($post)
+    {
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
             $user = $this->userCatalogueReponsitory->update($post['modelid'], $payload);
+            $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -89,11 +118,13 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         }
     }
 
-    public function updateStatusAll($post) {
+    public function updateStatusAll($post)
+    {
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
             $flag = $this->userCatalogueReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -104,7 +135,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         }
     }
 
-    private function selectPaginate() 
+    private function selectPaginate()
     {
         return [
             'id',
