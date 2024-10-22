@@ -101,11 +101,11 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         }
     }
 
-    public function updateStatus($post)
+    public function updateStatus($post = [])
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
             $user = $this->userCatalogueReponsitory->update($post['modelid'], $payload);
             $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
