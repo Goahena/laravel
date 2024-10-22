@@ -11,6 +11,10 @@
     <script src="{{ asset('public/assets/js/misc.js') }}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
+    <script>
+        var changeStatusUrl = '{{ url('ajax/dashboard/changeStatus') }}';
+        var changeStatusAllUrl = '{{ url('ajax/dashboard/changeStatusAll') }}';
+    </script>
     <script src="{{ asset('public/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('public/assets/js/todolist.js') }}"></script>
     <script src="{{ asset('public/assets/library/location.js') }}"></script>

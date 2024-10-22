@@ -36,7 +36,7 @@
                     </td>
                     <td class="switch-{{ $user->id }}">
                         <div class="form-check form-switch">
-                            <input class="form-check-input status js-switch-{{$user->id}}" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
+                            <input class="form-check-input status js-switch-{{$user->id}}" data-field="publish" data-model="User" data-modelid="{{ $user->id }}" value="{{$user->publish}}" {{ ($user->publish==1) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                         </div>
                     </td>

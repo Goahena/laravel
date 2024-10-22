@@ -14,7 +14,7 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
         </li>
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                 aria-controls="ui-basic">
                 <span class="menu-title">Quản lý thành viên</span>
@@ -30,7 +30,7 @@
                     </li>
                 </ul>
             </div>
-        </li> --}}
+        </li>
         @foreach (config('apps.module.module') as $key => $val)
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#{{$val['id']}}" aria-expanded="false"
