@@ -27,7 +27,7 @@
                     </td>
                         <td class="switch-{{ $userCatalogue->id }}">
                             <div class="form-check form-switch">
-                                <input class="form-check-input status js-switch-{{$userCatalogue->id}}" data-field="publish" data-model="UserCatalogue" data-modelid="{{ $userCatalogue->id }}" value="{{$userCatalogue->publish}}" {{ ($userCatalogue->publish) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
+                                <input class="form-check-input status js-switch-{{$userCatalogue->id}}" data-field="publish" data-model="UserCatalogue" data-modelid="{{ $userCatalogue->id }}" value="{{$userCatalogue->publish}}" {{ ($userCatalogue->publish==1) ? 'checked' : ''}} type="checkbox" id="flexSwitchCheckDefault">
                                 <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                             </div>
                         </td>

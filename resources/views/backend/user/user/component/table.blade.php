@@ -17,7 +17,7 @@
                         <input class="checkbox-item" type="checkbox" value="{{ $user->id }}">
                     </td>
                     <td class="py-1 text-center">
-                        <img src="{{ isset($user->image) ? $user->image : 'assets/images/faces-clipart/pic-1.png' }}"
+                        <img src="{{ isset($user->image) ? asset($user->image) : asset('/public/assets/images/faces-clipart/pic-1.png') }}"
                             alt="image" />
                     </td>
                     <td>

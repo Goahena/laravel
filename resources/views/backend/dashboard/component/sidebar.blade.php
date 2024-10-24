@@ -1,3 +1,7 @@
+@php
+    $segment = request()->segment(1);
+    $segment2 = request()->segment(2);
+@endphp
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-profile">
@@ -14,25 +18,8 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
-                <span class="menu-title">Quản lý thành viên</span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('user.index') }}">Quản lý thành viên</a>
-                    </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('user.catalogue.index') }}">Quản lý
-                            nhóm</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
         @foreach (config('apps.module.module') as $key => $val)
-            <li class="nav-item">
+            <li class="nav-item {{ ($val['name']==$segment) ? 'active' : '' }}">
                 <a class="nav-link" data-bs-toggle="collapse" href="#{{$val['id']}}" aria-expanded="false"
                     aria-controls="{{$val['id']}}">
                     <span class="menu-title">{{ $val['title'] }}</span>
@@ -40,11 +27,13 @@
                     <i class="{{ $val['icon'] }} menu-icon"></i>
                 </a>
                 @if (isset($val['subModule']))
-                    <div class="collapse" id="{{$val['id']}}">
+                    <div class="collapse {{ ($val['name']==$segment) ? 'show' : '' }}" id="{{$val['id']}}">
                         <ul class="nav flex-column sub-menu">
                             @foreach ($val['subModule'] as $module)
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="{{ route('user.index') }}">{{ $module['title'] }}</a></li>
+                                <li class="nav-item"> 
+                                    <a class="nav-link {{ ($module['name']==$segment2) ? 'active' : '' }}"
+                                        href="{{ route($module['route']) }}"> {{ $module['title'] }}</a>
+                                    </li>
                             @endforeach
                         </ul>
                     </div>
