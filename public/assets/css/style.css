@@ -49,6 +49,13 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+.product-img {
+  max-width: 14.35rem;
+  max-height: 14.35rem;
+}
+.product-img-del{
+  max-width: 100%;
+}
 .user-search{
   display: flex;
 }

@@ -10,7 +10,10 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
+use App\Http\Controllers\Backend\LanguageController;
+use App\Http\Controllers\Backend\ProductController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +52,25 @@ Route::group(['prefix' => 'user/catalogue'], function() {
     Route::get('{id}/edit', [UserCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('user.catalogue.edit')->middleware('admin');
     Route::get('{id}/delete', [UserCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('user.catalogue.delete')->middleware('admin');
     Route::delete('{id}/destroy', [UserCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('user.catalogue.destroy')->middleware('admin');
+});
+Route::group(['prefix' => 'language'], function() {
+    Route::get('index', [LanguageController::class, 'index'])->name('language.index')->middleware('admin');
+    Route::get('create', [LanguageController::class, 'create'])->name('language.create')->middleware('admin');
+    Route::post('store', [LanguageController::class, 'store'])->name('language.store')->middleware('admin');
+    Route::post('{id}/update', [LanguageController::class, 'update'])->where(['id' => '[0-9]+'])->name('language.update')->middleware('admin');
+    Route::get('{id}/edit', [LanguageController::class, 'edit'])->where(['id' => '[0-9]+'])->name('language.edit')->middleware('admin');
+    Route::get('{id}/delete', [LanguageController::class, 'delete'])->where(['id' => '[0-9]+'])->name('language.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [LanguageController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('language.destroy')->middleware('admin');
+});
+/*PRODUCT*/
+Route::group(['prefix' => 'admin/product'], function() {
+    Route::get('index', [ProductController::class, 'index'])->name('product.index');
+    Route::get('create', [ProductController::class, 'create'])->name('product.create')->middleware('admin');
+    Route::post('store', [ProductController::class, 'store'])->name('product.store')->middleware('admin');
+    Route::post('{id}/update', [ProductController::class, 'update'])->where(['id' => '[0-9]+'])->name('product.update')->middleware('admin');
+    Route::get('{id}/edit', [ProductController::class, 'edit'])->where(['id' => '[0-9]+'])->name('product.edit')->middleware('admin');
+    Route::get('{id}/delete', [ProductController::class, 'delete'])->where(['id' => '[0-9]+'])->name('product.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [ProductController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('product.destroy')->middleware('admin');
 });
 /*AJAX*/
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index')->middleware('admin');
