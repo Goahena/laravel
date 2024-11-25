@@ -17,8 +17,8 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'shoe_type_name',
-        'brand_name',
+        'shoe_type_id',
+        'brand_id',
         'description',
         'price',
         'quantity',
@@ -26,7 +26,7 @@ class Product extends Model
         'image_2',
         'image_3',
         'image_4',
-        'promotion_name',
+        'promotion_id',
         'purchase_quantity',
 
     ];

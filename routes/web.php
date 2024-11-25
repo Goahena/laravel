@@ -12,19 +12,8 @@ use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Frontend\MainController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -77,3 +66,4 @@ Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus')->middleware('admin');
 Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->name('ajax.dashboard.changeStatusAll')->middleware('admin');
 
+Route::get('/trang-chu', [MainController::class, 'index']);
