@@ -70,15 +70,22 @@ class MainController extends Controller
     public function store(Request $request)
     {
         $data = User::where('id', session('LogIn'))->first();
+
         $products = $this->mainService->paginate($request);
+        $brands = Brand::all();
+        $shoetypes = ShoeType::all();
         $template = 'frontend.product.index';
-        $config['seo'] = config('apps.product'); // Tùy chỉnh SEO nếu cần
+        $config['seo'] = config('apps.product');
+
         return view('frontend.layout', compact(
             'template',
             'products',
-            'config',
+            'brands',
+            'shoetypes',
+            'config'
         ));
     }
+
     public function payment()
     {
         $data = User::where('id', session('LogIn'))->first();
@@ -176,33 +183,19 @@ class MainController extends Controller
 
     //
 
-    public function searchshoetype($shoetype)
-{
-    $data = User::where('id', session('LogIn'))->first();
-    $brands = Brand::all();
-    $users = User::all();
-    $promotions = Promotion::all();
-    $shoetypes = ShoeType::all();
+    public function searchshoetype($request)
+    {
+        $data = User::where('id', session('LogIn'))->first();
+        $products = $this->mainService->paginate($request);
+        $template = 'frontend.product.index';
+        $config['seo'] = config('apps.product');
 
-    $products = DB::table('product')
-    ->join('shoe_types', 'product.shoe_type_id', '=', 'shoe_types.id')
-    ->when(!empty($shoetype), function ($query) use ($shoetype) {
-        $query->where('shoe_types.shoe_type_name', $shoetype);
-    })
-    ->select('product.*', 'shoe_types.shoe_type_name as shoe_type_name')
-    ->paginate(9);
-
-
-    return view('frontend.store.index')->with('route', 'store')
-        ->with('data', $data)
-        ->with('brands', $brands)
-        ->with('shoetypes', $shoetypes)
-        ->with('products', $products)
-        ->with('users', $users)
-        ->with('promotions', $promotions)
-        ->with('searchshoetype', $shoetype)
-        ->with('searchbrand', '');
-}
+        return view('frontend.layout', compact(
+            'template',
+            'products',
+            'config',
+        ));
+    }
 
 
     public function searchbrand($brand)

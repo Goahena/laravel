@@ -66,7 +66,10 @@ Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, '
 
 Route::get('/home', [MainController::class, 'index']);
 Route::get('/store', [MainController::class, 'store']);
+Route::get('/store', [MainController::class, 'store'])->name('store');
+
 Route::get('/store/shoetype={shoetype}', [MainController::class, 'findshoetype']);
+Route::get('/store/searchshoetype', [MainController::class, 'searchShoeType'])->name('store.searchshoetype');
 Route::get('/store/thuonghieu={thuonghieu}', [MainController::class, 'searchthuonghieu']);
 Route::get('/store/price={price1}-{price2}', [MainController::class, 'searchprice']);
 Route::get('/store/product={slug}', [MainController::class, 'product']);

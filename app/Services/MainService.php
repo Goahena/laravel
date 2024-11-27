@@ -19,20 +19,25 @@ class MainService implements MainServiceInterface
 
     public function paginate($request)
     {
+        // Lấy điều kiện từ request
         $condition['keyword'] = addslashes($request->input('keyword'));
+        $condition['brand_id'] = $request->input('brand_id'); // Thêm điều kiện tìm kiếm theo brand_id
+        $condition['shoe_type_id'] = $request->input('shoe_type_id'); // Thêm điều kiện tìm kiếm theo shoe_type_id
+
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 9;
 
         $products = $this->mainReponsitory->pagination(
             $this->selectPaginate(),
             $condition,
-            [],
-            ['path' => 'store'],
+            [], // Có thể thêm join nếu cần
+            ['path' => 'store'], // Đường dẫn phân trang
             $perPage,
-            ['shoeType', 'brand', 'promotions']
+            ['shoeType', 'brand', 'promotions'] // Các quan hệ (relations)
         );
 
         return $products;
     }
+
 
     private function selectPaginate()
     {
