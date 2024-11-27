@@ -1,8 +1,8 @@
-<button onclick="topFunction()" id="myBtn" title="Go to top"><img src="{{ URL('frontend_assets/images1/scroll-top.png') }}" height="40"></button>
+<button onclick="topFunction()" id="myBtn" title="Go to top"><img style="max-height: 50px" src="{{ URL('frontend_assets/images1/scroll-top.png') }}" height="40"></button>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand me-2" href="/"><img src="{{ URL('frontend_assets/images1/logo.png') }}" height="35" alt="PVB SHOP"
+            <a class="navbar-brand me-2" href="/home"><img style="max-width: 194px" src="{{ URL('frontend_assets/images1/logo.png') }}" height="35" alt="PVB SHOP"
                     loading="lazy"></a>
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -48,12 +48,12 @@
 
                 <div class="d-flex align-items-center float-right">
                     <a href="/"><button type="button" class="btn btn-link px-3 me-2">TRANG CHỦ</button></a>
-                    <a href="/cua-hang"><button type="button" class="btn btn-link px-3 me-2">CỬA HÀNG</button></a>
-                    <a href="/gioi-thieu"><button type="button" class="btn btn-link px-3 me-2">GIỚI
+                    <a href="/store"><button type="button" class="btn btn-link px-3 me-2">CỬA HÀNG</button></a>
+                    <a href="/about-us"><button type="button" class="btn btn-link px-3 me-2">GIỚI
                             THIỆU</button></a>
-                    <a href="/thanh-toan"><button type="button" class="btn btn-link px-3 me-2">THANH
+                    <a href="/payment"><button type="button" class="btn btn-link px-3 me-2">THANH
                             TOÁN</button></a>
-                    <a href="/gio-hang" data-mdb-toggle="tooltip" data-mdb-placement="bottom"
+                    <a href="/cart" data-mdb-toggle="tooltip" data-mdb-placement="bottom"
                         title="Giỏ hàng của bạn"><i class="fas fa-shopping-cart"></i></a>&emsp;&nbsp;
                     @if (Session::get('Login'))
                         <div class="dropdown">

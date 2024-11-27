@@ -16,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
         
         'App\Services\Interfaces\ProductServiceInterface' => 'App\Services\ProductService',
         'App\Reponsitories\Interfaces\ProductReponsitoryInterface' => 'App\Reponsitories\ProductReponsitory',
+
+        'App\Services\Interfaces\MainServiceInterface' => 'App\Services\MainService',
+        'App\Reponsitories\Interfaces\MainReponsitoryInterface' => 'App\Reponsitories\MainReponsitory',
         
         'App\Reponsitories\Interfaces\ProvinceReponsitoryInterface' => 'App\Reponsitories\ProvinceReponsitory',
         'App\Reponsitories\Interfaces\WardReponsitoryInterface' => 'App\Reponsitories\WardReponsitory',

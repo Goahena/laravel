@@ -15,9 +15,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Frontend\MainController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MainController::class, 'index']);
 
 Route::get('admin', [AuthController::class, 'index'])->name('auth.admin');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -66,4 +64,12 @@ Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus')->middleware('admin');
 Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->name('ajax.dashboard.changeStatusAll')->middleware('admin');
 
-Route::get('/trang-chu', [MainController::class, 'index']);
+Route::get('/home', [MainController::class, 'index']);
+Route::get('/store', [MainController::class, 'store']);
+Route::get('/store/shoetype={shoetype}', [MainController::class, 'findshoetype']);
+Route::get('/store/thuonghieu={thuonghieu}', [MainController::class, 'searchthuonghieu']);
+Route::get('/store/price={price1}-{price2}', [MainController::class, 'searchprice']);
+Route::get('/store/product={slug}', [MainController::class, 'product']);
+Route::post('/search', [MainController::class, 'search']);
+Route::get('/about-us', [MainController::class, 'aboutUs']);
+

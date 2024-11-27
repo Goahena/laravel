@@ -6,10 +6,6 @@ use App\Reponsitories\Interfaces\UserReponsitoryInterface;
 use App\Reponsitories\BaseReponsitory;
 use App\Models\User;
 
-/**
- * Class UserService
- * @package App\Services
- */
 class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterface
 {
     protected $model;
