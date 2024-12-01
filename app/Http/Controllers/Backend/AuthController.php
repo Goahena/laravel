@@ -32,7 +32,8 @@ class AuthController extends Controller
 
             // Lưu thông tin vào session
             $request->session()->put('LogIn', $user->id);
-            $request->session()->put('check', $user->role == 'admin' ? '1' : '2'); // Giả sử `role` chứa quyền user
+            $request->session()->put('UserName', $user->name);
+            $request->session()->put('check', $user->user_catalogue_id == '1' ? '1' : '2'); // Giả sử `role` chứa quyền user
 
             return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
         }

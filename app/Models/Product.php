@@ -20,6 +20,7 @@ class Product extends Model
         'shoe_type_id',
         'brand_id',
         'description',
+        'slug',
         'price',
         'quantity',
         'image_1',

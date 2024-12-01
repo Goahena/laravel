@@ -15,7 +15,7 @@
                 <div class="col-md-3 col-lg-4 col-xl-2 mx-auto mb-4">
                     <h6 class="text-uppercase fw-bold mb-4">Tài khoản</h6>
 
-                    {{-- <p><a href="{{ route('auth.register') }}" class="text-reset"><i --}}
+                    <p><a href="{{ route('auth.register') }}" class="text-reset"><i
                                 class="fas fa-angle-right"></i>&nbsp;Đăng ký</a></p>
                     <p><a href="{{ route('auth.login') }}" class="text-reset"><i
                                 class="fas fa-angle-right"></i>&nbsp;Đăng nhập</a></p>

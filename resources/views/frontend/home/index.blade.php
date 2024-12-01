@@ -38,7 +38,7 @@
                     @if ($dem < 4 && $product->brand_name == 'Adidas')
                         <div class="col-md-3">
                             <div class="card" style="margin-bottom: 25px">
-                                <a href="/cua-hang/san-pham={{ $product->id }}">
+                                <a href="{{ route('product.details', ['slug' => $product->slug]) }}">
                                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                         <center>
                                             <img src="{{ asset($product->image_1) }}" class="img-fluid"
@@ -82,7 +82,7 @@
                     @if ($dem < 5 && $product->brand_name == 'Nike')
                         <div class="col-md-3">
                             <div class="card" style="margin-bottom: 25px">
-                                <a href="/cua-hang/san-pham={{ $product->id }}">
+                                <a href="{{ route('product.details', ['slug' => $product->slug]) }}">
                                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                         <center><img src="{{ asset($product->image_1) }}" class="img-fluid"
                                                 style="height:306px; width:306px" /> </center>
@@ -121,7 +121,7 @@
                     @if ($dem < 5 && $product->brand_name == 'Converse')
                         <div class="col-md-3">
                             <div class="card" style="margin-bottom: 25px">
-                                <a href="/cua-hang/san-pham={{ $product->id }}">
+                                <a href="{{ route('product.details', ['slug' => $product->slug]) }}">
                                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                         <center><img src="{{ asset($product->image_1) }}" class="img-fluid"
                                                 style="height:306px; width:306px" /></center>
@@ -180,7 +180,7 @@
                         @if ($dem < 5)
                             <div class="col-md-3">
                                 <div class="card" style="margin-bottom: 25px">
-                                    <a href="/cua-hang/san-pham={{ $featuredshoe->id }}">
+                                    <a href="{{ route('product.details', ['slug' => $featuredshoe->slug]) }}">
                                         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                             <center><img src="{{ asset($featuredshoe->image_1) }}" class="img-fluid"
                                                     style="height:306px; width:306px" /></center>
@@ -232,7 +232,7 @@
                         @if ($dem < 5 && $featuredshoe->id > 5)
                             <div class="col-md-3">
                                 <div class="card" style="margin-bottom: 25px">
-                                    <a href="/cua-hang/san-pham={{ $featuredshoe->id }}">
+                                    <a href="{{ route('product.details', ['slug' => $featuredshoe->slug]) }}">
                                         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                             <center><img src="{{ asset($featuredshoe->image_1) }}" class="img-fluid"
                                                     style="height:306px; width:306px" /></center>
@@ -292,7 +292,7 @@
                         @if ($dem < 5 && $featuredshoe->id > 9)
                             <div class="col-md-3">
                                 <div class="card" style="margin-bottom: 25px">
-                                    <a href="/cua-hang/san-pham={{ $featuredshoe->id }}">
+                                    <a href="{{ route('product.details', ['slug' => $featuredshoe->slug]) }}">
                                         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                             <center><img src="{{ asset($featuredshoe->image_1) }}" class="img-fluid"
                                                     style="height:306px; width:306px" /></center>
@@ -380,7 +380,7 @@
                         <!-- Hiển thị tối đa 4 sản phẩm -->
                         <div class="col-md-3">
                             <div class="card" style="margin-bottom: 25px">
-                                <a href="/cua-hang/san-pham={{ $lastestshoe->id }}">
+                                <a href="{{ route('product.details', ['slug' => $lastestshoe->slug]) }}">
                                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                         <center>
                                             <img src="{{ asset($lastestshoe->image_1) }}" class="img-fluid"
@@ -435,7 +435,7 @@
             @if ($dem < 5 && $lastestshoe->id > 9)
                 <div class="col-md-3">
                     <div class="card" style="margin-bottom: 25px">
-                        <a href="/cua-hang/san-pham={{ $lastestshoe->id }}">
+                        <a href="{{ route('product.details', ['slug' => $lastestshoe->slug]) }}">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <center><img src="{{ asset($lastestshoe->image_1) }}" class="img-fluid"
                                         style="height:306px; width:306px" /></center>
@@ -499,7 +499,7 @@
     @if ($dem < 5 && $product->brand_id == 'Nike')
         <div class="col-md-3">
             <div class="card" style="margin-bottom: 25px">
-                <a href="/cua-hang/san-pham={{ $product->id }}">
+                <a href="{{ route('product.details', ['slug' => $product->slug]) }}">
                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                         <center><img src="{{ asset($product->image_1) }}" class="img-fluid"
                                 style="height:306px; width:306px" /></center>

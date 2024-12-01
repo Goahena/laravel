@@ -73,7 +73,7 @@ return [
                 [
                     'name' => 'order',
                     'title' => 'Quản Lý Đơn Hàng',
-                    'route' => 'user.index'
+                    'route' => 'order.index'
                 ]
             ]
         ],

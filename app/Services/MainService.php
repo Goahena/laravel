@@ -46,6 +46,7 @@ class MainService implements MainServiceInterface
             'product.name',
             'product.shoe_type_id',
             'product.brand_id',
+            'product.slug',
             'product.description',
             'product.price',
             'product.quantity',

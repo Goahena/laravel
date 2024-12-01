@@ -143,43 +143,44 @@ class MainController extends Controller
     }
 
     public function product($slug)
-    {
-        $data = User::where('id', session('LogIn'))->first();
-        $brands = Brand::all();
-        $shoetypes = ShoeType::all();
-        $products = Product::find($slug);
+{
+    $data = User::where('id', session('LogIn'))->first();
 
-        if (DB::table('product')->where('brand_name', $products['brand_name'])->orWhere('shoe_type_name', $products['shoe_type_name'])->count() < 4) {
-            $sameproducts = DB::table('product')
-                ->where('brand_name', $products['brand_name'])
-                ->orWhere('price', '>', $products['price'] - 100000)->where('price', '<', $products['price'] + 100000)
-                ->orWhere('shoe_type_name', $products['shoe_type_name'])->get();
-        } else if (DB::table('product')->where('brand_name', $products['brand_name'])->count() < 4) {
-            $sameproducts = DB::table('product')->where('brand_name', $products['brand_name'])->orWhere('shoe_type_name', $products['shoe_type_name'])->get();
-        } else {
-            $sameproducts = DB::table('product')->where('brand_name', $products['brand_name'])->get();
-        }
+    // Lấy thông tin sản phẩm theo slug
+    $product = Product::with('promotions')->where('slug', $slug)->firstOrFail();
 
-        $users = User::all();
-        $promotions = Promotion::all();
-
-        $carts = session()->get('cart');
-        if (!$carts) {
-            $carts = array();
-        }
+    $sameproducts = Product::query()
+    ->where('brand_id', $product->brand_id)
+    ->orWhere('shoe_type_id', $product->shoe_type_id)
+    ->where('id', '!=', $product->id) // Loại bỏ chính sản phẩm đang xem
+    ->take(12) // Lấy tối đa 12 sản phẩm (3 slide, mỗi slide 4 sản phẩm)
+    ->get();
 
 
-        return view('frontend.store.index')->with('route', 'san-pham')
-            ->with('data', $data)
-            ->with('brands', $brands)
-            ->with('shoetypes', $shoetypes)
-            ->with('product', $products)
-            ->with('sameproducts', $sameproducts)
-            ->with('users', $users)
-            ->with('promotions', $promotions)
-            ->with('gio_hangs', $carts)
-        ;
-    }
+    $brands = Brand::all();
+    $shoetypes = ShoeType::all();
+    $users = User::all();
+    $promotions = Promotion::all();
+    $template = 'frontend.product.component.detail'; // Chỉ đường dẫn view chi tiết
+
+    // Lấy giỏ hàng từ session
+    $carts = session()->get('cart', []);
+
+    // Render layout với template chỉ định
+    return view('frontend.layout', compact(
+        'data',
+        'brands',
+        'shoetypes',
+        'product',
+        'template',
+        'sameproducts',
+        'users',
+        'promotions',
+        'carts'
+    ));
+}
+
+
 
     //
 
@@ -255,3 +256,4 @@ class MainController extends Controller
         return view('index')->with('route', 'aboutus');
     }
 }
+

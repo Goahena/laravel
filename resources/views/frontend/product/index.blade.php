@@ -29,7 +29,7 @@
                 @foreach ($products as $product)
                     <div class="col-md-4">
                         <div class="card" style="margin-bottom: 25px">
-                            <a href="/store/san-pham={{ $product->id }}">
+                            <a href="{{ route('product.details', ['slug' => $product->slug]) }}">
                                 <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                     <center><img src="{{ asset($product->image_1) }}"" class="img-fluid"
                                             style="height:306px; width:306px" /></center>

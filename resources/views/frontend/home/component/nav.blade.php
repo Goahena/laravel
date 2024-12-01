@@ -6,11 +6,11 @@
                     loading="lazy"></a>
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <form action="/tim-kiem" method="POST"
+                <form action="{{ route('store') }}" method="GET"
                     class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     @csrf
                     <div class="input-group" style="width:170px;">
-                        <input type="text" class="form-control bg-light border-0 small" name="tim_kiem"
+                        <input type="text" value="{{ request('keyword') ?: old('keyword') }}" class="form-control bg-light border-0 small" name="keyword"
                             placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">
@@ -22,10 +22,10 @@
 
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown no-arrow d-sm-none">
-                        <form action="/tim-kiem" method="POST" class="form-inline mr-auto w-100 navbar-search">
+                        <form action="{{ route('store') }}" method="GET" class="form-inline mr-auto w-100 navbar-search">
                             @csrf
                             <div class="input-group" style="width:170px; margin-top:7px">
-                                <input type="text" class="form-control bg-light border-0 small" name="tim_kiem"
+                                <input type="text" value="{{ request('keyword') ?: old('keyword') }}" class="form-control bg-light border-0 small" name="keyword"
                                     placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
@@ -53,24 +53,26 @@
                             THIỆU</button></a>
                     <a href="/payment"><button type="button" class="btn btn-link px-3 me-2">THANH
                             TOÁN</button></a>
-                    <a href="/cart" data-mdb-toggle="tooltip" data-mdb-placement="bottom"
+                    <a href="/gio-hang" data-mdb-toggle="tooltip" data-mdb-placement="bottom"
                         title="Giỏ hàng của bạn"><i class="fas fa-shopping-cart"></i></a>&emsp;&nbsp;
-                    @if (Session::get('Login'))
+                    @if (Session::get('LogIn'))
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-mdb-toggle="dropdown" aria-expanded="false">
                                 @if (session()->get('check') == 1)
-                                    Quản trị viên
+                                {{Session::get('UserName')}}
+                                (Quản trị viên)
                                 @else
-                                    Khách hàng
+                                {{Session::get('UserName')}}
+                                (Khách hàng)
                                 @endif
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('auth.logout') }}">
                                     @csrf
                                     <li><a class="dropdown-item" href="/tai-khoan">Tài khoản</a></li>
-                                    <li><a class="dropdown-item" href="/auth/logoff">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a></li>
                                     @if (session()->get('check') == 1)
                                         <li><a class="dropdown-item" href="/admin">Trang Quản lý</a></li>
                                     @endif
