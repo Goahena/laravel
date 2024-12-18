@@ -6,7 +6,7 @@
 <div id="userForm" class="d-none d-sm-block">
     <div class="row">
         <div class="col-md-2">
-                <form action="{{ route('user.index') }}">
+            <form action="{{ route('order.index') }}">
                 @php
                     $perpage = request('perpage') ?: old('perpage');
                 @endphp
@@ -18,30 +18,37 @@
                         @endfor
                     </select>
                 </div>
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-3">
-                <div class="user-search">
-                    <select name="user_catalogue_id" class="form-control form-control-sm">
-                        <option value="0" selected="selected">Chọn nhóm Thành Viên</option>
-                        <option value="1">Quản trị viên</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="user-search">
-                    <input name="keyword" type="text" value="{{ request('keyword') ?: old('keyword') }}"
-                        class="form-control form-control-sm" placeholder="Nhập tên tìm kiếm">
-                    <button type="submit" class="btn btn-inverse-success btn-icon">
-                        <i class="mdi mdi-account-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-            <div class="col-md-1">
-                @include('backend.order.component.toolbox')
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
+            <div class="order-search">
+                <select name="is_confirmed" class="form-control form-control-sm">
+                    <option value="" selected>Tất cả đơn hàng</option>
+                    <option value="1" {{ request('is_confirmed') == 1 ? 'selected' : '' }}>Đã xác nhận</option>
+                    <option value="0" {{ request('is_confirmed') === '0' ? 'selected' : '' }}>Chưa xác nhận</option>
+                </select>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="user-search">
+                <select name="sort_by" class="form-control form-control-sm">
+                    <option value="" selected>Sắp xếp theo</option>
+                    <option value="asc" {{ request('sort_by') == 'asc' ? 'selected' : '' }}>Đơn hàng cũ hơn</option>
+                    <option value="desc" {{ request('sort_by') == 'desc' ? 'selected' : '' }}>Đơn hàng mới hơn</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-inverse-success btn-icon">
+                <i class="mdi mdi-account-search"></i>
+            </button>
+        </div>
+
+        </form>
+        <div class="col-md-1">
+            @include('backend.order.component.toolbox')
+        </div>
+    </div>
 </div>
 <script>
     document.getElementById('toggleFormBtn').addEventListener('click', function() {

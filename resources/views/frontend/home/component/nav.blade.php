@@ -74,7 +74,7 @@
                                     <li><a class="dropdown-item" href="/tai-khoan">Tài khoản</a></li>
                                     <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a></li>
                                     @if (session()->get('check') == 1)
-                                        <li><a class="dropdown-item" href="/admin">Trang Quản lý</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Trang Quản lý</a></li>
                                     @endif
                                 </form>
                             </ul>
@@ -84,7 +84,7 @@
                         <a class="btn btn-outline-primary btn-rounded" href="{{ route('auth.admin') }}">ĐĂNG
                             NHẬP</a>
                         &ensp;
-                        <a class="btn btn-primary btn-rounded" href="">ĐĂNG KÝ MIỄN
+                        <a class="btn btn-primary btn-rounded" href="{{ route('auth.register') }}">ĐĂNG KÝ MIỄN
                             PHÍ</a>
                     @endif
 

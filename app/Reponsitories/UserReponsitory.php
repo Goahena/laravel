@@ -21,7 +21,7 @@ class UserReponsitory extends BaseReponsitory implements UserReponsitoryInterfac
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5,
+        int $perpage = 10,
         array $relations = []
     ) {
         $query = $this->model

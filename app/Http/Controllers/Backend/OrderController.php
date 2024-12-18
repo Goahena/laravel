@@ -23,7 +23,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $config['seo'] = config('apps.order');
-        $orders = Order::all();
+        $orders = $this->orderService->paginate($request);
         $template = 'backend.order.index';
         return View('backend.dashboard.layout', compact(
             'template',

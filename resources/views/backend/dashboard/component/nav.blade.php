@@ -34,6 +34,8 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('auth.logout') }}">
               <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+              <a class="dropdown-item" href="/">
+                <i class="mdi mdi-logout me-2 text-primary"></i> Website </a>
           </div>
         </li>
         <li class="nav-item d-none d-lg-block full-screen-link">

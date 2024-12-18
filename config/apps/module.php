@@ -34,64 +34,46 @@ return [
                 [
                     'name' => 'shoetype',
                     'title' => 'Quản lý Loại Giày',
-                    'route' => 'user.index'
+                    'route' => 'shoe-type.index'
                 ]
             ]
         ],
         [
             'id' => 'brand-pages',
             'title' => 'Quản lý Thương Hiệu',
-            'icon' => 'mdi mdi-shopping',
+            'icon' => 'mdi mdi-marker-check',
             'name' => 'brand',
             'subModule' => [
                 [
                     'name' => 'brand',
                     'title' => 'Quản Lý Thương Hiệu',
-                    'route' => 'user.index'
+                    'route' => 'brand.index'
                 ]
             ]
         ],
         [
             'id' => 'promotion-pages',
             'title' => 'Quản lý Khuyến Mãi',
-            'icon' => 'mdi mdi-shopping',
+            'icon' => 'mdi mdi-tag',
             'name' => 'promotion',
             'subModule' => [
                 [
                     'name' => 'promotion',
                     'title' => 'Quản Lý Khuyến Mãi',
-                    'route' => 'user.index'
+                    'route' => 'promotion.index'
                 ]
             ]
         ],
         [
             'id' => 'order-pages',
             'title' => 'Quản lý Đơn Hàng',
-            'icon' => 'mdi mdi-shopping',
+            'icon' => 'mdi mdi-cart',
             'name' => 'order',
             'subModule' => [
                 [
                     'name' => 'order',
                     'title' => 'Quản Lý Đơn Hàng',
                     'route' => 'order.index'
-                ]
-            ]
-        ],
-        [
-            'id' => 'product-pages',
-            'title' => 'Quản lý bài viết',
-            'icon' => 'mdi mdi-shopping',
-            'name' => 'post',
-            'subModule' => [
-                [
-                    'name' => 'post',
-                    'title' => 'Quản Lý Bài Viết',
-                    'route' => 'user.index'
-                ],
-                [
-                    'name' => 'post',
-                    'title' => 'QL Danh Mục Bài Viết',
-                    'route' => 'user.catalogue.index'
                 ]
             ]
         ],

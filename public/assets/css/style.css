@@ -56,6 +56,10 @@
 .product-img-del{
   max-width: 100%;
 }
+.product-search {
+  width: 100%;
+	padding-left: 10px;
+}
 .user-search{
   display: flex;
 }

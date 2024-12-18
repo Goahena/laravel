@@ -16,9 +16,10 @@
                         @endif
                         <h4 class="card-title">Nhập thông tin người dùng</h4>
                         @php
-                            $url = ($config['method'] == 'create') ? route('user.store') : route('user.update', $user->id)
+                            $url =
+                                $config['method'] == 'create' ? route('user.store') : route('user.update', $user->id);
                         @endphp
-                        <form action="{{ $url }}" method="POST" class="forms-sample">
+                        <form action="{{ $url }}" method="POST" class="forms-sample"  enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Họ và Tên<code>*</code></label>
@@ -55,17 +56,16 @@
                             </div>
                             <div class="form-group">
                                 <label>Ảnh đại diện</label>
-                                <input type="file" name="img[]" class="file-upload-default"
-                                    value="{{ old('image', $user->image ?? '') }}">
+                                <input type="file" name="image" class="file-upload-default">
                                 <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info" disabled
-                                        value="{{ (isset($user) ? $user->image : 'Upload Image') }}">
+                                    <input type="text" class="form-control file-upload-info" disabled 
+                                        value="{{ isset($user) && $user->image ? basename($user->image) : 'Upload Image' }}">
                                     <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-gradient-primary"
-                                            type="button">Upload</button>
+                                        <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
                                     </span>
                                 </div>
                             </div>
+                            
                             @php
                                 $userCatalogue = ['[Chọn nhóm thành viên]', '[Quản trị viên]', '[Cộng tác viên]'];
                                 $userCatalogueValues = [null, 1, 2];
@@ -113,12 +113,13 @@
                             </div>
                             <div class="form-group">
                                 <label>Địa chỉ</label>
-                                <input value="{{ old('address', $user->address ?? '') }}" type="text" class="form-control" name="address"
-                                    placeholder="Nhập địa chỉ">
+                                <input value="{{ old('address', $user->address ?? '') }}" type="text"
+                                    class="form-control" name="address" placeholder="Nhập địa chỉ">
                             </div>
                             <div class="form-group">
                                 <label>Mô tả</label>
-                                <textarea value="{{ old('description', $user->description ?? '') }}" class="form-control" type="text" name="description" rows="4">{{ (isset($user) ? $user->description : '') }}</textarea>
+                                <textarea value="{{ old('description', $user->description ?? '') }}" class="form-control" type="text"
+                                    name="description" rows="4">{{ isset($user) ? $user->description : '' }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                             <button class="btn btn-light">Cancel</button>
@@ -130,7 +131,7 @@
     </div>
 </div>
 <script>
-    var province_id = '{{ (isset($user) ? $user->province_id : old('province_id')) }}'
-    var district_id = '{{ (isset($user) ? $user->district_id : old('district_id')) }}'
-    var ward_id = '{{ (isset($user) ? $user->ward_id : old('ward_id')) }}'
+    var province_id = '{{ isset($user) ? $user->province_id : old('province_id') }}'
+    var district_id = '{{ isset($user) ? $user->district_id : old('district_id') }}'
+    var ward_id = '{{ isset($user) ? $user->ward_id : old('ward_id') }}'
 </script>

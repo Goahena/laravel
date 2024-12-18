@@ -29,15 +29,24 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+        $promotions = Promotion::all();
+        $brands = Brand::all();
+        $shoeTypes = ShoeType::all();
         $config['seo'] = config('apps.product');
-        $products = Product::with(['shoeType', 'brand', 'promotions'])->get();
+
+        $products = $this->productService->paginate($request);
+
         $template = 'backend.product.index';
-        return View('backend.dashboard.layout', compact(
+        return view('backend.dashboard.layout', compact(
             'template',
             'products',
             'config',
+            'promotions',
+            'brands',
+            'shoeTypes'
         ));
     }
+
     public function store(StoreProductRequest $request)
     {
         if ($this->productService->create($request)) {
@@ -69,7 +78,7 @@ class ProductController extends Controller
         if ($this->productService->update($id, $updateRequest)) {
             return redirect()->route('product.index')->with('success', 'Cập nhật thành thành công');
         }
-        return redirect()->route('user.index')->with('error', 'Cập nhật không thành công, hãy thử lại');
+        return redirect()->route('product.index')->with('error', 'Cập nhật không thành công, hãy thử lại');
     }
     public function edit($id)
     {

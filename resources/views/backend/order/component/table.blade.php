@@ -1,4 +1,3 @@
-
 <table class="table table-hover">
     <thead>
         <tr>
@@ -23,13 +22,15 @@
                 <td>{{ $order['total_price'] ?? 'Không xác định' }}</td>
                 <td>{{ $order->is_confirmed ? 'Đã Xác Nhận' : 'Chưa Xác Nhận' }}</td>
                 <td>
-                    <a href="{{ route('order.confirm', $order->id) }}" 
-                        {{ $order->is_confirmed ? 'btn-danger' : 'btn-primary' }}">
+                    <!-- Link với trạng thái xác nhận hoặc bỏ xác nhận -->
+                    <a href="{{ route('order.confirm', $order->id) }}"
+                        class="{{ $order->is_confirmed ? 'unconfirm' : 'confirm' }}">
                         <button type="button" class="btn btn-inverse-info btn-icon">
-                            <i class="mdi mdi-table-edit"></i>
+                            <i class="{{ $order->is_confirmed ? 'mdi mdi-close' : 'mdi mdi-check' }}"></i>
                         </button>
                     </a>
-                    <a href="{{ route('order.delete', $order->id) }}">
+
+                    <a href="{{ route('order.delete', $order->id) }}" class="delete">
                         <button type="button" class="btn btn-inverse-danger btn-icon">
                             <i class="mdi mdi-delete"></i>
                         </button>
@@ -53,9 +54,9 @@
             document.getElementById('selectedOrders').value = JSON.stringify(selectedIds);
             document.getElementById('bulkAction').value = action;
 
-            const formAction = action === 'confirm'
-                ? "{{ route('orders.bulkConfirm') }}"
-                : "{{ route('orders.bulkUnconfirm') }}";
+            const formAction = action === 'confirm' ?
+                "{{ route('orders.bulkConfirm') }}" :
+                "{{ route('orders.bulkUnconfirm') }}";
             document.getElementById('bulkActionForm').action = formAction;
 
             document.getElementById('bulkActionForm').submit();
@@ -63,15 +64,15 @@
             alert('Vui lòng chọn ít nhất một đơn hàng.');
         }
     };
-    document.addEventListener('DOMContentLoaded', function () {
-    const rows = document.querySelectorAll('tr[data-href]');
-    rows.forEach(row => {
-        row.addEventListener('click', function () {
-            // Điều hướng đến URL trong data-href
-            window.location.href = this.getAttribute('data-href');
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('tr[data-href]');
+        rows.forEach(row => {
+            row.addEventListener('click', function() {
+                // Điều hướng đến URL trong data-href
+                window.location.href = this.getAttribute('data-href');
+            });
         });
     });
-});
 
 
     // Sự kiện cho nút "Kích hoạt toàn bộ"
@@ -85,4 +86,22 @@
         e.preventDefault();
         submitBulkAction('unconfirm');
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const rows = document.querySelectorAll('tr[data-href]');
+    rows.forEach(row => {
+        row.addEventListener('click', function () {
+            // Điều hướng đến URL trong data-href
+            window.location.href = this.getAttribute('data-href');
+        });
+    });
+
+    // Ngăn sự kiện click của checkbox lan ra
+    const checkboxes = document.querySelectorAll('.checkbox-item');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    });
+});
 </script>

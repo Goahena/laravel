@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="add-user">
-                            <h4 class="card-title d-none d-sm-block">Danh sách Sản Phẩm</h4>
+                            <h4 class="card-title d-none d-sm-block">Danh sách Đơn Hàng</h4>
                         </div>
                         @include('backend.order.component.filter')
                         <div class="table-responsive">

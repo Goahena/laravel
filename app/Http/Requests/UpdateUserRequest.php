@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|string|email|unique:users,email,'.$this->id.'|max:191',
             'name' => 'required|string',
             'user_catalogue_id' => 'gt:0',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'phone' => 'required|regex:/^[0-9]{3}[-\s]?[0-9]{3}[-\s]?[0-9]{4}$/',
         ];
     }

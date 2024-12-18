@@ -4,12 +4,41 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use Illuminate\Support\Carbon;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Hash;
+use App\Reponsitories\Interfaces\ProvinceReponsitoryInterface as ProvinceService;
+use App\Reponsitories\Interfaces\WardReponsitoryInterface as WardService;
+use App\Reponsitories\Interfaces\DistrictReponsitoryInterface as DistrictService;
+use App\Reponsitories\Interfaces\UserReponsitoryInterface as UserReponsitory;
+use App\Services\Interfaces\UserServiceInterface as UserService;
 
 class AuthController extends Controller
 {
-    public function __construct() {}
+    protected $provinceReponsitory;
+    protected $wardReponsitory;
+    protected $districtReponsitory;
+    protected $userReponsitory;
+    protected $userService;
+
+    public function __construct(
+        ProvinceService $provinceReponsitory,
+        WardService $wardReponsitory,
+        DistrictService $districtReponsitory,
+        UserService $userService,
+        UserReponsitory $userReponsitory
+    ) {
+        $this->provinceReponsitory = $provinceReponsitory;
+        $this->wardReponsitory = $wardReponsitory;
+        $this->districtReponsitory = $districtReponsitory;
+        $this->userService = $userService;
+        $this->userReponsitory = $userReponsitory;
+    }
 
     public function index()
     {
@@ -27,19 +56,24 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($credential)) {
-            // Lấy thông tin người dùng đang đăng nhập
             $user = Auth::user();
 
-            // Lưu thông tin vào session
             $request->session()->put('LogIn', $user->id);
             $request->session()->put('UserName', $user->name);
-            $request->session()->put('check', $user->user_catalogue_id == '1' ? '1' : '2'); // Giả sử `role` chứa quyền user
 
-            return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
+            $check = $user->user_catalogue_id == '1' ? '1' : '2';
+            $request->session()->put('check', $check);
+
+            if ($check == '1') {
+                return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
+            } elseif ($check == '2') {
+                return redirect()->route('index')->with('success', 'Đăng nhập thành công');
+            }
         }
 
         return redirect()->route('auth.admin')->with('error', 'Tài khoản hoặc mật khẩu không chính xác');
     }
+
 
     public function logout(Request $request)
     {
@@ -55,26 +89,19 @@ class AuthController extends Controller
         return redirect()->route('auth.admin');
     }
 
+    public function register()
+    {
+        $provinces = $this->provinceReponsitory->all();
+        return view('backend.auth.register', compact(
+            'provinces',
+        ));
+    }
 
-    // public function login(AuthRequest $request)
-    // {
-    //     $credential = [
-    //         'email' => $request->input('email'),
-    //         'password' => $request->input('password')
-    //     ];
-
-    //     if (Auth::attempt($credential)) {
-    //         return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
-    //     }
-
-    //     return redirect()->route('auth.admin')->with('error', 'Tài khoản hoặc mật khẩu không chính xác');
-    // }
-    // public function logout(Request $request)
-    // {
-    //     Auth::logout();
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-
-    //     return redirect()->route('auth.admin');
-    // }
+    public function storeRegister(StoreUserRequest $request)
+    {
+        if ($this->userService->create($request)) {
+            return redirect()->route('auth.admin')->with('success', 'Thêm mới thành thành công');
+        }
+        return redirect()->route('user.index')->with('error', 'Thêm mới không thành công, hãy thử lại');
+    }
 }

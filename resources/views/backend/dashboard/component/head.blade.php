@@ -18,4 +18,55 @@
     <link rel="stylesheet" href="{{ asset('assets/css/switch-checkbox.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
+    <style>
+        a {
+            position: relative;
+            text-decoration: none;
+        }
     
+        /* Tooltip styles */
+        a.confirm:hover::after {
+            content: "Xác nhận";
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d4edda;
+            color: #155724;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 10;
+        }
+    
+        a.unconfirm:hover::after {
+            content: "Bỏ xác nhận";
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 10;
+        }
+    
+        a.delete:hover::after {
+            content: "Xóa đơn hàng";
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f5c6cb;
+            color: #721c24;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 10;
+        }
+    </style>

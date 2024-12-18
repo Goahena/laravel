@@ -17,6 +17,15 @@ class AppServiceProvider extends ServiceProvider
         'App\Services\Interfaces\ProductServiceInterface' => 'App\Services\ProductService',
         'App\Reponsitories\Interfaces\ProductReponsitoryInterface' => 'App\Reponsitories\ProductReponsitory',
 
+        'App\Services\Interfaces\ShoeTypeServiceInterface' => 'App\Services\ShoeTypeService',
+        'App\Reponsitories\Interfaces\ShoeTypeReponsitoryInterface' => 'App\Reponsitories\ShoeTypeReponsitory',
+        
+        'App\Services\Interfaces\BrandServiceInterface' => 'App\Services\BrandService',
+        'App\Reponsitories\Interfaces\BrandReponsitoryInterface' => 'App\Reponsitories\BrandReponsitory',
+        
+        'App\Services\Interfaces\PromotionServiceInterface' => 'App\Services\PromotionService',
+        'App\Reponsitories\Interfaces\PromotionReponsitoryInterface' => 'App\Reponsitories\PromotionReponsitory',
+
         'App\Services\Interfaces\MainServiceInterface' => 'App\Services\MainService',
         'App\Reponsitories\Interfaces\MainReponsitoryInterface' => 'App\Reponsitories\MainReponsitory',
         

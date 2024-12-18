@@ -9,16 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::id() == null) {
-            return redirect()->route('auth.admin')->with('error', 'Bạn phải đăng nhập lại để sử dụng chức năng này');
+        if (!Auth::check()) {
+            return redirect()->route('auth.admin')->with('error', 'Bạn phải đăng nhập để sử dụng chức năng này');
         }
+
+        if (Auth::check() && Auth::user()->user_catalogue_id != '1') {
+            return redirect()->route('index')->with('error', 'Tài khoản không có quyền quản trị');
+        }
+
         return $next($request);
     }
 }

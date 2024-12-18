@@ -28,8 +28,14 @@ class UserService implements UserServiceInterface
     {
         $condition['keyword'] = addslashes($request->input('keyword'));
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
-        $users = $this->userReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/index'], $perPage);
-        return $users;
+        $users = $this->userReponsitory->pagination(
+            $this->selectPaginate(),
+            $condition,
+            [],
+            ['path' => route('user.index')],
+            $perPage
+        );
+                return $users;
     }
     public function create($request)
     {
@@ -76,10 +82,17 @@ class UserService implements UserServiceInterface
             if ($updateRequest->hasFile('image')) {
                 $image = $updateRequest->file('image');
                 $imageName = time() . '.' . $image->extension();
-
-                $image->move(public_path('assets/images/avatar'), $imageName);
-                $payload['image'] = 'assets/images/avatar/' . $imageName;
+                
+                $uploadPath = public_path('/assets/images/avatar');
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true); // Tạo thư mục nếu chưa tồn tại
+                }
+            
+                $image->move($uploadPath, $imageName);
+                $payload['image'] = '/assets/images/avatar/' . $imageName;
             }
+            
+            
             $user = $this->userReponsitory->update($id, $payload);
             DB::commit();
             return true;

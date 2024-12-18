@@ -5,6 +5,9 @@ namespace App\Reponsitories;
 use App\Reponsitories\Interfaces\ProductReponsitoryInterface;
 use App\Reponsitories\BaseReponsitory;
 use App\Models\Product;
+use App\Models\ShoeType;
+use App\Models\Brand;
+use App\Models\Promotion;
 
 /**
  * Class ProductService
@@ -30,15 +33,26 @@ class ProductReponsitory extends BaseReponsitory implements ProductReponsitoryIn
     ) {
         $query = $this->model
             ->select($column)
-            ->where(function($query) use ($condition){
-            if(isset($condition['keyword']) && !empty($condition['keyword'])){
-                $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
-            }
-        });
-        if (!empty($join)) {
-            $query->join(...$join);
-        }
+            ->with($relations)
+            ->leftJoin('shoe_types', 'product.shoe_type_id', '=', 'shoe_types.id')
+            ->leftJoin('brands', 'product.brand_id', '=', 'brands.id')
+            ->leftJoin('promotions', 'product.promotion_id', '=', 'promotions.id')
+            ->when(isset($condition['keyword']) && !empty($condition['keyword']), function ($query) use ($condition) {
+                $query->where('product.name', 'LIKE', '%' . $condition['keyword'] . '%');
+            })
+            ->when(isset($condition['shoeType']), function ($query) use ($condition) {
+                $query->where('shoe_types.id', $condition['shoeType']);
+            })
+            ->when(isset($condition['brand']), function ($query) use ($condition) {
+                $query->where('brands.id', $condition['brand']);
+            })
+            ->when(isset($condition['promotion']), function ($query) use ($condition) {
+                $query->where('promotions.id', $condition['promotion']);
+            });
+    
         return $query->paginate($perpage)
-                    ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            ->withQueryString()
+            ->withPath($extend['path']);
     }
+    
 }

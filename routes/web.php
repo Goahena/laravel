@@ -1,28 +1,33 @@
 <?php
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticate;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\UserCatalogueController;
-use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\AuthenticateMiddleware;
-use App\Http\Controllers\Ajax\LocationController;
-use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
+use App\Http\Controllers\Backend\OrderController as BackendOrder;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ShoeTypeController;
 use App\Http\Controllers\Frontend\MainController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
-use App\Http\Controllers\Backend\OrderController as BackendOrder;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\Ajax\LocationController;
+use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\PromotionController;
 
-Route::get('/', [MainController::class, 'index']);
+Route::get('/', [MainController::class, 'index'])->name('index');
 
 Route::get('admin', [AuthController::class, 'index'])->name('auth.admin');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'storeRegister'])->name('auth.storeRegister');
+
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(AuthenticateMiddleware::class);
 /*USER*/
 Route::group(['prefix' => 'user'], function() {
@@ -62,15 +67,44 @@ Route::group(['prefix' => 'admin/product'], function() {
     Route::get('{id}/delete', [ProductController::class, 'delete'])->where(['id' => '[0-9]+'])->name('product.delete')->middleware('admin');
     Route::delete('{id}/destroy', [ProductController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('product.destroy')->middleware('admin');
 });
+/*SHOE_TYPE*/
+Route::group(['prefix' => 'admin/shoe-type'], function() {
+    Route::get('index', [ShoeTypeController::class, 'index'])->name('shoe-type.index');
+    Route::get('create', [ShoeTypeController::class, 'create'])->name('shoe-type.create')->middleware('admin');
+    Route::post('store', [ShoeTypeController::class, 'store'])->name('shoe-type.store')->middleware('admin');
+    Route::post('{id}/update', [ShoeTypeController::class, 'update'])->where(['id' => '[0-9]+'])->name('shoe-type.update')->middleware('admin');
+    Route::get('{id}/edit', [ShoeTypeController::class, 'edit'])->where(['id' => '[0-9]+'])->name('shoe-type.edit')->middleware('admin');
+    Route::get('{id}/delete', [ShoeTypeController::class, 'delete'])->where(['id' => '[0-9]+'])->name('shoe-type.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [ShoeTypeController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('shoe-type.destroy')->middleware('admin');
+});
+/*BRAND*/
+Route::group(['prefix' => 'admin/brand'], function() {
+    Route::get('index', [BrandController::class, 'index'])->name('brand.index');
+    Route::get('create', [BrandController::class, 'create'])->name('brand.create')->middleware('admin');
+    Route::post('store', [BrandController::class, 'store'])->name('brand.store')->middleware('admin');
+    Route::post('{id}/update', [BrandController::class, 'update'])->where(['id' => '[0-9]+'])->name('brand.update')->middleware('admin');
+    Route::get('{id}/edit', [BrandController::class, 'edit'])->where(['id' => '[0-9]+'])->name('brand.edit')->middleware('admin');
+    Route::get('{id}/delete', [BrandController::class, 'delete'])->where(['id' => '[0-9]+'])->name('brand.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [BrandController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('brand.destroy')->middleware('admin');
+});
+/*PROMOTION*/
+Route::group(['prefix' => 'admin/promotion'], function() {
+    Route::get('index', [PromotionController::class, 'index'])->name('promotion.index');
+    Route::get('create', [PromotionController::class, 'create'])->name('promotion.create')->middleware('admin');
+    Route::post('store', [PromotionController::class, 'store'])->name('promotion.store')->middleware('admin');
+    Route::post('{id}/update', [PromotionController::class, 'update'])->where(['id' => '[0-9]+'])->name('promotion.update')->middleware('admin');
+    Route::get('{id}/edit', [PromotionController::class, 'edit'])->where(['id' => '[0-9]+'])->name('promotion.edit')->middleware('admin');
+    Route::get('{id}/delete', [PromotionController::class, 'delete'])->where(['id' => '[0-9]+'])->name('promotion.delete')->middleware('admin');
+    Route::delete('{id}/destroy', [PromotionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('promotion.destroy')->middleware('admin');
+});
 /*ORDER*/
 Route::group(['prefix' => 'admin/order'], function() {
-    Route::get('index', [BackendOrder::class, 'index'])->name('order.index');
+    Route::get('index', [BackendOrder::class, 'index'])->name('order.index')->middleware('admin');;
     Route::get('{id}/detail', [BackendOrder::class, 'detail'])->where(['id' => '[0-9]+'])->name('order.detail')->middleware('admin');
-    Route::get('/orders/{order}/confirm', [BackendOrder::class, 'confirm'])->name('order.confirm');
-    Route::post('/orders/bulk-confirm', [BackendOrder::class, 'bulkConfirm'])->name('orders.bulkConfirm');
-    Route::post('/orders/bulk-unconfirm', [BackendOrder::class, 'bulkUnconfirm'])->name('orders.bulkUnconfirm');
+    Route::get('/orders/{order}/confirm', [BackendOrder::class, 'confirm'])->name('order.confirm')->middleware('admin');;
+    Route::post('/orders/bulk-confirm', [BackendOrder::class, 'bulkConfirm'])->name('orders.bulkConfirm')->middleware('admin');;
+    Route::post('/orders/bulk-unconfirm', [BackendOrder::class, 'bulkUnconfirm'])->name('orders.bulkUnconfirm')->middleware('admin');;
     
-
     Route::get('{id}/delete', [BackendOrder::class, 'delete'])->where(['id' => '[0-9]+'])->name('order.delete')->middleware('admin');
     Route::delete('{id}/destroy', [BackendOrder::class, 'destroy'])->where(['id' => '[0-9]+'])->name('order.destroy')->middleware('admin');
 });

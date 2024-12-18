@@ -25,11 +25,21 @@ class OrderService
     }
     public function paginate($request)
     {
-        $condition['keyword'] = addslashes($request->input('keyword'));
-        $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
-        $orders = $this->orderReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'order/index'], $perPage);
+        $condition['is_confirmed'] = $request->input('is_confirmed');
+        $sortBy = $request->input('sort_by');
+        $perPage = $request->input('perpage') ?: 5;
+
+        $orders = $this->orderReponsitory->orderPagination(
+            ['*'],
+            $condition,
+            [],
+            ['sort_by' => $sortBy],
+            $perPage
+        );
+
         return $orders;
     }
+
     public function destroy($id)
     {
         DB::beginTransaction();

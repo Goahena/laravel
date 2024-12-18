@@ -13,28 +13,27 @@ class OrderReponsitory extends BaseReponsitory
     {
         $this->model = $model;
     }
-    public function getAllPaginate(){
+    public function getAllPaginate()
+    {
         return Order::paginate(5);
     }
-    public function pagination(
-        array $column = ['*'],
+    public function orderPagination(
+        array $columns = ['*'],
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5,
-        array $relations = []
+        int $perpage = 5
     ) {
-        $query = $this->model
-            ->select($column)
-            ->where(function($query) use ($condition){
-            if(isset($condition['keyword']) && !empty($condition['keyword'])){
-                $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
-            }
-        });
-        if (!empty($join)) {
-            $query->join(...$join);
+        $query = $this->model->select($columns);
+
+        if (isset($condition['is_confirmed']) && $condition['is_confirmed'] !== '') {
+            $query->where('is_confirmed', $condition['is_confirmed']);
         }
-        return $query->paginate($perpage)
-                    ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+
+        if (!empty($extend['sort_by'])) {
+            $query->orderBy('created_at', $extend['sort_by']);
+        }
+
+        return $query->paginate($perpage)->withQueryString();
     }
 }
