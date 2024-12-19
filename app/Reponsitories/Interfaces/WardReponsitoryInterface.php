@@ -8,4 +8,10 @@ namespace App\Reponsitories\Interfaces;
  */
 interface WardReponsitoryInterface
 {
+    public function all();
+    public function findById(
+        int $modelId,
+        array $column = ['*'],
+        array $relation = []
+    );
 }

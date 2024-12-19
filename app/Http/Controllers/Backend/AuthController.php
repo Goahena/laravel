@@ -60,6 +60,7 @@ class AuthController extends Controller
 
             $request->session()->put('LogIn', $user->id);
             $request->session()->put('UserName', $user->name);
+            $request->session()->put('UserImage', $user->image);
 
             $check = $user->user_catalogue_id == '1' ? '1' : '2';
             $request->session()->put('check', $check);

@@ -78,6 +78,19 @@ return [
             ]
         ],
         [
+            'id' => 'revenue-pages',
+            'title' => 'Quản Lý Doanh Thu',
+            'icon' => 'mdi mdi-cart',
+            'name' => 'revenue',
+            'subModule' => [
+                [
+                    'name' => 'revenue',
+                    'title' => 'Báo Cáo Doanh Thu',
+                    'route' => 'order.revenueReport'
+                ]
+            ]
+        ],
+        [
             'id' => 'setting-pages',
             'title' => 'Cấu hình chung',
             'icon' => 'mdi mdi-translate',

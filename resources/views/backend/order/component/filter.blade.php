@@ -22,10 +22,12 @@
         <div class="col-md-2"></div>
         <div class="col-md-3">
             <div class="order-search">
-                <select name="is_confirmed" class="form-control form-control-sm">
+                <select name="status" class="form-control form-control-sm">
                     <option value="" selected>Tất cả đơn hàng</option>
-                    <option value="1" {{ request('is_confirmed') == 1 ? 'selected' : '' }}>Đã xác nhận</option>
-                    <option value="0" {{ request('is_confirmed') === '0' ? 'selected' : '' }}>Chưa xác nhận</option>
+                    <option value="0" {{ request('status') == 0 ? 'selected' : '' }}>Chưa xác nhận</option>
+                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Đã xác nhận</option>
+                    <option value="2" {{ request('status') === '2' ? 'selected' : '' }}>Đang giao hàng</option>
+                    <option value="3" {{ request('status') === '3' ? 'selected' : '' }}>Đã hoàn thành</option>
                 </select>
             </div>
         </div>

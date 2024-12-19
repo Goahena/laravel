@@ -72,7 +72,7 @@
                   <button type="button" class="btn btn-social-icon btn-facebook"><i class="mdi mdi-facebook"></i></button>
                   <button type="button" class="btn btn-social-icon btn-twitter"><i class="mdi mdi-twitter"></i></button>
                 </div>
-                <div class="text-center mt-4 font-weight-light"> Chưa có tài khoản? <a href="register.html" class="text-primary">Đăng ký</a>
+                <div class="text-center mt-4 font-weight-light"> Chưa có tài khoản? <a href="{{ route('auth.register') }}" class="text-primary">Đăng ký</a>
                 </div>
               </form>
             </div>

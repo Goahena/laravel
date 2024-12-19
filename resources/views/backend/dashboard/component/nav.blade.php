@@ -1,3 +1,6 @@
+@php
+    $avatar = Session::get('UserImage');
+@endphp
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
       <a class="navbar-brand brand-logo" href="{{route('dashboard.index')}}"><img src="{{ asset('assets/images/logo.svg') }}" alt="logo" /></a>
@@ -7,25 +10,16 @@
       <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
         <span class="mdi mdi-menu"></span>
       </button>
-      <div class="search-field d-none d-md-block">
-        <form class="d-flex align-items-center h-100" action="#">
-          <div class="input-group">
-            <div class="input-group-prepend bg-transparent">
-              <i class="input-group-text border-0 mdi mdi-magnify"></i>
-            </div>
-            <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
-          </div>
-        </form>
-      </div>
+      
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="nav-profile-img">
-              <img src="{{ asset('assets/images/faces/face1.jpg') }}" alt="image">
+              <img src="{{ isset($avatar) ? asset($avatar) : asset('assets/images/faces-clipart/pic-1.png') }}" class="me-2" alt="image">
               <span class="availability-status online"></span>
             </div>
             <div class="nav-profile-text">
-              <p class="mb-1 text-black">David Greymaax</p>
+              <p class="mb-1 text-black">{{ Session::get('UserName') }}</p>
             </div>
           </a>
           <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -33,9 +27,9 @@
               <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('auth.logout') }}">
-              <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+              <i class="mdi mdi-logout me-2 text-primary"></i> Đăng Xuất </a>
               <a class="dropdown-item" href="/">
-                <i class="mdi mdi-logout me-2 text-primary"></i> Website </a>
+                <i class="mdi mdi-logout me-2 text-primary"></i> Trang Web </a>
           </div>
         </li>
         <li class="nav-item d-none d-lg-block full-screen-link">

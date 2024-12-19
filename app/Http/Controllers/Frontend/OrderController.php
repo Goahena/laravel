@@ -67,7 +67,7 @@ class OrderController extends Controller
 
         // Nếu người dùng chưa đăng nhập
         if (session()->get('check') == 0) {
-            return view('auth.login');
+            return redirect()->route('auth.admin');
         }
 
         // Lấy thông tin cần thiết

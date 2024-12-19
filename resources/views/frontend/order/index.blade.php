@@ -90,7 +90,7 @@
                             <label class="form-label">Ghi chú</label>
                         </div>
 
-                        <input type="hidden" class="form-control" name="total_price" value="{{ number_format($tongtien) }} VNĐ" />
+                        <input type="hidden" class="form-control" name="total_price" value="{{ $tongtien + 32000 }}" />
                        
                         <input type="hidden" name="payments" value="{{ serialize($payments) }}" />
 

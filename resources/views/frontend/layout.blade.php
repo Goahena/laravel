@@ -5,7 +5,6 @@
   </head>
   <body>
     @include('frontend.home.component.nav')
-    @include('frontend.home.component.carousel')
 
     @include($template)
 

@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\Promotion;
 use App\Http\Requests\StoreProductRequest;
 use App\Services\Interfaces\BrandServiceInterface as BrandService;
+use Illuminate\Support\Facades\Auth;
 use App\Reponsitories\Interfaces\BrandReponsitoryInterface as BrandReponsitory;
 
 class BrandController extends Controller

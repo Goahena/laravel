@@ -1,3 +1,5 @@
+@include('frontend.home.component.carousel')
+
 <div class="container">
     <br>
 

@@ -8,23 +8,23 @@
                         <code>
                             <h4>Xác nhận xóa tài khoản</h4>
                         </code>
-                        <form method="post" action="{{ route('user.destroy', $user->id) }}" class="forms-">
+                        <form method="post" action="{{ route('user.destroy', $users->id) }}" class="forms-">
                             @csrf
                             @method('DELETE')
                             <div class="form-group">
                                 <label>Họ và Tên</label>
                                 <input readonly type="text" class="form-control form-control-lg"
-                                    value="{{ $user->name }}">
+                                    value="{{ $users->name }}">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
                                 <input readonly type="text" class="form-control form-control-lg"
-                                    value="{{ $user->email }}">
+                                    value="{{ $users->email }}">
                             </div>
                             @php
                                 $userCatalogue = ['Chọn nhóm thành viên', 'Quản trị viên', 'Cộng tác viên'];
                                 $userCatalogueValues = [null, 1, 2];
-                                $key = $user->user_catalogue_id;
+                                $key = $users->user_catalogue_id;
                             @endphp
                             <div class="form-group">
                                 <label>Nhóm thành viên</label>

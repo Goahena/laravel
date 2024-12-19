@@ -107,6 +107,11 @@ Route::group(['prefix' => 'admin/order'], function() {
     
     Route::get('{id}/delete', [BackendOrder::class, 'delete'])->where(['id' => '[0-9]+'])->name('order.delete')->middleware('admin');
     Route::delete('{id}/destroy', [BackendOrder::class, 'destroy'])->where(['id' => '[0-9]+'])->name('order.destroy')->middleware('admin');
+
+    Route::patch('admin/order/orders/{id}/update-status', [BackendOrder::class, 'updateStatus'])
+    ->name('order.updateStatus');
+    Route::get('admin/order/revenue-report', [BackendOrder::class, 'revenueReport'])->name('order.revenueReport');
+
 });
 /*AJAX*/
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index')->middleware('admin');

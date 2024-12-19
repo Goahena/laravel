@@ -2,19 +2,10 @@
 
 namespace App\Services;
 
-use App\Reponsitories\OrderReponsitory as OrderReponsitory;
+use App\Reponsitories\OrderReponsitory;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 
-use function Laravel\Prompts\select;
-
-/**
- * Class UserService
- * @package App\Services
- */
 class OrderService
 {
     protected $orderReponsitory;
@@ -25,7 +16,7 @@ class OrderService
     }
     public function paginate($request)
     {
-        $condition['is_confirmed'] = $request->input('is_confirmed');
+        $condition['status'] = $request->input('status');
         $sortBy = $request->input('sort_by');
         $perPage = $request->input('perpage') ?: 5;
 
@@ -49,8 +40,6 @@ class OrderService
             return true;
         } catch (Exception $e) {
             DB::rollBack();
-            echo $e->getMessage();
-            die();
             return false;
         }
     }
