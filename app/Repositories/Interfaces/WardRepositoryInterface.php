@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface DistrictReponsitoryInterface
+interface WardRepositoryInterface
 {
     public function all();
-    public function findDistrictByProvinceId();
     public function findById(
         int $modelId,
         array $column = ['*'],

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\ProductServiceInterface;
-use App\Reponsitories\Interfaces\ProductReponsitoryInterface as ProductReponsitory;
+use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -18,30 +18,30 @@ use function Laravel\Prompts\select;
  */
 class ProductService implements ProductServiceInterface
 {
-    protected $productReponsitory;
+    protected $productRepository;
     public function __construct(
-        ProductReponsitory $productReponsitory
+        ProductRepository $productRepository
     ) {
-        $this->productReponsitory = $productReponsitory;
+        $this->productRepository = $productRepository;
     }
     public function paginate($request)
-{
-    $condition = [
-        'keyword' => addslashes($request->input('keyword')),
-        'shoeType' => $request->input('shoeType'),
-        'brand' => $request->input('brand'),
-        'promotion' => $request->input('promotion'),
-    ];
-    $perPage = $request->input('perpage') ?: 5;
+    {
+        $condition = [
+            'keyword' => addslashes($request->input('keyword')),
+            'shoeType' => $request->input('shoeType'),
+            'brand' => $request->input('brand'),
+            'promotion' => $request->input('promotion'),
+        ];
+        $perPage = $request->input('perpage') ?: 5;
 
-    return $this->productReponsitory->pagination(
-        ['product.*'], // Chỉ lấy các cột từ bảng products
-        $condition,
-        [], // Không cần join thêm ngoài các join mặc định
-        ['path' => route('product.index')],
-        $perPage
-    );
-}
+        return $this->productRepository->pagination(
+            ['product.*'], // Chỉ lấy các cột từ bảng products
+            $condition,
+            [], // Không cần join thêm ngoài các join mặc định
+            ['path' => route('product.index')],
+            $perPage
+        );
+    }
 
     public function create($request)
     {
@@ -72,7 +72,7 @@ class ProductService implements ProductServiceInterface
             $payload['promotion_id'] = $request->input('promotion_id');
 
             // Tạo mới sản phẩm trong cơ sở dữ liệu
-            $this->productReponsitory->create($payload);
+            $this->productRepository->create($payload);
 
             DB::commit();
             return true;
@@ -109,7 +109,7 @@ class ProductService implements ProductServiceInterface
             }
 
             // Cập nhật thông tin sản phẩm
-            $this->productReponsitory->update($id, $payload);
+            $this->productRepository->update($id, $payload);
 
             DB::commit();
             return true;
@@ -124,7 +124,7 @@ class ProductService implements ProductServiceInterface
     {
         DB::beginTransaction();
         try {
-            $Product = $this->productReponsitory->destroy($id);
+            $Product = $this->productRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -140,7 +140,7 @@ class ProductService implements ProductServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $Product = $this->productReponsitory->update($post['modelid'], $payload);
+            $Product = $this->productRepository->update($post['modelid'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -156,7 +156,7 @@ class ProductService implements ProductServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->productReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->productRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {

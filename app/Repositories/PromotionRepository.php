@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\PromotionReponsitoryInterface;
-use App\Reponsitories\BaseReponsitory;
+use App\Repositories\Interfaces\PromotionRepositoryInterface;
+use App\Repositories\BaseRepository;
 use App\Models\Promotion;
 
 /**
  * Class PromotionService
  * @package App\Services
  */
-class PromotionReponsitory extends BaseReponsitory implements PromotionReponsitoryInterface
+class PromotionRepository extends BaseRepository implements PromotionRepositoryInterface
 {
     protected $model;
     public function __construct(Promotion $model)

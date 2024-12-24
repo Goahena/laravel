@@ -10,18 +10,18 @@ use App\Models\Promotion;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\Interfaces\PromotionServiceInterface as PromotionService;
-use App\Reponsitories\Interfaces\PromotionReponsitoryInterface as PromotionReponsitory;
+use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 
 class PromotionController extends Controller
 {
-    protected $promotionReponsitory;
+    protected $promotionRepository;
     protected $promotionService;
 
     public function __construct(
-        PromotionReponsitory $promotionReponsitory,
+        PromotionRepository $promotionRepository,
         PromotionService $promotionService
     ) {
-        $this->promotionReponsitory = $promotionReponsitory;
+        $this->promotionRepository = $promotionRepository;
         $this->promotionService = $promotionService;
     }
 
@@ -66,7 +66,7 @@ class PromotionController extends Controller
     }
     public function edit($id)
     {
-        $promotion = $this->promotionReponsitory->findById($id);
+        $promotion = $this->promotionRepository->findById($id);
         $config['seo'] = config('apps.product');
         $config['method'] = 'edit';
         $template = 'backend.promotion.store';
@@ -79,7 +79,7 @@ class PromotionController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.product');
-        $promotion = $this->promotionReponsitory->findById($id);
+        $promotion = $this->promotionRepository->findById($id);
         $template = 'backend.promotion.delete';
         return view('backend.dashboard.layout', compact(
             'template',

@@ -3,18 +3,18 @@
 namespace App\Services;
 
 use App\Services\Interfaces\MainServiceInterface;
-use App\Reponsitories\Interfaces\MainReponsitoryInterface as MainReponsitory;
+use App\Repositories\Interfaces\MainRepositoryInterface as MainRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class MainService implements MainServiceInterface
 {
-    protected $mainReponsitory;
+    protected $mainRepository;
 
-    public function __construct(MainReponsitory $mainReponsitory)
+    public function __construct(MainRepository $mainRepository)
     {
-        $this->mainReponsitory = $mainReponsitory;
+        $this->mainRepository = $mainRepository;
     }
 
     public function paginate($request)
@@ -26,7 +26,7 @@ class MainService implements MainServiceInterface
 
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 9;
 
-        $products = $this->mainReponsitory->pagination(
+        $products = $this->mainRepository->pagination(
             $this->selectPaginate(),
             $condition,
             [], // Có thể thêm join nếu cần

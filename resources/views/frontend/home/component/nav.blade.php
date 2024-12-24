@@ -49,10 +49,13 @@
                 <div class="d-flex align-items-center float-right">
                     <a href="/"><button type="button" class="btn btn-link px-3 me-2">TRANG CHỦ</button></a>
                     <a href="/store"><button type="button" class="btn btn-link px-3 me-2">CỬA HÀNG</button></a>
-                    <a href="/about-us"><button type="button" class="btn btn-link px-3 me-2">GIỚI
-                            THIỆU</button></a>
-                    <a href="/payment"><button type="button" class="btn btn-link px-3 me-2">THANH
-                            TOÁN</button></a>
+                    <form id="thanh-toan" action="/thanh-toan" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-link px-3 me-2">
+                            THANH TOÁN
+                        </button>
+                    </form>
+                    
                     <a href="/gio-hang" data-mdb-toggle="tooltip" data-mdb-placement="bottom"
                         title="Giỏ hàng của bạn"><i class="fas fa-shopping-cart"></i></a>&emsp;&nbsp;
                     @if (Session::get('LogIn'))

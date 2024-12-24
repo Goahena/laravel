@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Repositories\Interfaces\ProvinceRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
+use App\Models\Province;
+
+/**
+ * Class UserService
+ * @package App\Services
+ */
+class ProvinceRepository extends BaseRepository implements ProvinceRepositoryInterface
+{
+    protected $model;
+    public function __construct(Province $model)
+    {
+        $this->model = $model;
+    }
+}

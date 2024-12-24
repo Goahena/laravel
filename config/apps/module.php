@@ -35,28 +35,12 @@ return [
                     'name' => 'shoetype',
                     'title' => 'Quản lý Loại Giày',
                     'route' => 'shoe-type.index'
-                ]
-            ]
-        ],
-        [
-            'id' => 'brand-pages',
-            'title' => 'Quản lý Thương Hiệu',
-            'icon' => 'mdi mdi-marker-check',
-            'name' => 'brand',
-            'subModule' => [
+                ],
                 [
                     'name' => 'brand',
                     'title' => 'Quản Lý Thương Hiệu',
                     'route' => 'brand.index'
-                ]
-            ]
-        ],
-        [
-            'id' => 'promotion-pages',
-            'title' => 'Quản lý Khuyến Mãi',
-            'icon' => 'mdi mdi-tag',
-            'name' => 'promotion',
-            'subModule' => [
+                ],
                 [
                     'name' => 'promotion',
                     'title' => 'Quản Lý Khuyến Mãi',
@@ -66,7 +50,7 @@ return [
         ],
         [
             'id' => 'order-pages',
-            'title' => 'Quản lý Đơn Hàng',
+            'title' => 'Quản lý Giao Dịch',
             'icon' => 'mdi mdi-cart',
             'name' => 'order',
             'subModule' => [
@@ -74,15 +58,7 @@ return [
                     'name' => 'order',
                     'title' => 'Quản Lý Đơn Hàng',
                     'route' => 'order.index'
-                ]
-            ]
-        ],
-        [
-            'id' => 'revenue-pages',
-            'title' => 'Quản Lý Doanh Thu',
-            'icon' => 'mdi mdi-cart',
-            'name' => 'revenue',
-            'subModule' => [
+                ],
                 [
                     'name' => 'revenue',
                     'title' => 'Báo Cáo Doanh Thu',

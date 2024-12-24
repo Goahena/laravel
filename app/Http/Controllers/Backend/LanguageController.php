@@ -5,19 +5,19 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\LanguageServiceInterface as LanguageService;
-use App\Reponsitories\Interfaces\LanguageReponsitoryInterface as LanguageReponsitory;
+use App\Repositories\Interfaces\LanguageRepositoryInterface as LanguageRepository;
 use App\Http\Requests\StoreLanguageRequest;
 
 class LanguageController extends Controller
 {
-    protected $LanguageReponsitory;
+    protected $LanguageRepository;
     protected $LanguageService;
     public function __construct(
-        LanguageReponsitory $LanguageReponsitory,
+        LanguageRepository $LanguageRepository,
         LanguageService $LanguageService,
     ) {
         $this->LanguageService = $LanguageService;
-        $this->LanguageReponsitory = $LanguageReponsitory;
+        $this->LanguageRepository = $LanguageRepository;
     }
     public function index(Request $request)
     {
@@ -43,7 +43,7 @@ class LanguageController extends Controller
 //     }
 //     public function edit($id)
 //     {
-//         $Language = $this->LanguageReponsitory->findById($id);
+//         $Language = $this->LanguageRepository->findById($id);
 //         $config['seo'] = config('apps.Language');
 //         $config['method'] = 'edit';
 //         $template = 'backend.user.catalogue.store';
@@ -56,7 +56,7 @@ class LanguageController extends Controller
 //     public function delete($id)
 //     {
 //         $config['seo'] = config('apps.Language');
-//         $Language = $this->LanguageReponsitory->findById($id);
+//         $Language = $this->LanguageRepository->findById($id);
 //         $template = 'backend.user.catalogue.delete';
 //         return view('backend.dashboard.layout', compact(
 //             'template',

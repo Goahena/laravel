@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\ProductReponsitoryInterface;
-use App\Reponsitories\BaseReponsitory;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\BaseRepository;
 use App\Models\Product;
 use App\Models\ShoeType;
 use App\Models\Brand;
@@ -13,7 +13,7 @@ use App\Models\Promotion;
  * Class ProductService
  * @package App\Services
  */
-class ProductReponsitory extends BaseReponsitory implements ProductReponsitoryInterface
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
     protected $model;
     public function __construct(Product $model)
@@ -54,5 +54,16 @@ class ProductReponsitory extends BaseReponsitory implements ProductReponsitoryIn
             ->withQueryString()
             ->withPath($extend['path']);
     }
-    
+    public function decrementQuantity(Product $product, $quantity)
+    {
+        $product->decrement('quantity', $quantity);
+        $product->decrement('reserved_quantity', $quantity);
+    }
+
+    public function releaseReservedQuantity(Product $product, $quantity)
+    {
+        if ($product->reserved_quantity >= $quantity) {
+            $product->decrement('reserved_quantity', $quantity);
+        }
+    }
 }

@@ -102,9 +102,7 @@ Route::group(['prefix' => 'admin/order'], function() {
     Route::get('index', [BackendOrder::class, 'index'])->name('order.index')->middleware('admin');;
     Route::get('{id}/detail', [BackendOrder::class, 'detail'])->where(['id' => '[0-9]+'])->name('order.detail')->middleware('admin');
     Route::get('/orders/{order}/confirm', [BackendOrder::class, 'confirm'])->name('order.confirm')->middleware('admin');;
-    Route::post('/orders/bulk-confirm', [BackendOrder::class, 'bulkConfirm'])->name('orders.bulkConfirm')->middleware('admin');;
-    Route::post('/orders/bulk-unconfirm', [BackendOrder::class, 'bulkUnconfirm'])->name('orders.bulkUnconfirm')->middleware('admin');;
-    
+
     Route::get('{id}/delete', [BackendOrder::class, 'delete'])->where(['id' => '[0-9]+'])->name('order.delete')->middleware('admin');
     Route::delete('{id}/destroy', [BackendOrder::class, 'destroy'])->where(['id' => '[0-9]+'])->name('order.destroy')->middleware('admin');
 
@@ -114,7 +112,7 @@ Route::group(['prefix' => 'admin/order'], function() {
 
 });
 /*AJAX*/
-Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index')->middleware('admin');
+Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index');
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus')->middleware('admin');
 Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->name('ajax.dashboard.changeStatusAll')->middleware('admin');
 

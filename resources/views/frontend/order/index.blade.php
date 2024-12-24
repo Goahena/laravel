@@ -41,28 +41,6 @@
                             <label for="bank_code">Hình thức thanh toán:</label>
                             <select name="payment_method" id="hinh_thuc_thanh_toan" class="form-control">
                                 <option value="Sau khi nhận hàng">Thanh toán khi nhận hàng</option>
-                                <option value="NCB"> Ngan hang NCB</option>
-                                <option value="AGRIBANK"> Ngan hang Agribank</option>
-                                <option value="SCB"> Ngan hang SCB</option>
-                                <option value="SACOMBANK">Ngan hang SacomBank</option>
-                                <option value="EXIMBANK"> Ngan hang EximBank</option>
-                                <option value="MSBANK"> Ngan hang MSBANK</option>
-                                <option value="NAMABANK"> Ngan hang NamABank</option>
-                                <option value="VNMART"> Vi dien tu VnMart</option>
-                                <option value="VIETINBANK">Ngan hang Vietinbank</option>
-                                <option value="VIETCOMBANK"> Ngan hang VCB</option>
-                                <option value="HDBANK">Ngan hang HDBank</option>
-                                <option value="DONGABANK"> Ngan hang Dong A</option>
-                                <option value="TPBANK"> Ngan hang TPBank</option>
-                                <option value="OJB"> Ngan hang OceanBank</option>
-                                <option value="BIDV"> Ngan hang BIDV</option>
-                                <option value="TECHCOMBANK"> Ngan hang Techcombank</option>
-                                <option value="VPBANK"> Ngan hang VPBank</option>
-                                <option value="MBBANK"> Ngan hang MBBank</option>
-                                <option value="ACB"> Ngan hang ACB</option>
-                                <option value="OCB"> Ngan hang OCB</option>
-                                <option value="IVB"> Ngan hang IVB</option>
-                                <option value="VISA"> Thanh toan qua VISA/MASTER</option>
                             </select>
                         </div>
                         <br>
@@ -91,6 +69,7 @@
                         </div>
 
                         <input type="hidden" class="form-control" name="total_price" value="{{ $tongtien + 32000 }}" />
+                        <input type="hidden" class="form-control" name="status" value="0" />
                        
                         <input type="hidden" name="payments" value="{{ serialize($payments) }}" />
 
@@ -111,6 +90,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Sản phẩm</th>
+                                <th scope="col">Số lượng</th>
                                 <th scope="col">Tiền</th>
                             </tr>
                         </thead>
@@ -118,6 +98,7 @@
                             @foreach ($payments as $payment)
                                 <tr>
                                     <td scope="row">{{ $payment['name'] }}</td>
+                                    <td scope="row">{{ $payment['quantity'] }}</td>
                                     <td>{{ number_format($km = sprintf('%d', $payment['quantity'] * $payment['price'] - $payment['quantity'] * $payment['price'] * $payment['promotion'] * 0.01)) }}
                                         VNĐ</td>
                                 </tr>
@@ -125,11 +106,12 @@
 
                             <tr>
                                 <th scope="row">Phí vận chuyển</th>
+                                <th></th>
                                 <th>32,000 VNĐ</th>
                             </tr>
-
                             <tr class="text-success  ">
-                                <th scope="row">Tổng </th>
+                                <th scope="row">Tiền phải trả </th>
+                                <th></th>
                                 <th>{{ number_format($tongtien + 32000) }} VNĐ</th>
                             </tr>
 

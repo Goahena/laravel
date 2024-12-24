@@ -62,7 +62,6 @@
                             <div class="d-flex align-items-end">
                                 <button type="submit" class="btn btn-gradient-primary me-2">Thống Kê</button>
                                 <a href="{{ route('order.revenueReport') }}" class="btn btn-light">Đặt lại</a>
-
                             </div>
                         </form>
 

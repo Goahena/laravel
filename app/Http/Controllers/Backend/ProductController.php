@@ -12,18 +12,18 @@ use App\Models\Promotion;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
-use App\Reponsitories\Interfaces\ProductReponsitoryInterface as ProductReponsitory;
+use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 
 class ProductController extends Controller
 {
-    protected $productReponsitory;
+    protected $productRepository;
     protected $productService;
 
     public function __construct(
-        ProductReponsitory $productReponsitory,
+        ProductRepository $productRepository,
         ProductService $productService
     ) {
-        $this->productReponsitory = $productReponsitory;
+        $this->productRepository = $productRepository;
         $this->productService = $productService;
     }
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
         $promotions = Promotion::all();
         $brands = Brand::all();
         $shoeTypes = ShoeType::all();
-        $product = $this->productReponsitory->findById($id);
+        $product = $this->productRepository->findById($id);
         $config['seo'] = config('apps.product');
         $config['method'] = 'edit';
         $template = 'backend.product.store';
@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.product');
-        $product = $this->productReponsitory->findById($id);
+        $product = $this->productRepository->findById($id);
         $template = 'backend.product.delete';
         return view('backend.dashboard.layout', compact(
             'template',

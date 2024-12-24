@@ -1,4 +1,3 @@
-
 <div class="card mb-3 shadow-5" style="background-color: #EEEEEE">
     <div class="card-body" style="margin-top:40px">
         <center>
@@ -38,7 +37,7 @@
                                 </div>
                                 <div class="card-body">
                                     <center>
-                                        <h4 class="card-title">{{ $product->name }}</h4>
+                                        <h4 class="card-title product-title">{{ $product->name }}</h4>
                                         <p class="card-text text-success">
                                             @if ($km = 0)
                                             @endif
@@ -56,8 +55,8 @@
                             </a>
                         </div>
                     </div>
-                    @endforeach
-                    <div class="product-pagination">{{ $products->links('pagination::bootstrap-4') }}</div>
+                @endforeach
+                <div class="product-pagination">{{ $products->links('pagination::bootstrap-4') }}</div>
             </div>
 
             <br>
@@ -66,5 +65,3 @@
     </div>
 
 </div>
-
-

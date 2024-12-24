@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\ShoeTypeServiceInterface;
-use App\Reponsitories\Interfaces\ShoeTypeReponsitoryInterface as ShoeTypeReponsitory;
+use App\Repositories\Interfaces\ShoeTypeRepositoryInterface as ShoeTypeRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\DB;
  */
 class ShoeTypeService implements ShoeTypeServiceInterface
 {
-    protected $shoeTypeReponsitory;
+    protected $shoeTypeRepository;
     public function __construct(
-        ShoeTypeReponsitory $shoeTypeReponsitory
+        ShoeTypeRepository $shoeTypeRepository
     ) {
-        $this->shoeTypeReponsitory = $shoeTypeReponsitory;
+        $this->shoeTypeRepository = $shoeTypeRepository;
     }
     public function paginate($request)
 {
@@ -27,7 +27,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
     ];
     $perPage = $request->input('perpage') ?: 10;
 
-    return $this->shoeTypeReponsitory->pagination(
+    return $this->shoeTypeRepository->pagination(
         ['shoe_types.*'], // Chỉ lấy các cột từ bảng shoeTypess
         $condition,
         [], // Không cần join thêm ngoài các join mặc định
@@ -42,7 +42,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
         try {
             $payload = $request->except('_token');
 
-            $this->shoeTypeReponsitory->create($payload);
+            $this->shoeTypeRepository->create($payload);
 
             DB::commit();
             return true;
@@ -61,7 +61,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
             $payload = $updateRequest->except('_token');
 
             // Cập nhật thông tin sản phẩm
-            $this->shoeTypeReponsitory->update($id, $payload);
+            $this->shoeTypeRepository->update($id, $payload);
 
             DB::commit();
             return true;
@@ -76,7 +76,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
     {
         DB::beginTransaction();
         try {
-            $ShoeType = $this->shoeTypeReponsitory->destroy($id);
+            $ShoeType = $this->shoeTypeRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -92,7 +92,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $ShoeType = $this->shoeTypeReponsitory->update($post['modelid'], $payload);
+            $ShoeType = $this->shoeTypeRepository->update($post['modelid'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -108,7 +108,7 @@ class ShoeTypeService implements ShoeTypeServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->shoeTypeReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->shoeTypeRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\MainReponsitoryInterface;
+use App\Repositories\Interfaces\MainRepositoryInterface;
 use App\Models\Product;
 
-class MainReponsitory extends BaseReponsitory implements MainReponsitoryInterface
+class MainRepository extends BaseRepository implements MainRepositoryInterface
 {
     protected $model;
 

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Services\Interfaces\UserCatalogueServiceInterface;
-use App\Reponsitories\Interfaces\UserCatalogueReponsitoryInterface as UserCatalogueReponsitory;
-use App\Reponsitories\Interfaces\UserReponsitoryInterface as UserReponsitory;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as UserCatalogueRepository;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -15,20 +15,20 @@ use Illuminate\Support\Carbon;
  */
 class UserCatalogueService implements UserCatalogueServiceInterface
 {
-    protected $userCatalogueReponsitory;
-    protected $userReponsitory;
+    protected $userCatalogueRepository;
+    protected $userRepository;
     public function __construct(
-        UserCatalogueReponsitory $userCatalogueReponsitory,
-        UserReponsitory $userReponsitory
+        UserCatalogueRepository $userCatalogueRepository,
+        UserRepository $userRepository
     ) {
-        $this->userCatalogueReponsitory = $userCatalogueReponsitory;
-        $this->userReponsitory = $userReponsitory;
+        $this->userCatalogueRepository = $userCatalogueRepository;
+        $this->userRepository = $userRepository;
     }
     public function paginate($request)
     {
         $condition['keyword'] = addslashes($request->input('keyword'));
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
-        $userCatalogues = $this->userCatalogueReponsitory->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/catalogue/index'], $perPage, ['users']);
+        $userCatalogues = $this->userCatalogueRepository->pagination($this->selectPaginate(), $condition, [], ['path' => 'user/catalogue/index'], $perPage, ['users']);
         return $userCatalogues;
     }
     public function create($request)
@@ -37,7 +37,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         try {
             $payload = $request->except('_token');
 
-            $user = $this->userCatalogueReponsitory->create($payload);
+            $user = $this->userCatalogueRepository->create($payload);
 
             DB::commit();
             return true;
@@ -54,7 +54,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         try {
             $payload = $updateRequest->except('_token');
 
-            $user = $this->userCatalogueReponsitory->update($id, $payload);
+            $user = $this->userCatalogueRepository->update($id, $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -68,7 +68,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
     {
         DB::beginTransaction();
         try {
-            $user = $this->userCatalogueReponsitory->destroy($id);
+            $user = $this->userCatalogueRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -90,7 +90,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
                 $array = $post['id'];
             }
             $payload[$post['field']] = $value;
-            $this->userReponsitory->updateByWhereIn('user_catalogue_id', $array, $payload);
+            $this->userRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -106,7 +106,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $user = $this->userCatalogueReponsitory->update($post['modelid'], $payload);
+            $user = $this->userCatalogueRepository->update($post['modelid'], $payload);
             $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
             return true;
@@ -123,7 +123,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->userCatalogueReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->userCatalogueRepository->updateByWhereIn('id', $post['id'], $payload);
             $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
             return true;

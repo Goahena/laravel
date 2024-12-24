@@ -4,8 +4,8 @@
             {{-- <th scope="col"><input id="checkAll" type="checkbox"></th> --}}
             <th scope="col"><strong> Hình ảnh </strong></th>
             <th scope="col"><strong> Tên giày </strong></th>
-            <th scope="col"><strong> Loại giày </strong></th>
-            <th scope="col"><strong> Thương hiệu </strong></th>
+            <th scope="col text-center"><strong> Số lượng </strong></th>
+            <th scope="col"><strong> Số lượng trong kho </strong></th>
             <th scope="col"><strong> Đơn giá </strong></th>
             <th scope="col"><strong> Khuyến mãi </strong></th>
             <th scope="col" class="text-center"><strong> Thao tác </strong></th>
@@ -19,23 +19,26 @@
                         <input class="checkbox-item" type="checkbox" value="{{ $user->id }}">
                     </td> --}}
                     <td class="py-1 text-center">
-                        <img src="{{ asset($product['image_1']) }}"
-                            alt="image" />
+                        <img src="{{ asset($product['image_1']) }}" alt="image" />
                     </td>
                     <td>
                         <div class="info-item"> {{ $product['name'] }} </div>
                     </td>
                     <td>
-                        <div class="userCatalogue-item">{{ $product->shoeType->shoe_type_name ?? 'Không xác định' }}</div>
+                        <div class="text-center">
+                            {{ $product->quantity - $product->reserved_quantity > 0 ? $product->quantity - $product->reserved_quantity : 'Hết hàng' }}
+                        </div>
                     </td>
                     <td>
-                        <div class="userCatalogue-item">{{ $product->brand->brand_name ?? 'Không xác định' }}</div>
+                        <div class="text-center">{{ $product->quantity ?? 'Hết hàng' }}</div>
                     </td>
                     <td>
-                        <div class="userCatalogue-item">{{ $product['price'] }}</div>
+                        <div>{{ $product['price'] }}</div>
                     </td>
                     <td>
-                        <div class="userCatalogue-item">{{ $product->promotions->promotion_name ?? 'Không xác định' }}</div>
+                        <div>
+                            {{ $product->promotions->promotion_value . '% ' . $product->promotions->promotion_name ?? 'Không xác định' }}
+                        </div>
                     </td>
                     <td>
                         <a href="{{ route('product.edit', $product->id) }}">

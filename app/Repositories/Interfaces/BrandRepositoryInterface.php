@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface ProductServiceInterface
  * @package App\Services\Interfaces
  */
-interface BrandReponsitoryInterface extends BaseReponsitoryInterface
+interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
     public function getAllPaginate();
     public function findById(

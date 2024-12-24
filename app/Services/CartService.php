@@ -27,6 +27,7 @@ class CartService
             $cart[$productId]['quantity'] += 1;
         } else {
             $cart[$productId] = [
+                'id' => $productId,
                 'image_1' => $product->image_1,
                 'name' => $product->name,
                 'price' => $product->price,

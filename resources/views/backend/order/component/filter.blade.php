@@ -24,7 +24,7 @@
             <div class="order-search">
                 <select name="status" class="form-control form-control-sm">
                     <option value="" selected>Tất cả đơn hàng</option>
-                    <option value="0" {{ request('status') == 0 ? 'selected' : '' }}>Chưa xác nhận</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Chưa xác nhận</option>
                     <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Đã xác nhận</option>
                     <option value="2" {{ request('status') === '2' ? 'selected' : '' }}>Đang giao hàng</option>
                     <option value="3" {{ request('status') === '3' ? 'selected' : '' }}>Đã hoàn thành</option>
@@ -36,7 +36,8 @@
                 <select name="sort_by" class="form-control form-control-sm">
                     <option value="" selected>Sắp xếp theo</option>
                     <option value="asc" {{ request('sort_by') == 'asc' ? 'selected' : '' }}>Đơn hàng cũ hơn</option>
-                    <option value="desc" {{ request('sort_by') == 'desc' ? 'selected' : '' }}>Đơn hàng mới hơn</option>
+                    <option value="desc" {{ request('sort_by') == 'desc' ? 'selected' : '' }}>Đơn hàng mới hơn
+                    </option>
                 </select>
             </div>
         </div>

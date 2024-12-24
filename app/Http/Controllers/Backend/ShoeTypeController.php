@@ -10,18 +10,18 @@ use App\Models\Promotion;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\Interfaces\ShoeTypeServiceInterface as ShoeTypeService;
-use App\Reponsitories\Interfaces\ShoeTypeReponsitoryInterface as ShoeTypeReponsitory;
+use App\Repositories\Interfaces\ShoeTypeRepositoryInterface as ShoeTypeRepository;
 
 class ShoeTypeController extends Controller
 {
-    protected $shoeTypeReponsitory;
+    protected $shoeTypeRepository;
     protected $shoeTypeService;
 
     public function __construct(
-        ShoeTypeReponsitory $shoeTypeReponsitory,
+        ShoeTypeRepository $shoeTypeRepository,
         ShoeTypeService $shoeTypeService
     ) {
-        $this->shoeTypeReponsitory = $shoeTypeReponsitory;
+        $this->shoeTypeRepository = $shoeTypeRepository;
         $this->shoeTypeService = $shoeTypeService;
     }
 
@@ -66,7 +66,7 @@ class ShoeTypeController extends Controller
     }
     public function edit($id)
     {
-        $shoeType = $this->shoeTypeReponsitory->findById($id);
+        $shoeType = $this->shoeTypeRepository->findById($id);
         $config['seo'] = config('apps.product');
         $config['method'] = 'edit';
         $template = 'backend.shoe-type.store';
@@ -79,7 +79,7 @@ class ShoeTypeController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.product');
-        $shoeType = $this->shoeTypeReponsitory->findById($id);
+        $shoeType = $this->shoeTypeRepository->findById($id);
         $template = 'backend.shoe-type.delete';
         return view('backend.dashboard.layout', compact(
             'template',

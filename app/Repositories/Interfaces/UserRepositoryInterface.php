@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface UserReponsitoryInterface extends BaseReponsitoryInterface
+interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     public function getAllPaginate();
 }

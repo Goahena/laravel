@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\DistrictReponsitoryInterface;
+use App\Repositories\Interfaces\DistrictRepositoryInterface;
 use App\Models\District;
 
 /**
  * Class UserService
  * @package App\Services
  */
-class DistrictReponsitory extends BaseReponsitory implements DistrictReponsitoryInterface
+class DistrictRepository extends BaseRepository implements DistrictRepositoryInterface
 {
     protected $model;
     public function __construct(District $model)

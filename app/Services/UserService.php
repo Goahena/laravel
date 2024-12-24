@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\UserServiceInterface;
-use App\Reponsitories\Interfaces\UserReponsitoryInterface as UserReponsitory;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -18,17 +18,17 @@ use function Laravel\Prompts\select;
  */
 class UserService implements UserServiceInterface
 {
-    protected $userReponsitory;
+    protected $userRepository;
     public function __construct(
-        UserReponsitory $userReponsitory
+        UserRepository $userRepository
     ) {
-        $this->userReponsitory = $userReponsitory;
+        $this->userRepository = $userRepository;
     }
     public function paginate($request)
     {
         $condition['keyword'] = addslashes($request->input('keyword'));
         $perPage = $request->integer('perpage') ? $request->integer('perpage') : 5;
-        $users = $this->userReponsitory->pagination(
+        $users = $this->userRepository->pagination(
             $this->selectPaginate(),
             $condition,
             [],
@@ -57,7 +57,7 @@ class UserService implements UserServiceInterface
                 $payload['image'] = 'assets/images/avatar/' . $imageName;
             }
 
-            $user = $this->userReponsitory->create($payload);
+            $user = $this->userRepository->create($payload);
 
             DB::commit();
             return true;
@@ -93,7 +93,7 @@ class UserService implements UserServiceInterface
             }
             
             
-            $user = $this->userReponsitory->update($id, $payload);
+            $user = $this->userRepository->update($id, $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -106,7 +106,7 @@ class UserService implements UserServiceInterface
     public function destroy($id){
         DB::beginTransaction();
         try {
-            $user = $this->userReponsitory->destroy($id);
+            $user = $this->userRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -121,7 +121,7 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2:1);
-            $user = $this->userReponsitory->update($post['modelid'], $payload);
+            $user = $this->userRepository->update($post['modelid'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -136,7 +136,7 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->userReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->userRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {

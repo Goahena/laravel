@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\BaseReponsitoryInterface;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserService
  * @package App\Services
  */
-class BaseReponsitory implements BaseReponsitoryInterface
+class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
     public function __construct(Model $model)

@@ -4,20 +4,22 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Order;
-use App\Reponsitories\OrderReponsitory;
+use App\Models\Product;
+use App\Repositories\OrderRepository;
 use App\Services\OrderService;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    protected $orderReponsitory;
+    protected $orderRepository;
     protected $orderService;
 
     public function __construct(
-        OrderReponsitory $orderReponsitory,
+        OrderRepository $orderRepository,
         OrderService $orderService
     ) {
-        $this->orderReponsitory = $orderReponsitory;
+        $this->orderRepository = $orderRepository;
         $this->orderService = $orderService;
     }
 
@@ -45,7 +47,7 @@ class OrderController extends Controller
         ];
 
         $config['seo'] = config('apps.order');
-        $orders = $this->orderReponsitory->findById($id);
+        $orders = $this->orderRepository->findById($id);
         $payments = unserialize($orders->invoice);
         $template = 'backend.order.detail';
         return view('backend.dashboard.layout', compact(
@@ -59,20 +61,22 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
-            'status' => 'required|integer|in:0,1,2,3', // Validate giá trị trạng thái
+            'status' => 'required|integer|in:0,1,2,3',
         ]);
 
-        $order = Order::findOrFail($id);
-        $order->status = $validated['status']; // Cập nhật trạng thái
-        $order->save();
-
-        return redirect()->back()->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
+        try {
+            $result = $this->orderService->updateOrderStatus($id, $validated['status']);
+            return redirect()->back()->with('success', $result);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
+    
 
     public function delete($id)
     {
         $config['seo'] = config('apps.order');
-        $order = $this->orderReponsitory->findById($id);
+        $order = $this->orderRepository->findById($id);
         $payments = unserialize($order->invoice);
         $template = 'backend.order.delete';
         return view('backend.dashboard.layout', compact(
@@ -82,59 +86,38 @@ class OrderController extends Controller
             'payments'
         ));
     }
-
     public function destroy($id)
     {
-        if ($this->orderService->destroy($id)) {
-            return redirect()->route('order.index')->with('success', 'Xóa thành thành công');
+        try {
+            $this->orderService->deleteOrder($id);
+            return redirect()->route('order.index')->with('success', 'Đơn hàng đã bị hủy và số lượng sản phẩm được hoàn lại.');
+        } catch (\Exception $e) {
+            return redirect()->route('order.index')->with('error', $e->getMessage());
         }
-        return redirect()->route('order.index')->with('error', 'Xóa không thành công, hãy thử lại');
     }
+    
+    public function releaseReservedQuantity($productId, $quantity)
+    {
+        $product = Product::findOrFail($productId);
+
+        // Đảm bảo số lượng giả định không âm
+        if ($product->reserved_quantity >= $quantity) {
+            $product->decrement('reserved_quantity', $quantity); // Giảm số lượng giả định
+            return true;
+        }
+
+        return false;
+    }
+
     public function revenueReport(Request $request)
     {
+        $filters = $request->only(['week', 'month', 'year', 'start_date', 'end_date', 'status']);
+
+        $orders = $this->orderService->getRevenueReport($filters);
+
         $config['seo'] = config('apps.order');
-        $week = $request->input('week');
-        $month = $request->input('month'); // Không cần giá trị mặc định nữa
-        $year = $request->input('year'); // Không cần giá trị mặc định nữa
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-        $status = $request->input('status');
-
-        $query = Order::query();
-
-        // Lọc theo trạng thái nếu có
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        // Lọc theo tháng và năm, nếu tháng và năm đều được chọn
-        if ($month && $year && !$startDate && !$endDate) {
-            $query->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year);
-        }
-        // Lọc theo năm, nếu không chọn tháng
-        elseif (!$month && $year && !$startDate && !$endDate) {
-            $query->whereYear('created_at', $year);
-        }
-        // Lọc theo chỉ tháng, nếu không chọn năm
-        elseif ($month && !$year && !$startDate && !$endDate) {
-            $query->whereMonth('created_at', $month);
-        }
-        // Lọc theo khoảng thời gian (nếu có)
-        elseif ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-        // Nếu không có lọc tháng, năm, hoặc ngày, tính tổng doanh thu của tất cả các đơn hàng
-        if (!$month && !$year && !$startDate && !$endDate) {
-            // Không áp dụng bất kỳ điều kiện lọc nào
-        }
-
-        // Truy vấn tổng doanh thu
-        $orders = $query->selectRaw('SUM(total_price) as revenue')->get();
-
-        // Template cho view
         $template = 'backend.order.revenue';
 
-        return view('backend.dashboard.layout', compact('orders', 'template', 'week', 'month', 'year', 'startDate', 'endDate', 'config'));
+        return view('backend.dashboard.layout', compact('orders', 'template', 'filters', 'config'));
     }
 }

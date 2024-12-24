@@ -5,19 +5,19 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UserCatalogueServiceInterface as UserCatalogueService;
-use App\Reponsitories\Interfaces\UserCatalogueReponsitoryInterface as userCatalogueReponsitory;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as userCatalogueRepository;
 use App\Http\Requests\StoreUserCatalogueRequest;
 
 class UserCatalogueController extends Controller
 {
-    protected $userCatalogueReponsitory;
+    protected $userCatalogueRepository;
     protected $userCatalogueService;
     public function __construct(
-        userCatalogueReponsitory $userCatalogueReponsitory,
+        userCatalogueRepository $userCatalogueRepository,
         UserCatalogueService $userCatalogueService,
     ) {
         $this->userCatalogueService = $userCatalogueService;
-        $this->userCatalogueReponsitory = $userCatalogueReponsitory;
+        $this->userCatalogueRepository = $userCatalogueRepository;
     }
     public function index(Request $request)
     {
@@ -55,7 +55,7 @@ class UserCatalogueController extends Controller
     }
     public function edit($id)
     {
-        $userCatalogue = $this->userCatalogueReponsitory->findById($id);
+        $userCatalogue = $this->userCatalogueRepository->findById($id);
         $config['seo'] = config('apps.userCatalogue');
         $config['method'] = 'edit';
         $template = 'backend.user.catalogue.store';
@@ -68,7 +68,7 @@ class UserCatalogueController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.userCatalogue');
-        $userCatalogue = $this->userCatalogueReponsitory->findById($id);
+        $userCatalogue = $this->userCatalogueRepository->findById($id);
         $template = 'backend.user.catalogue.delete';
         return view('backend.dashboard.layout', compact(
             'template',

@@ -10,18 +10,18 @@ use App\Models\Promotion;
 use App\Http\Requests\StoreProductRequest;
 use App\Services\Interfaces\BrandServiceInterface as BrandService;
 use Illuminate\Support\Facades\Auth;
-use App\Reponsitories\Interfaces\BrandReponsitoryInterface as BrandReponsitory;
+use App\Repositories\Interfaces\BrandRepositoryInterface as BrandRepository;
 
 class BrandController extends Controller
 {
-    protected $brandReponsitory;
+    protected $brandRepository;
     protected $brandService;
 
     public function __construct(
-        BrandReponsitory $brandReponsitory,
+        BrandRepository $brandRepository,
         BrandService $brandService
     ) {
-        $this->brandReponsitory = $brandReponsitory;
+        $this->brandRepository = $brandRepository;
         $this->brandService = $brandService;
     }
 
@@ -67,7 +67,7 @@ class BrandController extends Controller
     }
     public function edit($id)
     {
-        $brand = $this->brandReponsitory->findById($id);
+        $brand = $this->brandRepository->findById($id);
         $config['seo'] = config('apps.product');
         $config['method'] = 'edit';
         $template = 'backend.brand.store';
@@ -80,7 +80,7 @@ class BrandController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.product');
-        $brand = $this->brandReponsitory->findById($id);
+        $brand = $this->brandRepository->findById($id);
         $template = 'backend.brand.delete';
         return view('backend.dashboard.layout', compact(
             'template',

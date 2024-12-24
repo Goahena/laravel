@@ -4,10 +4,10 @@
             <div class="row mt-3">
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                     <h6 class="text-uppercase fw-bold mb-4"> Liên hệ </h6>
-                    <p><i class="fas fa-home me-3"></i> Hồ Chí Minh - Việt Nam</p>
+                    <p><i class="fas fa-home me-3"></i> Nghệ An - Việt Nam</p>
                     <p>
                         <i class="fas fa-envelope me-3"></i>
-                        shopppe@gmail.com
+                        hau@gmail.com
                     </p>
                     <p><i class="fas fa-phone me-3"></i> +84 324324234</p>
                 </div>
@@ -56,15 +56,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class=" justify-content-center justify-content-lg-between p-4 border-top"
-        style="background-color: #757575;">
-        <div class="text-center me-5 d-none d-lg-block">
-            <span class="text-center text-white">© 2021 Bản quyền thuộc về:
-                <a class="text-white" href="/">&ensp;Jame Madison</a>
-            </span>
         </div>
     </section>
 </footer>

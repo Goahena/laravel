@@ -54,7 +54,6 @@
                         <!-- Đơn giá: Giá sau khuyến mãi -->
                         <td>{{ number_format($cart['price']) }} VNĐ</td>
 
-
                         <!-- Hiển thị thông tin khuyến mãi -->
                         <td>{{ isset($cart['promotion']) ? $cart['promotion'] : 'Không có khuyến mãi' }}%</td>
 

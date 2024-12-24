@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\PromotionServiceInterface;
-use App\Reponsitories\Interfaces\PromotionReponsitoryInterface as PromotionReponsitory;
+use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +18,11 @@ use function Laravel\Prompts\select;
  */
 class PromotionService implements PromotionServiceInterface
 {
-    protected $promotionReponsitory;
+    protected $promotionRepository;
     public function __construct(
-        PromotionReponsitory $promotionReponsitory
+        PromotionRepository $promotionRepository
     ) {
-        $this->promotionReponsitory = $promotionReponsitory;
+        $this->promotionRepository = $promotionRepository;
     }
     public function paginate($request)
 {
@@ -31,7 +31,7 @@ class PromotionService implements PromotionServiceInterface
     ];
     $perPage = $request->input('perpage') ?: 10;
 
-    return $this->promotionReponsitory->pagination(
+    return $this->promotionRepository->pagination(
         ['promotions.*'], // Chỉ lấy các cột từ bảng promotions
         $condition,
         [], // Không cần join thêm ngoài các join mặc định
@@ -47,7 +47,7 @@ class PromotionService implements PromotionServiceInterface
             $payload = $request->except('_token');
 
             // Tạo mới sản phẩm trong cơ sở dữ liệu
-            $this->promotionReponsitory->create($payload);
+            $this->promotionRepository->create($payload);
 
             DB::commit();
             return true;
@@ -66,7 +66,7 @@ class PromotionService implements PromotionServiceInterface
             $payload = $updateRequest->except('_token');
 
             // Cập nhật thông tin sản phẩm
-            $this->promotionReponsitory->update($id, $payload);
+            $this->promotionRepository->update($id, $payload);
 
             DB::commit();
             return true;
@@ -81,7 +81,7 @@ class PromotionService implements PromotionServiceInterface
     {
         DB::beginTransaction();
         try {
-            $Promotion = $this->promotionReponsitory->destroy($id);
+            $Promotion = $this->promotionRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -97,7 +97,7 @@ class PromotionService implements PromotionServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $Promotion = $this->promotionReponsitory->update($post['modelid'], $payload);
+            $Promotion = $this->promotionRepository->update($post['modelid'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -113,7 +113,7 @@ class PromotionService implements PromotionServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->promotionReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->promotionRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {

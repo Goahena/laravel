@@ -12,32 +12,32 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
-use App\Reponsitories\Interfaces\ProvinceReponsitoryInterface as ProvinceService;
-use App\Reponsitories\Interfaces\WardReponsitoryInterface as WardService;
-use App\Reponsitories\Interfaces\DistrictReponsitoryInterface as DistrictService;
-use App\Reponsitories\Interfaces\UserReponsitoryInterface as UserReponsitory;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
+use App\Repositories\Interfaces\WardRepositoryInterface as WardService;
+use App\Repositories\Interfaces\DistrictRepositoryInterface as DistrictService;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use App\Services\Interfaces\UserServiceInterface as UserService;
 
 class AuthController extends Controller
 {
-    protected $provinceReponsitory;
-    protected $wardReponsitory;
-    protected $districtReponsitory;
-    protected $userReponsitory;
+    protected $provinceRepository;
+    protected $wardRepository;
+    protected $districtRepository;
+    protected $userRepository;
     protected $userService;
 
     public function __construct(
-        ProvinceService $provinceReponsitory,
-        WardService $wardReponsitory,
-        DistrictService $districtReponsitory,
+        ProvinceService $provinceRepository,
+        WardService $wardRepository,
+        DistrictService $districtRepository,
         UserService $userService,
-        UserReponsitory $userReponsitory
+        UserRepository $userRepository
     ) {
-        $this->provinceReponsitory = $provinceReponsitory;
-        $this->wardReponsitory = $wardReponsitory;
-        $this->districtReponsitory = $districtReponsitory;
+        $this->provinceRepository = $provinceRepository;
+        $this->wardRepository = $wardRepository;
+        $this->districtRepository = $districtRepository;
         $this->userService = $userService;
-        $this->userReponsitory = $userReponsitory;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
@@ -92,7 +92,7 @@ class AuthController extends Controller
 
     public function register()
     {
-        $provinces = $this->provinceReponsitory->all();
+        $provinces = $this->provinceRepository->all();
         return view('backend.auth.register', compact(
             'provinces',
         ));

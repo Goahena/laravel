@@ -1,28 +1,27 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\UserCatalogueReponsitoryInterface;
-use App\Reponsitories\BaseReponsitory;
-use App\Models\UserCatalogue;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\BaseRepository;
+use App\Models\User;
 
-/**
- * Class UserService
- * @package App\Services
- */
-class UserCatalogueReponsitory extends BaseReponsitory implements UserCatalogueReponsitoryInterface
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     protected $model;
-    public function __construct(UserCatalogue $model)
+    public function __construct(User $model)
     {
         $this->model = $model;
+    }
+    public function getAllPaginate(){
+        return User::paginate(5);
     }
     public function pagination(
         array $column = ['*'],
         array $condition = [],
         array $join = [],
         array $extend = [],
-        int $perpage = 5,
+        int $perpage = 10,
         array $relations = []
     ) {
         $query = $this->model
@@ -30,15 +29,11 @@ class UserCatalogueReponsitory extends BaseReponsitory implements UserCatalogueR
             ->where(function($query) use ($condition){
             if(isset($condition['keyword']) && !empty($condition['keyword'])){
                 $query->where('name', 'LIKE', '%'.$condition['keyword'].'%')
-                      ->orWhere('description', 'LIKE', '%'.$condition['keyword'].'%');
+                      ->orWhere('email', 'LIKE', '%'.$condition['keyword'].'%')
+                      ->orWhere('phone', 'LIKE', '%'.$condition['keyword'].'%')
+                      ->orWhere('address', 'LIKE', '%'.$condition['keyword'].'%');
             }
-        });
-        
-        if (isset($relations) && !empty($relations)){
-            foreach($relations as $relation){
-                $query->withCount($relation);
-            }
-        }
+        })->with('user_catalogues');
         if (!empty($join)) {
             $query->join(...$join);
         }

@@ -115,15 +115,18 @@
                         </p>
 
                         <p class="card-text">
+                            <b>Số lượng:</b>
+                            {{ ($product->available_quantity > 0) ? $product->available_quantity : 'Hết hàng'}}
+                        </p>
+                        <p class="card-text">
                             <small class="text-muted"></small>
                         </p>
-                        <a href="{{ route('them-vao-gio-hang', ['id' => $product->id]) }}" 
-                            type="button" class="btn btn-info"
-                            style="margin-top: 10px">
-                             <i class="far fa-heart"></i>
-                             &ensp;Thêm vào giỏ hàng
-                         </a>
-                        
+                        <a href="{{ route('them-vao-gio-hang', ['id' => $product->id]) }}" type="button"
+                            class="btn btn-info" style="margin-top: 10px">
+                            <i class="far fa-heart"></i>
+                            &ensp;Thêm vào giỏ hàng
+                        </a>
+
                         <a type="button" href="#ex2-tabs-1" class="btn btn-light">Chi tiết</a>
 
 
@@ -312,7 +315,7 @@
                                         </div>
                                         <div class="card-body">
                                             <center>
-                                                <h4 class="card-title">{{ $sameproduct->name }}</h4>
+                                                <h4 class="card-title product-title">{{ $sameproduct->name }}</h4>
                                                 <p class="card-text text-success">
                                                     @php
                                                         $km = 0;

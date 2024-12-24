@@ -53,11 +53,21 @@
                                             <h4 class="card-title product-title">{{ $product->name }}</h4>
                                             <p class="card-text text-success">
                                                 @php
-                                                    $km = 0; // Khởi tạo giá trị giảm giá
+                                                    $km = 0;
+                                                    if ($product->promotion_value) {
+                                                        $km = $product->price * 0.01 * $product->promotion_value;
+                                                    }
                                                 @endphp
-                                                <b>{{ number_format($product->price - $km, 0, ',', ',') }} VNĐ</b>
-                                                <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
-                                                    VNĐ</del>
+
+                                                @if ($km > 0)
+                                                    <b>{{ number_format($product->price - $km, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                    <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</del>
+                                                @else
+                                                    <b>{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                @endif
                                             </p>
                                         </center>
                                     </div>
@@ -95,11 +105,21 @@
                                             <h4 class="card-title product-title">{{ $product->name }}</h4>
                                             <p class="card-text text-success">
                                                 @php
-                                                    $km = 0; // Khởi tạo giá trị giảm giá
+                                                    $km = 0;
+                                                    if ($product->promotion_value) {
+                                                        $km = $product->price * 0.01 * $product->promotion_value;
+                                                    }
                                                 @endphp
-                                                <b>{{ number_format($product->price - $km, 0, ',', ',') }} VNĐ</b>
-                                                <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
-                                                    VNĐ</del>
+
+                                                @if ($km > 0)
+                                                    <b>{{ number_format($product->price - $km, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                    <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</del>
+                                                @else
+                                                    <b>{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                @endif
                                             </p>
                                         </center>
                                     </div>
@@ -132,19 +152,23 @@
                                     <div class="card-body">
                                         <center>
                                             <h4 class="card-title product-title">{{ $product->name }}</h4>
-                                                <p class="card-text text-success">
-                                                    @if ($km = 0)
-                                                    @endif
-                                                    @foreach ($promotions as $promotion)
-                                                        @if ($promotion['promotion_name'] == $product->promotion_name)
-                                                            @if ($km = sprintf('%d', $product->price * 0.01 * $promotion['promotion_value']))
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
+                                            <p class="card-text text-success">
+                                                @php
+                                                    $km = 0;
+                                                    if ($product->promotion_value) {
+                                                        $km = $product->price * 0.01 * $product->promotion_value;
+                                                    }
+                                                @endphp
 
-                                                <b>{{ number_format($product->price - $km, 0, ',', ',') }} VNĐ</b>
-                                                <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
-                                                    VNĐ </del>
+                                                @if ($km > 0)
+                                                    <b>{{ number_format($product->price - $km, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                    <del class="card-text text-danger">{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</del>
+                                                @else
+                                                    <b>{{ number_format($product->price, 0, ',', ',') }}
+                                                        VNĐ</b>
+                                                @endif
                                             </p>
                                         </center>
                                     </div>
@@ -193,28 +217,34 @@
                                             <center>
                                                 <h4 class="card-title product-title">{{ $featuredshoe->name }}</h4>
                                                 <p class="card-text text-success">
-                                                    @php $km = 0; @endphp
-                                                    @foreach ($promotions as $promotion)
-                                                        @if ($promotion->id == $featuredshoe->promotion_id)
-                                                            @php
-                                                                $km = sprintf(
-                                                                    '%d',
-                                                                    $featuredshoe->price *
-                                                                        0.01 *
-                                                                        $promotion->promotion_value,
-                                                                );
-                                                            @endphp
-                                                            <p>{{ $promotion->promotion_name }}: {{ $km }}
-                                                            </p>
-                                                        @endif
-                                                    @endforeach
+                                                    @php $km = 0; @endphp <!-- Đặt lại giá trị cho biến $km -->
+                                                    @php
+                                                        // Lấy khuyến mãi của sản phẩm hiện tại
+                                                        $promotion = $promotions->firstWhere(
+                                                            'id',
+                                                            $featuredshoe->promotion_id,
+                                                        );
+                                                    @endphp
 
-
+                                                    @if ($promotion)
+                                                        @php
+                                                            $km = sprintf(
+                                                                '%d',
+                                                                $featuredshoe->price *
+                                                                    0.01 *
+                                                                    $promotion->promotion_value,
+                                                            );
+                                                        @endphp
+                                                        <p>Giảm: {{ number_format($km, 0, ',', ',') }}
+                                                            ({{ $promotion->promotion_name }})</p>
+                                                    @else
+                                                        <p>Không có khuyến mãi</p>
+                                                    @endif
 
                                                     <b>{{ number_format($featuredshoe->price - $km, 0, ',', ',') }}
                                                         VNĐ</b>
                                                     <del class="card-text text-danger">{{ number_format($featuredshoe->price, 0, ',', ',') }}
-                                                        VNĐ </del>
+                                                        VNĐ</del>
                                                 </p>
                                             </center>
                                         </div>
@@ -263,7 +293,7 @@
                                                                     $promotion->promotion_value,
                                                             );
                                                         @endphp
-                                                        <p>Giảm giá: {{ $km }}
+                                                        <p>Giảm: {{ number_format($km, 0, ',', ',') }}
                                                             ({{ $promotion->promotion_name }})</p>
                                                     @else
                                                         <p>Không có khuyến mãi</p>
@@ -323,7 +353,7 @@
                                                                     $promotion->promotion_value,
                                                             );
                                                         @endphp
-                                                        <p>Giảm giá: {{ $km }}
+                                                        <p>Giảm: {{ number_format($km, 0, ',', ',') }}
                                                             ({{ $promotion->promotion_name }})</p>
                                                     @else
                                                         <p>Không có khuyến mãi</p>

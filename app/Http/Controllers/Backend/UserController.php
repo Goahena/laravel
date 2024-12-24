@@ -6,32 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Ward;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UserServiceInterface as UserService;
-use App\Reponsitories\Interfaces\UserReponsitoryInterface as userReponsitory;
-use App\Reponsitories\Interfaces\ProvinceReponsitoryInterface as ProvinceService;
-use App\Reponsitories\Interfaces\WardReponsitoryInterface as WardService;
-use App\Reponsitories\Interfaces\DistrictReponsitoryInterface as DistrictService;
+use App\Repositories\Interfaces\UserRepositoryInterface as userRepository;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
+use App\Repositories\Interfaces\WardRepositoryInterface as WardService;
+use App\Repositories\Interfaces\DistrictRepositoryInterface as DistrictService;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    protected $userReponsitory;
+    protected $userRepository;
     protected $userService;
-    protected $provinceReponsitory;
-    protected $wardReponsitory;
-    protected $districtReponsitory;
+    protected $provinceRepository;
+    protected $wardRepository;
+    protected $districtRepository;
     public function __construct(
-        userReponsitory $userReponsitory,
+        userRepository $userRepository,
         UserService $userService,
-        ProvinceService $provinceReponsitory,
-        WardService $wardReponsitory,
-        DistrictService $districtReponsitory,
+        ProvinceService $provinceRepository,
+        WardService $wardRepository,
+        DistrictService $districtRepository,
     ) {
         $this->userService = $userService;
-        $this->provinceReponsitory = $provinceReponsitory;
-        $this->wardReponsitory = $wardReponsitory;
-        $this->districtReponsitory = $districtReponsitory;
-        $this->userReponsitory = $userReponsitory;
+        $this->provinceRepository = $provinceRepository;
+        $this->wardRepository = $wardRepository;
+        $this->districtRepository = $districtRepository;
+        $this->userRepository = $userRepository;
     }
     public function index(Request $request)
     {
@@ -53,7 +53,7 @@ class UserController extends Controller
     }
     public function create()
     {
-        $provinces = $this->provinceReponsitory->all();
+        $provinces = $this->provinceRepository->all();
         $config['seo'] = config('apps.user');
         $config['method'] = 'create';
         $template = 'backend.user.user.store';
@@ -71,8 +71,8 @@ class UserController extends Controller
     }
     public function edit($id)
     {
-        $user = $this->userReponsitory->findById($id);
-        $provinces = $this->provinceReponsitory->all();
+        $user = $this->userRepository->findById($id);
+        $provinces = $this->provinceRepository->all();
         $config['seo'] = config('apps.user');
         $config['method'] = 'edit';
         $template = 'backend.user.user.store';
@@ -86,7 +86,7 @@ class UserController extends Controller
     public function delete($id)
     {
         $config['seo'] = config('apps.user');
-        $user = $this->userReponsitory->findById($id);
+        $user = $this->userRepository->findById($id);
         $template = 'backend.user.user.delete';
         return view('backend.dashboard.layout', compact(
             'template',

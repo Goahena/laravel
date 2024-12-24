@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\WardReponsitoryInterface;
+use App\Repositories\Interfaces\WardRepositoryInterface;
 use App\Models\Ward;
 
 /**
  * Class UserService
  * @package App\Services
  */
-class WardReponsitory extends BaseReponsitory implements WardReponsitoryInterface
+class WardRepository extends BaseRepository implements WardRepositoryInterface
 {
     protected $model;
     public function __construct(Ward $model)

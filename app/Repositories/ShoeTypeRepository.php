@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
-use App\Reponsitories\Interfaces\BrandReponsitoryInterface;
-use App\Reponsitories\BaseReponsitory;
-use App\Models\Brand;
+use App\Repositories\Interfaces\ShoeTypeRepositoryInterface;
+use App\Repositories\BaseRepository;
+use App\Models\ShoeType;
 
 /**
- * Class BrandService
+ * Class ShoeTypeService
  * @package App\Services
  */
-class BrandReponsitory extends BaseReponsitory implements BrandReponsitoryInterface
+class ShoeTypeRepository extends BaseRepository implements ShoeTypeRepositoryInterface
 {
     protected $model;
-    public function __construct(Brand $model)
+    public function __construct(ShoeType $model)
     {
         $this->model = $model;
     }
     public function getAllPaginate(){
-        return Brand::paginate(5);
+        return ShoeType::paginate(5);
     }
     public function pagination(
         array $column = ['*'],
@@ -32,7 +32,7 @@ class BrandReponsitory extends BaseReponsitory implements BrandReponsitoryInterf
             ->select($column)
             ->with($relations)
             ->when(isset($condition['keyword']) && !empty($condition['keyword']), function ($query) use ($condition) {
-                $query->where('brands.brand_name', 'LIKE', '%' . $condition['keyword'] . '%');
+                $query->where('shoe_types.shoe_type_name', 'LIKE', '%' . $condition['keyword'] . '%');
             });
     
         return $query->paginate($perpage)

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\BrandServiceInterface;
-use App\Reponsitories\Interfaces\BrandReponsitoryInterface as BrandReponsitory;
+use App\Repositories\Interfaces\BrandRepositoryInterface as BrandRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\File;
  */
 class BrandService implements BrandServiceInterface
 {
-    protected $brandReponsitory;
+    protected $brandRepository;
     public function __construct(
-        BrandReponsitory $brandReponsitory
+        BrandRepository $brandRepository
     ) {
-        $this->brandReponsitory = $brandReponsitory;
+        $this->brandRepository = $brandRepository;
     }
     public function paginate($request)
 {
@@ -28,7 +28,7 @@ class BrandService implements BrandServiceInterface
     ];
     $perPage = $request->input('perpage') ?: 10;
 
-    return $this->brandReponsitory->pagination(
+    return $this->brandRepository->pagination(
         ['brands.*'], // Chỉ lấy các cột từ bảng brands
         $condition,
         [], // Không cần join thêm ngoài các join mặc định
@@ -43,7 +43,7 @@ class BrandService implements BrandServiceInterface
         try {
             $payload = $request->except('_token');
 
-            $this->brandReponsitory->create($payload);
+            $this->brandRepository->create($payload);
 
             DB::commit();
             return true;
@@ -61,7 +61,7 @@ class BrandService implements BrandServiceInterface
         try {
             $payload = $updateRequest->except('_token');
 
-            $this->brandReponsitory->update($id, $payload);
+            $this->brandRepository->update($id, $payload);
 
             DB::commit();
             return true;
@@ -76,7 +76,7 @@ class BrandService implements BrandServiceInterface
     {
         DB::beginTransaction();
         try {
-            $Brand = $this->brandReponsitory->destroy($id);
+            $Brand = $this->brandRepository->destroy($id);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -92,7 +92,7 @@ class BrandService implements BrandServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $Brand = $this->brandReponsitory->update($post['modelid'], $payload);
+            $Brand = $this->brandRepository->update($post['modelid'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -108,7 +108,7 @@ class BrandService implements BrandServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->brandReponsitory->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->brandRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (Exception $e) {

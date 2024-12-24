@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Reponsitories;
+namespace App\Repositories;
 
 use App\Models\Product;
 
-class CartReponsitory
+class CartRepository
 {
     public function findProduct($id)
     {

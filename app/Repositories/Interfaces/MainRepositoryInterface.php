@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface MainServiceInterface
  * @package App\Services\Interfaces
  */
-interface MainReponsitoryInterface extends BaseReponsitoryInterface
+interface MainRepositoryInterface extends BaseRepositoryInterface
 {
     public function pagination(
         array $column = ['*'],

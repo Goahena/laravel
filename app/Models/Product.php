@@ -28,9 +28,18 @@ class Product extends Model
         'image_3',
         'image_4',
         'promotion_id',
-        'purchase_quantity',
 
     ];
+    public function reduceQuantity(int $quantity)
+    {
+        if ($this->quantity < $quantity) {
+            throw new \Exception("Không đủ số lượng trong kho cho sản phẩm {$this->name}");
+        }
+
+        $this->quantity -= $quantity;
+        $this->save();
+    }
+
     // Quan hệ với ShoeType
     public function shoeType()
     {

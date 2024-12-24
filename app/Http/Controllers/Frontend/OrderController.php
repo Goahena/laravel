@@ -11,7 +11,9 @@ use App\Models\Promotion;
 use App\Models\ShoeType;
 use App\Models\User;
 use App\Models\UserCatalogue;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -55,7 +57,7 @@ class OrderController extends Controller
 
         // Kiểm tra nếu không có sản phẩm nào được chọn
         if (!is_array($check_carts) || empty($check_carts)) {
-            return redirect()->back()->with('error', 'No products selected.');
+            return redirect()->back()->with('error', 'Chưa có sản phẩm trong giỏ hàng');
         }
 
         // Lấy sản phẩm đã chọn
@@ -98,30 +100,73 @@ class OrderController extends Controller
     {
         // Lấy giỏ hàng từ session
         $carts = session()->get('cart');
-    
-        // Tạo hóa đơn mới trong bảng DonHang
-        $order = Order::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'description' => $request->input('description'),
-            'total_price' => $request->input('total_price'),
-            'invoice' => $request->input('payments'),
-            'payment_method' => $request->input('payment_method'),
-        ]);
-    
-        // Loại bỏ các sản phẩm đã thanh toán khỏi giỏ hàng
-        $oks = unserialize($request->input('payments'));
-        foreach ($oks as $id => $ok) {
-            if (isset($carts[$id])) {
-                unset($carts[$id]);
-            }
+
+        if (!$carts || count($carts) === 0) {
+            return redirect()->back()->withErrors(['Giỏ hàng của bạn đang trống.']);
         }
-    
-        // Cập nhật giỏ hàng mới vào session
-        session()->put('cart', $carts);
-    
-        // Điều hướng người dùng về trang chủ
-        return Redirect('/');
+
+        $payments = unserialize($request->input('payments'));
+        DB::beginTransaction();
+        try {
+            foreach ($payments as $payment) {
+                $productId = $payment['id'];
+                $quantity = $payment['quantity'];
+
+                // Lấy sản phẩm từ cơ sở dữ liệu
+                $product = Product::find($productId);
+                if (!$product) {
+                    throw new Exception("Sản phẩm với ID {$productId} không tồn tại.");
+                }
+
+                // Kiểm tra nếu tổng số lượng khả dụng và số lượng giả định đủ để xử lý đặt hàng
+                if ($product->quantity - $product->reserved_quantity < $quantity) {
+                    throw new Exception("Sản phẩm '{$product->name}' không đủ số lượng để đặt hàng.");
+                }
+
+                // Tăng số lượng giả định (reserved_quantity)
+                $product->increment('reserved_quantity', $quantity);
+            }
+
+            // Tạo hóa đơn mới trong bảng Orders
+            $order = Order::create([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+                'description' => $request->input('description'),
+                'total_price' => $request->input('total_price'),
+                'invoice' => $request->input('payments'),
+                'payment_method' => $request->input('payment_method'),
+                'status' => $request->input('status'), // Mặc định là 0: Chờ xác nhận
+            ]);
+
+            // Loại bỏ các sản phẩm đã đặt khỏi giỏ hàng
+            foreach ($payments as $id => $details) {
+                if (isset($carts[$id])) {
+                    unset($carts[$id]);
+                }
+            }
+
+            // Cập nhật giỏ hàng mới vào session
+            session()->put('cart', $carts);
+            DB::commit();
+            return redirect('/')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function reserveQuantity($productId, $quantity)
+    {
+        $product = Product::findOrFail($productId);
+
+        // Kiểm tra nếu số lượng khả dụng đủ
+        if ($product->quantity - $product->reserved_quantity >= $quantity) {
+            $product->increment('reserved_quantity', $quantity); // Cộng số lượng giả định
+            return true;
+        }
+
+        // Trả về false nếu số lượng không đủ
+        return false;
     }
 }

@@ -54,7 +54,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="user-search">
                     <input name="keyword" type="text" value="{{ request('keyword') ?: old('keyword') }}"
                         class="form-control form-control-sm" placeholder="Tìm Kiếm Tên Giày">
@@ -64,9 +64,6 @@
                 </div>
             </div>
     </form>
-    <div class="col-md-1">
-        @include('backend.user.user.component.toolbox')
-    </div>
 </div>
 </div>
 <script>

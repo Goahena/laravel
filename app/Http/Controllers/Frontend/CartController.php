@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\CartService;
-use App\Reponsitories\CartReponsitory;
+use App\Repositories\CartRepository;
 
 class CartController extends Controller
 {
     protected $cartService;
     protected $cartRepository;
 
-    public function __construct(CartService $cartService, CartReponsitory $cartRepository)
+    public function __construct(CartService $cartService, CartRepository $cartRepository)
     {
         $this->cartService = $cartService;
         $this->cartRepository = $cartRepository;

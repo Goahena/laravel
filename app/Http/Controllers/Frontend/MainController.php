@@ -11,19 +11,19 @@ use App\Models\User;
 use App\Models\UserCatalogue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Reponsitories\Interfaces\MainReponsitoryInterface as MainReponsitory;
+use App\Repositories\Interfaces\MainRepositoryInterface as MainRepository;
 use App\Services\Interfaces\MainServiceInterface as MainService;
 use Laravel\Prompts\Prompt;
 
 class MainController extends Controller
 {
-    protected $mainReponsitory;
+    protected $mainRepository;
     protected $mainService;
     public function __construct(
-        MainReponsitory $mainReponsitory,
+        MainRepository $mainRepository,
         MainService $mainService
     ) {
-        $this->mainReponsitory = $mainReponsitory;
+        $this->mainRepository = $mainRepository;
         $this->mainService = $mainService;
     }
     public function index()
@@ -143,46 +143,44 @@ class MainController extends Controller
     }
 
     public function product($slug)
-{
-    $data = User::where('id', session('LogIn'))->first();
-
-    // Lấy thông tin sản phẩm theo slug
-    $product = Product::with('promotions')->where('slug', $slug)->firstOrFail();
-
-    $sameproducts = Product::query()
-    ->where('brand_id', $product->brand_id)
-    ->orWhere('shoe_type_id', $product->shoe_type_id)
-    ->where('id', '!=', $product->id) // Loại bỏ chính sản phẩm đang xem
-    ->take(12) // Lấy tối đa 12 sản phẩm (3 slide, mỗi slide 4 sản phẩm)
-    ->get();
-
-
-    $brands = Brand::all();
-    $shoetypes = ShoeType::all();
-    $users = User::all();
-    $promotions = Promotion::all();
-    $template = 'frontend.product.component.detail'; // Chỉ đường dẫn view chi tiết
-
-    // Lấy giỏ hàng từ session
-    $carts = session()->get('cart', []);
-
-    // Render layout với template chỉ định
-    return view('frontend.layout', compact(
-        'data',
-        'brands',
-        'shoetypes',
-        'product',
-        'template',
-        'sameproducts',
-        'users',
-        'promotions',
-        'carts'
-    ));
-}
-
-
-
-    //
+    {
+        $data = User::where('id', session('LogIn'))->first();
+    
+        // Lấy thông tin sản phẩm theo slug
+        $product = Product::with('promotions')->where('slug', $slug)->firstOrFail();
+    
+        // Cập nhật số lượng khả dụng trong sản phẩm
+        $product->available_quantity = $product->quantity - $product->reserved_quantity;
+    
+        $sameproducts = Product::query()
+            ->where('brand_id', $product->brand_id)
+            ->orWhere('shoe_type_id', $product->shoe_type_id)
+            ->where('id', '!=', $product->id) // Loại bỏ chính sản phẩm đang xem
+            ->take(12) // Lấy tối đa 12 sản phẩm (3 slide, mỗi slide 4 sản phẩm)
+            ->get();
+    
+        $brands = Brand::all();
+        $shoetypes = ShoeType::all();
+        $users = User::all();
+        $promotions = Promotion::all();
+        $template = 'frontend.product.component.detail'; // Chỉ đường dẫn view chi tiết
+    
+        // Lấy giỏ hàng từ session
+        $carts = session()->get('cart', []);
+    
+        // Render layout với template chỉ định
+        return view('frontend.layout', compact(
+            'data',
+            'brands',
+            'shoetypes',
+            'product',
+            'template',
+            'sameproducts',
+            'users',
+            'promotions',
+            'carts'
+        ));
+    }
 
     public function searchshoetype($request)
     {
@@ -256,4 +254,3 @@ class MainController extends Controller
         return view('index')->with('route', 'aboutus');
     }
 }
-

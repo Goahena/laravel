@@ -13,8 +13,7 @@
                         @include('backend.order.component.filter')
                         <div class="table-responsive">
                         @include('backend.order.component.table')
-                            
-
+                        <div class="user-pagination">{{ $orders->links('pagination::bootstrap-4') }}</div>
                         </div>
                     </div>
                 </div>

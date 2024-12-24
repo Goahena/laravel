@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface LanguageReponsitoryInterface
+interface LanguageRepositoryInterface
 {
     
 }

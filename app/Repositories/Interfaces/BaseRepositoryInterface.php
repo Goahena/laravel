@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Reponsitories\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface BaseReponsitoryInterface
+interface BaseRepositoryInterface
 {
     public function all();
     public function create(array $payload = []);
