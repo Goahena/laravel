@@ -4,7 +4,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title"></h4>
+                    <div class="add-user">
+                        <h4 class="card-title d-none d-sm-block">Thông tin đơn hàng</h4>
+                        <a href="{{ route('order.exportInvoice', ['id' => $orders->id]) }}">
+                            <button type="button" class="btn btn-gradient-primary">Xuất hóa đơn</button>
+                        </a>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
@@ -74,79 +79,110 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Tỉnh</label>
+                                <select class="form-control form-control-lg province location" name="province_id_disabled" disabled>
+                                    <option value="" disabled selected>Không có dữ liệu</option> <!-- Mục không chọn sẵn -->
+                                    @if (isset($provinces) && $provinces->isNotEmpty())
+                                        @foreach ($provinces as $province)
+                                            <option value="{{ $province->code }}" 
+                                                @if ((isset($orders) && $orders->province_id == $province->code) || old('province_id') == $province->code) selected @endif>
+                                                {{ $province->name }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="0" selected>Không có dữ liệu</option> <!-- Hiện khi không có dữ liệu -->
+                                    @endif
+                                </select>
+                                
+                                <!-- Hidden field to submit province_id -->
+                                <input type="hidden" name="province_id" value="{{ $orders->province_id ?? old('province_id', 0) }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Quận/Huyện</label>
+                                <select class="form-control form-control-lg districts location" name="district_id_disabled" disabled>
+                                    @if (isset($districts) && $districts->isNotEmpty())
+                                        @foreach ($districts as $district)
+                                            <option value="{{ $district->code }}" 
+                                                @if ((isset($orders) && $orders->district_id == $district->code) || old('district_id') == $district->code) selected @endif>
+                                                {{ $district->name }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="0" selected>Không có dữ liệu</option>
+                                    @endif
+                                </select>
+                                <!-- Hidden field to submit district_id -->
+                                <input type="hidden" name="district_id" value="{{ $orders->district_id ?? old('district_id', 0) }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Phường/Xã</label>
+                                <select class="form-control form-control-lg wards location" name="ward_id_disabled" disabled>
+                                    @if (isset($wards) && $wards->isNotEmpty())
+                                        @foreach ($wards as $ward)
+                                            <option value="{{ $ward->code }}" 
+                                                @if ((isset($orders) && $orders->ward_id == $ward->code) || old('ward_id') == $ward->code) selected @endif>
+                                                {{ $ward->name }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="0" selected>Không có dữ liệu</option>
+                                    @endif
+                                </select>
+                                <!-- Hidden field to submit ward_id -->
+                                <input type="hidden" name="ward_id" value="{{ $orders->ward_id ?? old('ward_id', 0) }}">
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="col-md-6">
                             <div class="form-group row">
-                                <label>Địa Chỉ Nhận<code>*</code></label>
+                                <label>Địa chỉ<code>*</code></label>
                                 <div>
                                     <input readonly value="{{ old('address', $orders->address ?? '') }}" name="address"
                                         type="text" class="form-control" placeholder="Nhập tên giày">
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Đơn Hàng</label>
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Tên Giày</th>
-                                    <th>Giá Tiền</th>
-                                    <th>Số Lượng</th>
-                                    <th>Khuyến Mãi (%)</th>
-                                    <th>Tổng Đơn Hàng (VNĐ)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($payments as $payment)
+                        <div class="form-group">
+                            <label>Đơn Hàng</label>
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-dark">
                                     <tr>
-                                        <td>{{ $payment['name'] }}</td>
-                                        <td>{{ number_format($payment['price']) }}</td>
-                                        <td>{{ $payment['quantity'] }}</td>
-                                        <td>{{ $payment['promotion'] }}</td>
-                                        <td>
-                                            {{ number_format(
-                                                $payment['quantity'] * $payment['price'] - $payment['quantity'] * $payment['price'] * $payment['promotion'] * 0.01,
-                                            ) }}
-                                        </td>
+                                        <th>Tên Giày</th>
+                                        <th>Giá Tiền</th>
+                                        <th>Số Lượng</th>
+                                        <th>Khuyến Mãi (%)</th>
+                                        <th>Tổng Đơn Hàng (VNĐ)</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($payments as $payment)
+                                        <tr>
+                                            <td>{{ $payment['name'] }}</td>
+                                            <td>{{ number_format($payment['price']) }}</td>
+                                            <td>{{ $payment['quantity'] }}</td>
+                                            <td>{{ $payment['promotion'] }}</td>
+                                            <td>
+                                                {{ number_format(
+                                                    $payment['quantity'] * $payment['price'] - $payment['quantity'] * $payment['price'] * $payment['promotion'] * 0.01,
+                                                ) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
-
-<script>
-    function updateFileName(input, fieldId) {
-        const fileName = input.files.length > 0 ? input.files[0].name : "Không có tệp nào được chọn";
-        document.querySelector(`#${fieldId}_name`).value = fileName;
-    }
-
-    /**
-     * Hàm hiển thị preview ảnh khi chọn file
-     * @param {HTMLInputElement} input - Input file
-     * @param {string} previewId - ID của thẻ img để hiển thị ảnh preview
-     */
-    function previewImage(input, previewId) {
-        const preview = document.getElementById(previewId);
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                preview.src = e.target.result; // Gán URL của file vào src của ảnh
-                preview.style.display = 'block'; // Hiển thị ảnh
-            };
-
-            reader.readAsDataURL(input.files[0]); // Đọc file ảnh
-        } else {
-            preview.src = ''; // Xóa ảnh nếu không có file
-            preview.style.display = 'none'; // Ẩn ảnh
-        }
-    }
-</script>

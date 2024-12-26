@@ -3,24 +3,37 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Repositories\OrderRepository;
 use App\Services\OrderService;
-use Exception;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceRepository;
+use App\Repositories\Interfaces\WardRepositoryInterface as WardService;
+use App\Repositories\Interfaces\DistrictRepositoryInterface as DistrictService;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
     protected $orderRepository;
     protected $orderService;
+    protected $provinceRepository;
+    protected $wardRepository;
+    protected $districtRepository;
 
     public function __construct(
         OrderRepository $orderRepository,
-        OrderService $orderService
+        ProvinceRepository $provinceRepository,
+        OrderService $orderService,
+        WardService $wardRepository,
+        DistrictService $districtRepository,
     ) {
         $this->orderRepository = $orderRepository;
+        $this->provinceRepository = $provinceRepository;
         $this->orderService = $orderService;
+        $this->wardRepository = $wardRepository;
+        $this->districtRepository = $districtRepository;
     }
 
     public function index(Request $request)
@@ -46,18 +59,29 @@ class OrderController extends Controller
             '3' => 'Đã hoàn thành',
         ];
 
-        $config['seo'] = config('apps.order');
+        $provinces = $this->provinceRepository->all();
         $orders = $this->orderRepository->findById($id);
         $payments = unserialize($orders->invoice);
+
+        // Lấy danh sách Quận/Huyện và Phường/Xã dựa trên đơn hàng
+        $districts = $this->districtRepository->findDistrictByProvinceId($orders->province_id ?? null);
+        $wards = $this->wardRepository->findWardByDistrictId($orders->district_id ?? null);
+
+        $config['seo'] = config('apps.order');
         $template = 'backend.order.detail';
+
         return view('backend.dashboard.layout', compact(
             'template',
             'orders',
+            'provinces',
+            'districts',
+            'wards',
             'statuses',
             'config',
             'payments'
         ));
     }
+
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
@@ -71,7 +95,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    
+
 
     public function delete($id)
     {
@@ -95,7 +119,7 @@ class OrderController extends Controller
             return redirect()->route('order.index')->with('error', $e->getMessage());
         }
     }
-    
+
     public function releaseReservedQuantity($productId, $quantity)
     {
         $product = Product::findOrFail($productId);
@@ -119,5 +143,19 @@ class OrderController extends Controller
         $template = 'backend.order.revenue';
 
         return view('backend.dashboard.layout', compact('orders', 'template', 'filters', 'config'));
+    }
+    public function exportInvoice($id)
+    {
+        $order = Order::findOrFail($id);
+
+        if ($order->status !== Order::STATUS_CONFIRMED) {
+            return redirect()->back()->with('error', 'Chỉ những đơn hàng đã xác nhận mới có thể xuất hóa đơn.');
+        }
+
+        $payments = unserialize($order->invoice);
+
+        $pdf = Pdf::loadView('backend.order.invoice', compact('order', 'payments'));
+
+        return $pdf->download("hoa-don-{$order->id}.pdf");
     }
 }

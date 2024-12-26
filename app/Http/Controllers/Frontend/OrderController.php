@@ -11,12 +11,21 @@ use App\Models\Promotion;
 use App\Models\ShoeType;
 use App\Models\User;
 use App\Models\UserCatalogue;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    protected $provinceRepository;
+
+    public function __construct(
+        ProvinceService $provinceRepository,
+    ) {
+        $this->provinceRepository = $provinceRepository;
+    }
+
     public function index()
     {
         $data = User::where('id', session('LogIn'))->first();
@@ -71,7 +80,7 @@ class OrderController extends Controller
         if (session()->get('check') == 0) {
             return redirect()->route('auth.admin');
         }
-
+        $provinces = $this->provinceRepository->all();
         // Lấy thông tin cần thiết
         $data = User::where('id', session('LogIn'))->first();
         $products = Product::all();
@@ -92,6 +101,7 @@ class OrderController extends Controller
             'users',
             'usercatalogues',
             'promotions',
+            'provinces',
             'payments'
         ));
     }
@@ -126,17 +136,20 @@ class OrderController extends Controller
                 // Tăng số lượng giả định (reserved_quantity)
                 $product->increment('reserved_quantity', $quantity);
             }
-
             // Tạo hóa đơn mới trong bảng Orders
             $order = Order::create([
                 'name' => $request->input('name'),
                 'phone' => $request->input('phone'),
                 'address' => $request->input('address'),
+                'ward_id' => $request->input('ward_id'),
+                'district_id' => $request->input('district_id'),
+                'province_id' => $request->input('province_id'),
                 'description' => $request->input('description'),
                 'total_price' => $request->input('total_price'),
                 'invoice' => $request->input('payments'),
                 'payment_method' => $request->input('payment_method'),
                 'status' => $request->input('status'), // Mặc định là 0: Chờ xác nhận
+                'user_id' => $request->input('user_id'),
             ]);
 
             // Loại bỏ các sản phẩm đã đặt khỏi giỏ hàng
@@ -169,4 +182,23 @@ class OrderController extends Controller
         // Trả về false nếu số lượng không đủ
         return false;
     }
+    public function myOrders()
+    {
+        // Lấy danh sách đơn hàng của người dùng hiện tại
+        $orders = Order::where('user_id', auth()->id())->latest()->get();
+        $template = 'frontend.order.my-orders';
+
+        return view('frontend.layout', compact('orders', 'template'));
+    }
+    public function show($id)
+    {
+        // Lấy đơn hàng của người dùng hiện tại
+        $order = Order::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $template = 'frontend.order.show';
+    
+        $payments = unserialize($order->invoice);
+    
+        return view('frontend.layout', compact('order', 'payments', 'template'));
+    }
+    
 }

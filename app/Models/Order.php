@@ -15,7 +15,7 @@ class Order extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['name', 'phone', 'payment_method', 'address', 'description', 'total_price', 'invoice', 'created_at', 'updated_at', 'status'];
+    protected $fillable = ['name', 'user_id', 'phone', 'payment_method', 'province_id', 'district_id', 'ward_id', 'address', 'description', 'total_price', 'invoice', 'created_at', 'updated_at', 'status'];
 
     // Status Constants
     const STATUS_PENDING = 0;

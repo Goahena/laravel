@@ -74,7 +74,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <form method="POST" action="{{ route('auth.logout') }}">
                                     @csrf
-                                    <li><a class="dropdown-item" href="/tai-khoan">Tài khoản</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('auth.edit', ['id' => auth()->id()]) }}">Tài khoản</a></li>
                                     <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a></li>
                                     @if (session()->get('check') == 1)
                                         <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Trang Quản lý</a></li>

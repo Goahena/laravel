@@ -17,6 +17,7 @@ use App\Repositories\Interfaces\WardRepositoryInterface as WardService;
 use App\Repositories\Interfaces\DistrictRepositoryInterface as DistrictService;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use App\Services\Interfaces\UserServiceInterface as UserService;
+use App\Http\Requests\UpdateUserRequest;
 
 class AuthController extends Controller
 {
@@ -47,7 +48,6 @@ class AuthController extends Controller
         }
         return view('backend.auth.login');
     }
-
     public function login(AuthRequest $request)
     {
         $credential = [
@@ -55,7 +55,10 @@ class AuthController extends Controller
             'password' => $request->input('password')
         ];
 
-        if (Auth::attempt($credential)) {
+        // Sử dụng remember
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credential, $remember)) {
             $user = Auth::user();
 
             $request->session()->put('LogIn', $user->id);
@@ -74,7 +77,6 @@ class AuthController extends Controller
 
         return redirect()->route('auth.admin')->with('error', 'Tài khoản hoặc mật khẩu không chính xác');
     }
-
 
     public function logout(Request $request)
     {
@@ -104,5 +106,54 @@ class AuthController extends Controller
             return redirect()->route('auth.admin')->with('success', 'Thêm mới thành thành công');
         }
         return redirect()->route('user.index')->with('error', 'Thêm mới không thành công, hãy thử lại');
+    }
+    public function edit($id)
+    {
+        $data = $this->userRepository->findById($id);
+        $provinces = $this->provinceRepository->all();
+        $template = 'frontend.account.index';
+
+        return view('frontend.layout', compact(
+            'template',
+            'provinces',
+            'data',
+        ));
+    }
+    public function update($id, UpdateUserRequest $updateRequest)
+    {
+        if ($this->userService->update($id, $updateRequest)) {
+            return redirect()->route('auth.edit', ['id' => auth()->id()])->with('success', 'Cập nhật thành thành công');
+        }
+        return redirect()->route('auth.edit', ['id' => auth()->id()])->with('error', 'Cập nhật không thành công, hãy thử lại');
+    }
+    public function changePassword()
+    {
+        $template = 'frontend.account.change-password';
+
+        return view('frontend.layout', compact(
+            'template'
+        ));
+    }
+    public function updatePassword(Request $request)
+    {
+
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = Auth::user();
+        /** @var \App\Models\User $user */
+
+        // Kiểm tra mật khẩu hiện tại
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác']);
+        }
+
+        // Cập nhật mật khẩu
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return redirect()->route('auth.edit', ['id' => auth()->id()])->with('success', 'Đổi mật khẩu thành công!');
     }
 }

@@ -71,12 +71,17 @@ class MainController extends Controller
     {
         $data = User::where('id', session('LogIn'))->first();
 
+        // Lấy sản phẩm theo các tiêu chí tìm kiếm
         $products = $this->mainService->paginate($request);
+
+        // Lấy danh sách thương hiệu và loại giày
         $brands = Brand::all();
         $shoetypes = ShoeType::all();
+        // Thiết lập SEO
         $template = 'frontend.product.index';
         $config['seo'] = config('apps.product');
 
+        // Trả về view với các dữ liệu
         return view('frontend.layout', compact(
             'template',
             'products',
@@ -85,6 +90,7 @@ class MainController extends Controller
             'config'
         ));
     }
+
 
     public function payment()
     {
@@ -145,29 +151,29 @@ class MainController extends Controller
     public function product($slug)
     {
         $data = User::where('id', session('LogIn'))->first();
-    
+
         // Lấy thông tin sản phẩm theo slug
         $product = Product::with('promotions')->where('slug', $slug)->firstOrFail();
-    
+
         // Cập nhật số lượng khả dụng trong sản phẩm
         $product->available_quantity = $product->quantity - $product->reserved_quantity;
-    
+
         $sameproducts = Product::query()
             ->where('brand_id', $product->brand_id)
             ->orWhere('shoe_type_id', $product->shoe_type_id)
             ->where('id', '!=', $product->id) // Loại bỏ chính sản phẩm đang xem
             ->take(12) // Lấy tối đa 12 sản phẩm (3 slide, mỗi slide 4 sản phẩm)
             ->get();
-    
+
         $brands = Brand::all();
         $shoetypes = ShoeType::all();
         $users = User::all();
         $promotions = Promotion::all();
         $template = 'frontend.product.component.detail'; // Chỉ đường dẫn view chi tiết
-    
+
         // Lấy giỏ hàng từ session
         $carts = session()->get('cart', []);
-    
+
         // Render layout với template chỉ định
         return view('frontend.layout', compact(
             'data',

@@ -62,4 +62,26 @@
         margin-top: 20px;
         /* Tùy chỉnh khoảng cách phía trên */
     }
+    .avatar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+    .avatar-circle {
+        display: inline-block;
+        border-radius: 50%;
+        object-fit: cover;
+        width: 100px; /* hoặc chỉnh kích thước theo nhu cầu */
+        height: 100px;
+        cursor: pointer;
+        transition: box-shadow 0.3s;
+    }
+    .avatar-circle:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .file-upload-default {
+        display: none;
+    }
 </style>

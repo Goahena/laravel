@@ -14,4 +14,5 @@ interface WardRepositoryInterface
         array $column = ['*'],
         array $relation = []
     );
+    public function findWardByDistrictId(?int $district_id = 0);
 }

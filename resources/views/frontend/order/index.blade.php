@@ -56,7 +56,57 @@
                             <label class="form-label">Số điện thoại</label>
                         </div>
                         <br>
-
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Tỉnh</label>
+                            <select class="form-control province location" name="province_id" data-target="districts">
+                                <option value="0">[Chọn Tỉnh]</option>
+                                @if (isset($provinces))
+                                    @foreach ($provinces as $province)
+                                        <option value="{{ $province->code }}"
+                                                @if ((isset($data) && $data['province_id'] == $province->code) || old('province_id') == $province->code)
+                                                    selected
+                                                @endif
+                                        >{{ $province->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <br>
+                        
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Quận/Huyện</label>
+                            <select class="form-control districts location" name="district_id" data-target="wards">
+                                <option value="0" @if (!isset($data) && old('district_id') == 0) selected @endif>[Chọn Quận/Huyện]</option>
+                                @if (isset($districts))
+                                    @foreach ($districts as $district)
+                                        <option value="{{ $district->code }}"
+                                                @if ((isset($data) && $data['district_id'] == $district->code) || old('district_id') == $district->code)
+                                                    selected
+                                                @endif
+                                        >{{ $district->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <br>
+                        
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Phường/Xã</label>
+                            <select class="form-control wards" name="ward_id">
+                                <option value="0" @if (!isset($data) && old('ward_id') == 0) selected @endif>[Chọn Phường/Xã]</option>
+                                @if (isset($wards))
+                                    @foreach ($wards as $ward)
+                                        <option value="{{ $ward->code }}"
+                                                @if ((isset($data) && $data['ward_id'] == $ward->code) || old('ward_id') == $ward->code)
+                                                    selected
+                                                @endif
+                                        >{{ $ward->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <br>
+                        
                         <div class="form-outline">
                             <input type="text" class="form-control" name="address" required />
                             <label class="form-label">Địa chỉ nhận</label>
@@ -70,6 +120,7 @@
 
                         <input type="hidden" class="form-control" name="total_price" value="{{ $tongtien + 32000 }}" />
                         <input type="hidden" class="form-control" name="status" value="0" />
+                        <input type="text" class="form-control" name="user_id" value="{{ $data['id'] }}" />
                        
                         <input type="hidden" name="payments" value="{{ serialize($payments) }}" />
 
@@ -131,3 +182,8 @@
 
 
 </div>
+<script>
+    var province_id = '{{ isset($data) ? $data["province_id"] : old('province_id') }}'
+    var district_id = '{{ isset($data) ? $data["district_id"] : old('district_id') }}'
+    var ward_id = '{{ isset($data) ? $data["ward_id"] : old('ward_id') }}'
+</script>

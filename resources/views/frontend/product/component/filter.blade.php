@@ -4,149 +4,75 @@
             <h5>DANH MỤC</h5>
         </center>
     </div>
-    <div class="card-body">
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-                <!-- Bộ lọc Số bản ghi -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingPerPage">
-                        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                            data-mdb-target="#flush-collapsePerPage" aria-expanded="false" aria-controls="flush-collapsePerPage">
-                            <i class="fas fa-list-ol"></i>&nbsp; SỐ BẢN GHI
-                        </button>
-                    </h2>
-                    <div id="flush-collapsePerPage" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingPerPage" data-mdb-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <ul class="list-group list-group-flush">
-                                @for ($i = 5; $i <= 80; $i *= 4)
-                                    <li class="list-group-item">
-                                        <a href="{{ route('store', ['perpage' => $i]) }}" class="text-dark">
-                                            {{ $i }} bản ghi
-                                        </a>
-                                    </li>
-                                @endfor
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingUserCatalogue">
-                        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                            data-mdb-target="#flush-collapseUserCatalogue" aria-expanded="false"
-                            aria-controls="flush-collapseUserCatalogue">
-                            <i class="fas fa-shoe-prints"></i>&nbsp; LOẠI GIÀY
-                        </button>
-                    </h2>
-                    <div id="flush-collapseUserCatalogue" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingUserCatalogue" data-mdb-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <ul class="list-group list-group-flush">
-                                @foreach ($shoetypes->unique('id') as $shoetype)
-                                <li class="list-group-item">
-                                    <a href="{{ route('store', ['id' => $shoetype->id]) }}" class="text-dark">
-                                        {{ $shoetype->shoe_type_name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                            data-mdb-target="#flush-collapseTwo" aria-expanded="false"
-                            aria-controls="flush-collapseTwo">
-                            <i class="fas fa-trademark"></i>&nbsp; THƯƠNG HIỆU
-                        </button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingTwo" data-mdb-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <ul class="list-group list-group-flush">
-                                @foreach ($brands->unique('id') as $brand)
-                                <li class="list-group-item">
-                                    <a href="{{ route('store', ['id' => $brand->id]) }}" class="text-dark">
-                                        {{ $brand->brand_name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                        data-mdb-target="#flush-collapseThree" aria-expanded="false"
-                        aria-controls="flush-collapseThree">
-                        <i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i>&nbsp; GIÁ CẢ
-                    </button>
-                </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse"
-                    aria-labelledby="flush-headingThree" data-mdb-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <a href="/store/price=0-300000" class="text-dark">
-                                    < 300,000 VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=300000-500000" class="text-dark">300,000 ~ 500,000
-                                    VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=500000-700000" class="text-dark">500,000 ~ 700,000
-                                    VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=700000-1000000" class="text-dark">700,000 ~
-                                    1,000,000 VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=1000000-1500000" class="text-dark">1,000,000 ~
-                                    1,500,000 VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=1500000-2000000" class="text-dark">1,500,000 ~
-                                    2,000,000 VNĐ</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="/store/price=2000000-100000000" class="text-dark">> 2,000,000
-                                    VNĐ</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Bộ lọc Tìm kiếm từ khóa -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingKeyword">
-                    <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                        data-mdb-target="#flush-collapseKeyword" aria-expanded="false" aria-controls="flush-collapseKeyword">
-                        <i class="fas fa-search"></i>&nbsp; TÌM KIẾM
-                    </button>
-                </h2>
-                <div id="flush-collapseKeyword" class="accordion-collapse collapse"
-                    aria-labelledby="flush-headingKeyword" data-mdb-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <form action="{{ route('store') }}" method="GET">
-                            <div class="input-group">
-                                <input type="text" name="keyword" value="{{ request('keyword') ?: old('keyword') }}"
-                                    class="form-control form-control-sm" placeholder="Nhập từ khóa tìm kiếm">
-                                <button class="btn btn-success btn-sm" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <form method="GET" action="{{ route('product.search') }}" class="p-4 border rounded-3 shadow-sm">
+        <div class="mb-3">
+            <!-- Thương hiệu -->
+            <label for="brand_id" class="form-label">Thương hiệu</label>
+            <select name="brand_id" id="brand_id" class="form-select">
+                <option value="">Tất cả thương hiệu</option>
+                @foreach ($brands as $brand)
+                    <option value="{{ $brand->id }}" @if (request('brand_id') == $brand->id) selected @endif>
+                        {{ $brand->brand_name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
-    </div>
+
+        <div class="mb-3">
+            <!-- Loại giày -->
+            <label for="shoe_type_id" class="form-label">Loại giày</label>
+            <select name="shoe_type_id" id="shoe_type_id" class="form-select">
+                <option value="">Tất cả loại giày</option>
+                @foreach ($shoetypes as $shoetype)
+                    <option value="{{ $shoetype->id }}" @if (request('shoe_type_id') == $shoetype->id) selected @endif>
+                        {{ $shoetype->shoe_type_name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <!-- Tìm kiếm theo giá -->
+            <label for="price" class="form-label">Tìm theo giá</label>
+            <select name="price" id="price" class="form-select">
+                <option value="">Lựa chọn tầm giá</option>
+                <option value="0-300000" @if (request('price') == '0-300000') selected @endif>
+                    < 300,000 VNĐ</option>
+                <option value="300000-500000" @if (request('price') == '300000-500000') selected @endif>300,000 ~ 500,000 VNĐ
+                </option>
+                <option value="500000-700000" @if (request('price') == '500000-700000') selected @endif>500,000 ~ 700,000 VNĐ
+                </option>
+                <option value="700000-1000000" @if (request('price') == '700000-1000000') selected @endif>700,000 ~ 1,000,000 VNĐ
+                </option>
+                <option value="1000000-1500000" @if (request('price') == '1000000-1500000') selected @endif>1,000,000 ~ 1,500,000
+                    VNĐ</option>
+                <option value="1500000-2000000" @if (request('price') == '1500000-2000000') selected @endif>1,500,000 ~ 2,000,000
+                    VNĐ</option>
+                <option value="2000000-100000000" @if (request('price') == '2000000-100000000') selected @endif>> 2,000,000 VNĐ
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <!-- Từ khóa -->
+            <label for="keyword" class="form-label">Từ khóa</label>
+            <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Tìm kiếm sản phẩm"
+                value="{{ request('keyword') }}">
+        </div>
+
+        <div class="mb-3">
+            <!-- Số bản ghi mỗi trang -->
+            <label for="perpage" class="form-label">Số bản ghi mỗi trang</label>
+            <select name="perpage" id="perpage" class="form-select">
+                <option value="5" @if (request('perpage') == '5') selected @endif>5</option>
+                <option value="10" @if (request('perpage') == '10') selected @endif>10</option>
+                <option value="15" @if (request('perpage') == '15') selected @endif>15</option>
+                <option value="20" @if (request('perpage') == '20') selected @endif>20</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+    </form>
+
 </div>

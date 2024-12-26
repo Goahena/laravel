@@ -63,8 +63,16 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input"> Nhớ mật khẩu </label>
+                      <input 
+                        type="checkbox" 
+                        name="remember" 
+                        class="form-check-input"
+                        {{ old('remember') ? 'checked' : '' }}
+                      > 
+                      Nhớ mật khẩu 
+                    </label>
                   </div>
+                  
                   <a href="#" class="auth-link text-black">Quên mật khẩu?</a>
                 </div>
                 <div class="mb-2">
