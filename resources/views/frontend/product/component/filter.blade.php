@@ -1,11 +1,12 @@
 <div class="card">
-    <div class="card-header" style="margin-top:10px">
-        <center>
-            <h5>DANH MỤC</h5>
-        </center>
-    </div>
-
+    
     <form method="GET" action="{{ route('product.search') }}" class="p-4 border rounded-3 shadow-sm">
+        <div class="card-header" style="margin-top:10px">
+            <center>
+                <h5>DANH MỤC</h5>
+            </center>
+        </div>
+        <br>
         <div class="mb-3">
             <!-- Thương hiệu -->
             <label for="brand_id" class="form-label">Thương hiệu</label>

@@ -134,18 +134,11 @@ Route::prefix('ajax')->group(function () {
         Route::post('dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->name('ajax.dashboard.changeStatusAll');
     });
 });
-/*UI*/
+/*MAIN*/
 Route::controller(MainController::class)->group(function () {
     Route::get('/home', 'index');
     Route::get('/store', 'store')->name('store');
-    Route::get('/store/shoetype={shoetype}', 'findshoetype');
-    Route::get('/store/searchshoetype', 'searchShoeType')->name('store.searchshoetype');
-    Route::get('/store/brand={brand}', 'searchbrand');
-    Route::get('/store/price={price1}-{price2}', 'searchprice');
     Route::get('/store/product/{slug}', 'product')->name('product.details');
-    Route::post('/search', 'search');
-    Route::get('/about-us', 'aboutUs');
-    // web.php
     Route::get('/product/search', [MainController::class, 'store'])->name('product.search');
 });
 Route::prefix('gio-hang')->group(function () {

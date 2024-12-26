@@ -123,31 +123,6 @@ class MainController extends Controller
         ));;
     }
 
-    public function search(Request $request)
-    {
-        $data = User::where('id', session('LogIn'))->first();
-        $brands = Brand::all();
-        $shoetypes = ShoeType::all();
-        $products = DB::table('product')->where('name', 'like', '%' . $request->search . '%')
-            ->orWhere('shoe_type_name', 'like', '%' . $request->search . '%')
-            ->orWhere('brand_name', 'like', '%' . $request->search . '%')
-            ->orWhere('price', 'like', '%' . $request->search . '%')
-            ->paginate(12);
-
-        $users = User::all();
-        $promotions = Promotion::all();
-
-        return view('index')->with('route', 'store')
-            ->with('data', $data)
-            ->with('brands', $brands)
-            ->with('shoetypes', $shoetypes)
-            ->with('products', $products)
-            ->with('users', $users)
-            ->with('promotions', $promotions)
-            ->with('searchshoetype', '')->with('searchbrand', '')
-        ;
-    }
-
     public function product($slug)
     {
         $data = User::where('id', session('LogIn'))->first();
@@ -186,77 +161,5 @@ class MainController extends Controller
             'promotions',
             'carts'
         ));
-    }
-
-    public function searchshoetype($request)
-    {
-        $data = User::where('id', session('LogIn'))->first();
-        $products = $this->mainService->paginate($request);
-        $template = 'frontend.product.index';
-        $config['seo'] = config('apps.product');
-
-        return view('frontend.layout', compact(
-            'template',
-            'products',
-            'config',
-        ));
-    }
-
-
-    public function searchbrand($brand)
-    {
-        $data = User::where('id', session('LogIn'))->first();
-        $brands = Brand::all();
-        $shoetypes = ShoeType::all();
-        $users = User::all();
-        $promotions = Promotion::all();
-        $products = DB::table('product')
-            ->leftJoin('brands', 'product.brand_id', '=', 'brands.id')
-            ->select('product.*', 'brands.brand_name')
-            ->orderBy('product.updated_at', 'desc')
-            ->paginate(9);
-
-        return view('frontend.store.index')->with('route', 'store')
-            ->with('data', $data)
-            ->with('brands', $brands)
-            ->with('shoetypes', $shoetypes)
-            ->with('products', $products)
-            ->with('users', $users)
-            ->with('promotions', $promotions)
-            ->with('searchbrand', $brand)
-            ->with('searchshoetype', '')
-        ;
-    }
-
-    public function searchprice($price1, $price2)
-    {
-        $data = User::where('id', session('LogIn'))->first();
-        $brands = Brand::all();
-        $shoetypes = ShoeType::all();
-
-        if ($price1 == '0') {
-            $products = DB::table('product')->where('price', '<', $price2)->paginate(9);
-        } else {
-            $products = DB::table('product')->where('price', '>', $price1)->where('price', '<', $price2)->paginate(9);
-        }
-
-        $users = User::all();
-        $promotions = Promotion::all();
-
-        return view('index')->with('route', 'store')
-            ->with('data', $data)
-            ->with('brands', $brands)
-            ->with('shoetypes', $shoetypes)
-            ->with('products', $products)
-            ->with('users', $users)
-            ->with('promotions', $promotions)
-            ->with('searchbrand', '')
-            ->with('searchshoetype', '')
-        ;
-    }
-
-    public function aboutUs()
-    {
-        return view('index')->with('route', 'aboutus');
     }
 }
